@@ -1,0 +1,144 @@
+[
+  {
+    "game": "The Talos Principle",
+    "icon": "./icons/TheTalosPrinciple.png",
+    "sections": [
+      {
+        "name": "Основна гра",
+        "voice": "N",
+        "total": 62396,
+        "translated": 62396,
+        "approved": 0
+      },
+      {
+        "name": "Road to Gehenna",
+        "voice": "N",
+        "total": 47318,
+        "translated": 44250,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "voice": "N",
+        "total": 336,
+        "translated": 336,
+        "approved": 0
+      },
+      {
+        "name": "???",
+        "voice": "Y",
+        "total": 22,
+        "translated": 0,
+        "approved": 0
+      },
+      {
+        "name": "???",
+        "voice": "Y",
+        "total": 85,
+        "translated": 0,
+        "approved": 0
+      }
+    ]
+  },
+    {
+    "game": "The Talos Principle:Reawakening",
+    "icon": "./icons/Talos RE.png",
+    "sections": [
+      {
+        "name": "Оригінальна гра",
+        "voice": "N",
+        "total": 109714,
+        "translated": 106646,
+        "approved": 0
+      },
+      {
+        "name": "Коментарі розробників",
+        "voice": "N",
+        "total": 32944,
+        "translated": 32944,
+        "approved": 1746
+      },
+      {
+        "name": "Інтерфейс+In The Beninging",
+        "voice": "N",
+        "total": 17231,
+        "translated": 0,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "voice": "N",
+        "total": 441,
+        "translated": 441,
+        "approved": 0
+      }
+    ]
+  },
+    {
+    "game": "Bayonetta",
+    "icon": "./icons/байо.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "voice": "N",
+        "total": 89400,
+        "translated": 89400,
+        "approved": 2305
+      },
+      {
+        "name": "Текстури",
+        "voice": "N",
+        "total": 0,
+        "translated": 0,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "voice": "N",
+        "total": 1080,
+        "translated": 1080,
+        "approved": 416
+      }
+    ]
+  },
+  {
+    "game": "The Entropy Centre",
+    "icon": "./icons/The_Entropy_Centre.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "voice": "N",
+        "total": 17232,
+        "translated": 7843,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "voice": "N",
+        "total": 166,
+        "translated": 32,
+        "approved": 0
+      }
+    ]
+  },
+  {
+    "game": "Bomber Crew",
+    "icon": "./icons/бомбардино крокоділо.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "voice": "N",
+        "total": 13693,
+        "translated": 3802,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "voice": "N",
+        "total": 257,
+        "translated": 0,
+        "approved": 0
+      }
+    ]
+  }
+]
