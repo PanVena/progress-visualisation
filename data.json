@@ -14,7 +14,7 @@
         "name": "Road to Gehenna",
         "voice": "N",
         "total": 47318,
-        "translated": 44539,
+        "translated": 44786,
         "approved": 0
       },
       {
@@ -48,7 +48,7 @@
         "name": "Оригінальна гра",
         "voice": "N",
         "total": 109714,
-        "translated": 106646,
+        "translated": 107182,
         "approved": 0
       },
       {
@@ -56,7 +56,7 @@
         "voice": "N",
         "total": 32944,
         "translated": 32944,
-        "approved": 1746
+        "approved": 2115
       },
       {
         "name": "Інтерфейс+In The Beninging",
@@ -83,12 +83,12 @@
         "voice": "N",
         "total": 89400,
         "translated": 89400,
-        "approved": 2305
+        "approved": 2969
       },
       {
         "name": "Текстури",
         "voice": "N",
-        "total": 0,
+        "total": 315,
         "translated": 0,
         "approved": 0
       },
@@ -97,7 +97,7 @@
         "voice": "N",
         "total": 1080,
         "translated": 1080,
-        "approved": 416
+        "approved": 1080
       }
     ]
   },
@@ -109,7 +109,7 @@
         "name": "Текст",
         "voice": "N",
         "total": 17232,
-        "translated": 9818,
+        "translated": 11885,
         "approved": 0
       },
       {
@@ -129,7 +129,7 @@
         "name": "Текст",
         "voice": "N",
         "total": 13693,
-        "translated": 4043,
+        "translated": 6125,
         "approved": 0
       },
       {
