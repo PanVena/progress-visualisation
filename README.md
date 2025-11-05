@@ -8,7 +8,7 @@
 * Встановіть Python з офіційної сторінки.
 * Під час інсталяції оберіть: **Додати до PATH**.
 * Після, відкриваєм командний рядок.
-* Пишемо <code>pip install PyQt6</code>, за відсутності <code>pip</code> пишемо: <code>python install pip</code>.
+* Далі вписуємо <code>pip install -r requirements.txt</code>, за відсутності <code>pip</code> пишемо: <code>python install pip</code>.
 * Редагуємо <code>data.json</code> у будь-якому комфортному вам текстовому редакторі під свої потреби.
 * Опис ключів у <code>data.json</code>:
   * <code>game</code> - назва гри.
