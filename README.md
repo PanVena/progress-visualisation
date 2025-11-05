@@ -8,10 +8,6 @@
 * Встановіть Python з офіційної сторінки.
 * Під час інсталяції оберіть: **Додати до PATH**.
 * Після, відкриваєм командний рядок.
-* У рядку вписуємо <code>python -m venv venv</code>.
-* Далі в залежності від вашої ОС пишемо:
-  * Windows: <code>venv\Scripts\activate</code>.
-  * Linux / macOS: <code>source venv/bin/activate</code>.
 * Далі вписуємо <code>pip install -r requirements.txt</code>, за відсутності <code>pip</code> пишемо: <code>python install pip</code>.
 * Редагуємо <code>data.json</code> у будь-якому комфортному вам текстовому редакторі під свої потреби.
 * Опис ключів у <code>data.json</code>:
