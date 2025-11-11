@@ -99,20 +99,20 @@ class StatsWindow(QWidget):
                     section_item.setFont(QFont("Arial", 10, QFont.Weight.Bold))
                     table.setItem(0, col_start, section_item)
                     table.setSpan(0, col_start, 1, 2)  # Об'єднуємо 2 колонки
-                    
-                    # Перевіряємо, чи секція озвучки
-                    if section.get("voice", "N").upper() == "Y":
-                        first_label = "Озвучено"
-                    else:
-                        first_label = "Перекладено"
+
+
 
                     # Підзаголовки
-                    translated_header = QTableWidgetItem(first_label)
+                    translated_label = section.get("translated_label", "Перекладено")
+
+                    translated_header = QTableWidgetItem(translated_label)
                     translated_header.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     translated_header.setBackground(QColor(80, 80, 80))
                     table.setItem(1, col_start, translated_header)
-                                        
-                    approved_header = QTableWidgetItem("Затверджено")
+
+                    approved_label = section.get("approved_label", "Затверджено")
+
+                    approved_header = QTableWidgetItem(approved_label)
                     approved_header.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     approved_header.setBackground(QColor(80, 80, 80))
                     table.setItem(1, col_start + 1, approved_header)
@@ -182,13 +182,16 @@ class StatsWindow(QWidget):
                     table.setCellWidget(3, col_start + 1, approved_progress)
                 
                 # Загальні відсотки - додаємо прогрес-бари під таблицею
-                total_sum = sum(section["total"] for section in sections)
-                translated_sum = sum(section["translated"] for section in sections)
-                approved_sum = sum(section["approved"] for section in sections)
-                
+                included_sections = [s for s in sections if not s.get("exclude_from_total", False)]
+
+                total_sum = sum(s["total"] for s in included_sections)
+                translated_sum = sum(s["translated"] for s in included_sections)
+                approved_sum = sum(s["approved"] for s in included_sections)
+
                 overall_translated_percent = int(translated_sum / total_sum * 100) if total_sum > 0 else 0
                 overall_approved_percent = int(approved_sum / total_sum * 100) if total_sum > 0 else 0
-                
+
+
                 # Налаштування таблиці
                 table.setFixedHeight(120)  # Компактна висота
                 table.horizontalHeader().setVisible(False)  # Ховаємо заголовки колонок

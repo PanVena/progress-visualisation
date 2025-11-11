@@ -5,38 +5,41 @@
     "sections": [
       {
         "name": "Основна гра",
-        "voice": "N",
         "total": 62396,
         "translated": 62396,
         "approved": 0
       },
       {
         "name": "Road to Gehenna",
-        "voice": "N",
+
         "total": 47318,
-        "translated": 45294,
+        "translated": 45475,
         "approved": 0
       },
       {
         "name": "Досягнення",
-        "voice": "N",
+
         "total": 336,
         "translated": 336,
         "approved": 0
       },
       {
         "name": "???",
-        "voice": "Y",
+        "translated_label" : "Затверджено",
+        "approved_label":"Озвучено",
         "total": 22,
         "translated": 0,
-        "approved": 0
+        "approved": 0,
+        "exclude_from_total": true
       },
       {
         "name": "???",
-        "voice": "Y",
+        "translated_label" : "Затверджено",
+        "approved_label":"Озвучено",
         "total": 85,
         "translated": 0,
-        "approved": 0
+        "approved": 0,
+        "exclude_from_total": true
       }
     ]
   },
@@ -46,28 +49,24 @@
     "sections": [
       {
         "name": "Оригінальна гра",
-        "voice": "N",
         "total": 109714,
-        "translated": 107690,
+        "translated": 107871,
         "approved": 0
       },
       {
         "name": "Коментарі розробників",
-        "voice": "N",
         "total": 32944,
         "translated": 32944,
         "approved": 2115
       },
       {
         "name": "Інтерфейс+In The Beninging",
-        "voice": "N",
         "total": 17231,
         "translated": 0,
         "approved": 0
       },
       {
         "name": "Досягнення",
-        "voice": "N",
         "total": 441,
         "translated": 441,
         "approved": 0
@@ -80,21 +79,20 @@
     "sections": [
       {
         "name": "Текст",
-        "voice": "N",
         "total": 89400,
         "translated": 89400,
         "approved": 2969
       },
       {
         "name": "Текстури",
-        "voice": "N",
+        "approved_label":"Намальовано",
         "total": 315,
         "translated": 0,
-        "approved": 0
+        "approved": 0,
+        "exclude_from_total": true
       },
       {
         "name": "Досягнення",
-        "voice": "N",
         "total": 1080,
         "translated": 1080,
         "approved": 1080
@@ -107,14 +105,12 @@
     "sections": [
       {
         "name": "Текст",
-        "voice": "N",
         "total": 17232,
         "translated": 11885,
         "approved": 0
       },
       {
         "name": "Досягнення",
-        "voice": "N",
         "total": 166,
         "translated": 32,
         "approved": 0
@@ -127,14 +123,12 @@
     "sections": [
       {
         "name": "Текст",
-        "voice": "N",
         "total": 13693,
-        "translated": 6125,
+        "translated": 7402,
         "approved": 0
       },
       {
         "name": "Досягнення",
-        "voice": "N",
         "total": 257,
         "translated": 0,
         "approved": 0
