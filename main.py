@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QPixmap, QPalette, QColor, QFont, QPainter
 from PyQt6.QtCore import Qt
+from datetime import datetime
 
 DATA_FILE = "data.json"
 
@@ -23,6 +24,8 @@ class StatsWindow(QWidget):
         self.setWindowTitle("Статистика перекладу")
         self.resize(1200, 400)
 
+
+
         # Прокрутка
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -30,6 +33,20 @@ class StatsWindow(QWidget):
         main_layout = QVBoxLayout(scroll_widget)
         main_layout.setSpacing(1)
         main_layout.setContentsMargins(0, 0, 0, 0)
+
+        today_str = datetime.now().strftime("%d.%m.%Y")
+        date_label = QLabel(f"Станом на {today_str}")
+        date_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        date_label.setStyleSheet("""
+            QLabel {
+                background-color: #3c3c3c;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+                padding: 4px;
+            }
+        """)
+        main_layout.addWidget(date_label)
         
         for game in data:
             # Головний контейнер для гри
