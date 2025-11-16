@@ -151,13 +151,13 @@ class StatsWindow(QWidget):
                     table.setItem(2, col_start + 1, approved_count)
                     
                     # Прогрес-бари для кожної секції (рядки 3 і 4)
-                    translated_percent = int(translated / total * 100) if total > 0 else 0
-                    approved_percent = int(approved / total * 100) if total > 0 else 0
-                    
+                    translated_percent = round(translated / total * 100, 2) if total > 0 else 0
+                    approved_percent = round(approved / total * 100, 2) if total > 0 else 0
+                                        
                     # Прогрес-бар для перекладу цієї секції
                     translated_progress = QProgressBar()
-                    translated_progress.setValue(translated_percent)
-                    translated_progress.setFormat(f"{translated_percent}%")
+                    translated_progress.setValue(int(translated_percent))  
+                    translated_progress.setFormat(f"{translated_percent:.2f}%")
                     translated_progress.setFixedHeight(18)
                     translated_progress.setStyleSheet("""
                         QProgressBar {
@@ -178,8 +178,8 @@ class StatsWindow(QWidget):
                     
                     # Прогрес-бар для перевірки цієї секції  
                     approved_progress = QProgressBar()
-                    approved_progress.setValue(approved_percent)
-                    approved_progress.setFormat(f"{approved_percent}%")
+                    approved_progress.setValue(int(approved_percent))
+                    approved_progress.setFormat(f"{approved_percent:.2f}%")
                     approved_progress.setFixedHeight(18)
                     approved_progress.setStyleSheet("""
                         QProgressBar {
@@ -205,8 +205,9 @@ class StatsWindow(QWidget):
                 translated_sum = sum(s["translated"] for s in included_sections)
                 approved_sum = sum(s["approved"] for s in included_sections)
 
-                overall_translated_percent = int(translated_sum / total_sum * 100) if total_sum > 0 else 0
-                overall_approved_percent = int(approved_sum / total_sum * 100) if total_sum > 0 else 0
+                overall_translated_percent = round(translated_sum / total_sum * 100, 2) if total_sum > 0 else 0
+                overall_approved_percent = round(approved_sum / total_sum * 100, 2) if total_sum > 0 else 0
+
 
 
                 # Налаштування таблиці
@@ -259,8 +260,8 @@ class StatsWindow(QWidget):
                 
                 # Прогрес-бар перекладу
                 translated_progress = QProgressBar()
-                translated_progress.setValue(overall_translated_percent)
-                translated_progress.setFormat(f"Перекладено: {overall_translated_percent}%")
+                translated_progress.setValue(int(overall_translated_percent))
+                translated_progress.setFormat(f"Перекладено: {overall_translated_percent:.2f}%")
                 translated_progress.setFixedHeight(20)
                 translated_progress.setStyleSheet("""
                     QProgressBar {
@@ -279,8 +280,9 @@ class StatsWindow(QWidget):
                 
                 # Прогрес-бар перевірки
                 approved_progress = QProgressBar()
-                approved_progress.setValue(overall_approved_percent)
-                approved_progress.setFormat(f"Затверджено: {overall_approved_percent}%")
+
+                approved_progress.setValue(int(overall_approved_percent))
+                approved_progress.setFormat(f"Затверджено: {overall_approved_percent:.2f}%")
                 approved_progress.setFixedHeight(20)
                 approved_progress.setStyleSheet("""
                     QProgressBar {

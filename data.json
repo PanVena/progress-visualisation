@@ -13,18 +13,17 @@
         "name": "Road to Gehenna",
 
         "total": 47318,
-        "translated": 45475,
+        "translated": 47318,
         "approved": 0
       },
       {
         "name": "Досягнення",
-
         "total": 336,
         "translated": 336,
         "approved": 0
       },
       {
-        "name": "???",
+        "name": "Александра Дреннан",
         "translated_label" : "Затверджено",
         "approved_label":"Озвучено",
         "total": 22,
@@ -33,7 +32,7 @@
         "exclude_from_total": true
       },
       {
-        "name": "???",
+        "name": "ЕЛОГІМ",
         "translated_label" : "Затверджено",
         "approved_label":"Озвучено",
         "total": 85,
@@ -50,7 +49,7 @@
       {
         "name": "Оригінальна гра",
         "total": 109714,
-        "translated": 107871,
+        "translated": 109714,
         "approved": 0
       },
       {
@@ -99,8 +98,26 @@
       }
     ]
   },
-  {
-    "game": "The Entropy Centre",
+ {
+    "game": "Bomber Crew",
+    "icon": "./icons/бомбардино крокоділо.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "total": 13693,
+        "translated": 8964,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "total": 257,
+        "translated": 0,
+        "approved": 0
+      }
+    ]
+  },
+ {
+    "game": "The Entropy Centre - заморожено",
     "icon": "./icons/The_Entropy_Centre.png",
     "sections": [
       {
@@ -113,24 +130,6 @@
         "name": "Досягнення",
         "total": 166,
         "translated": 32,
-        "approved": 0
-      }
-    ]
-  },
-  {
-    "game": "Bomber Crew",
-    "icon": "./icons/бомбардино крокоділо.png",
-    "sections": [
-      {
-        "name": "Текст",
-        "total": 13693,
-        "translated": 7402,
-        "approved": 0
-      },
-      {
-        "name": "Досягнення",
-        "total": 257,
-        "translated": 0,
         "approved": 0
       }
     ]
