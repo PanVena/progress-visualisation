@@ -7,7 +7,7 @@
         "name": "Основна гра",
         "total": 62396,
         "translated": 62396,
-        "approved": 0
+        "approved": 2776
       },
       {
         "name": "Road to Gehenna",
@@ -27,7 +27,7 @@
         "translated_label" : "Затверджено",
         "approved_label":"Озвучено",
         "total": 22,
-        "translated": 0,
+        "translated": 22,
         "approved": 0,
         "exclude_from_total": true
       },
@@ -105,7 +105,7 @@
       {
         "name": "Текст",
         "total": 13693,
-        "translated": 8964,
+        "translated": 9000,
         "approved": 0
       },
       {
@@ -130,6 +130,30 @@
         "name": "Досягнення",
         "total": 166,
         "translated": 32,
+        "approved": 0
+      }
+    ]
+  },
+    {
+    "game": "The Talos Principle 2 - заморожено",
+    "icon": "./icons/Talos2.png",
+    "sections": [
+      {
+        "name": "Перша половина",
+        "total": 68286,
+        "translated": 5680,
+        "approved": 0
+      },
+      {
+        "name": "Друга половина",
+        "total": 59635,
+        "translated": 0,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "total": 802,
+        "translated": 0,
         "approved": 0
       }
     ]

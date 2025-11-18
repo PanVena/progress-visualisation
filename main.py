@@ -252,6 +252,19 @@ class StatsWindow(QWidget):
                 
                 right_layout.addWidget(table)
                 
+
+                # Підрахунок слів на основі included_sections
+                words_total = sum(int(s.get("total", 0) or 0) for s in included_sections)
+                words_translated = sum(int(s.get("translated", 0) or 0) for s in included_sections)
+
+                if words_total > 0:
+                    words_info_trans = f" ({words_translated}/{words_total} слів)"
+                    words_info_appr = f" ({words_translated}/{words_total} слів)"
+                else:
+                    words_info_trans = ""
+                    words_info_appr = "" 
+
+
                 # Додаємо прогрес-бари для загального прогресу
                 progress_container = QWidget()
                 progress_layout = QVBoxLayout(progress_container)
@@ -261,7 +274,8 @@ class StatsWindow(QWidget):
                 # Прогрес-бар перекладу
                 translated_progress = QProgressBar()
                 translated_progress.setValue(int(overall_translated_percent))
-                translated_progress.setFormat(f"Перекладено: {overall_translated_percent:.2f}%")
+                translated_progress.setFormat(f"Перекладено: {overall_translated_percent:.2f}% {words_info_trans}")
+
                 translated_progress.setFixedHeight(20)
                 translated_progress.setStyleSheet("""
                     QProgressBar {
@@ -282,7 +296,8 @@ class StatsWindow(QWidget):
                 approved_progress = QProgressBar()
 
                 approved_progress.setValue(int(overall_approved_percent))
-                approved_progress.setFormat(f"Затверджено: {overall_approved_percent:.2f}%")
+                approved_progress.setFormat(f"Затверджено: {overall_approved_percent:.2f}% {words_info_appr}")
+
                 approved_progress.setFixedHeight(20)
                 approved_progress.setStyleSheet("""
                     QProgressBar {
@@ -301,7 +316,7 @@ class StatsWindow(QWidget):
                 
                 progress_layout.addWidget(translated_progress)
                 progress_layout.addWidget(approved_progress)
-                
+
                 right_layout.addWidget(progress_container)
             
             game_layout.addWidget(right_widget)
@@ -336,7 +351,7 @@ class StatsWindow(QWidget):
             widget.adjustSize()
 
             # Масштаб — у скільки разів збільшити чіткість
-            scale_factor = 2  
+            scale_factor = 2
 
             # Створюємо велике зображення
             orig_size = widget.size()
