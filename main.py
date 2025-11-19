@@ -256,10 +256,11 @@ class StatsWindow(QWidget):
                 # Підрахунок слів на основі included_sections
                 words_total = sum(int(s.get("total", 0) or 0) for s in included_sections)
                 words_translated = sum(int(s.get("translated", 0) or 0) for s in included_sections)
+                words_approved = sum(int(s.get("approved", 0) or 0) for s in included_sections)
 
                 if words_total > 0:
                     words_info_trans = f" ({words_translated}/{words_total} слів)"
-                    words_info_appr = f" ({words_translated}/{words_total} слів)"
+                    words_info_appr = f" ({words_approved}/{words_total} слів)"
                 else:
                     words_info_trans = ""
                     words_info_appr = "" 
