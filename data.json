@@ -10,7 +10,7 @@
         "approved": 9736
       },
       {
-        "name": "Road to Gehenna",
+        "name": "Шлях до Геєнни (DLC)",
 
         "total": 47318,
         "translated": 47318,
@@ -147,6 +147,12 @@
       {
         "name": "Друга половина",
         "total": 59635,
+        "translated": 0,
+        "approved": 0
+      },
+            {
+        "name": "Шлях до Елісія (DLC)",
+        "total": 22801,
         "translated": 0,
         "approved": 0
       },
