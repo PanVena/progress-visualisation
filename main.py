@@ -9,6 +9,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPalette, QColor
 
 from visualizer import VisualizerWidget
+from old_visualizer import OldVisualizerWidget
 from editor import EditorWidget
 from colors import COLORS
 
@@ -24,10 +25,12 @@ class MainWindow(QMainWindow):
         
         # Create interfaces
         self.visualizer = VisualizerWidget(self)
+        self.old_visualizer = OldVisualizerWidget(self)
         self.editor = EditorWidget(self)
         
-        # Connect editor data changes to visualizer refresh
+        # Connect editor data changes to both visualizers refresh
         self.editor.data_changed.connect(self.visualizer.refresh)
+        self.editor.data_changed.connect(self.old_visualizer.refresh)
         
         # Create main widget and layout
         main_widget = QWidget()
@@ -43,6 +46,7 @@ class MainWindow(QMainWindow):
         # Create stacked widget for views
         self.stacked_widget = QStackedWidget()
         self.stacked_widget.addWidget(self.visualizer)
+        self.stacked_widget.addWidget(self.old_visualizer)
         self.stacked_widget.addWidget(self.editor)
         layout.addWidget(self.stacked_widget)
         
@@ -65,24 +69,32 @@ class MainWindow(QMainWindow):
         
         layout.addStretch()
         
-        # View button
-        view_btn = QPushButton("Перегляд")
-        view_btn.setCheckable(True)
-        view_btn.setChecked(True)
-        view_btn.clicked.connect(lambda: self.switch_view(0, view_btn, edit_btn))
-        view_btn.setStyleSheet(self.get_nav_button_style(True))
-        layout.addWidget(view_btn)
+        # Modern view button
+        modern_btn = QPushButton("Сучасніший вигляд")
+        modern_btn.setCheckable(True)
+        modern_btn.setChecked(True)
+        modern_btn.clicked.connect(lambda: self.switch_view(0, modern_btn, old_btn, edit_btn))
+        modern_btn.setStyleSheet(self.get_nav_button_style(True))
+        layout.addWidget(modern_btn)
+        
+        # Old view button
+        old_btn = QPushButton("Старий вигляд")
+        old_btn.setCheckable(True)
+        old_btn.clicked.connect(lambda: self.switch_view(1, old_btn, modern_btn, edit_btn))
+        old_btn.setStyleSheet(self.get_nav_button_style(False))
+        layout.addWidget(old_btn)
         
         # Edit button
         edit_btn = QPushButton("Редагування")
         edit_btn.setCheckable(True)
-        edit_btn.clicked.connect(lambda: self.switch_view(1, edit_btn, view_btn))
+        edit_btn.clicked.connect(lambda: self.switch_view(2, edit_btn, modern_btn, old_btn))
         edit_btn.setStyleSheet(self.get_nav_button_style(False))
         layout.addWidget(edit_btn)
         
         layout.addStretch()
         
-        self.view_btn = view_btn
+        self.modern_btn = modern_btn
+        self.old_btn = old_btn
         self.edit_btn = edit_btn
         
         return nav_widget
@@ -119,11 +131,12 @@ class MainWindow(QMainWindow):
                 }}
             """
     
-    def switch_view(self, index: int, active_btn: QPushButton, inactive_btn: QPushButton):
+    def switch_view(self, index: int, active_btn: QPushButton, inactive_btn1: QPushButton, inactive_btn2: QPushButton):
         """Switch between views"""
         self.stacked_widget.setCurrentIndex(index)
         active_btn.setStyleSheet(self.get_nav_button_style(True))
-        inactive_btn.setStyleSheet(self.get_nav_button_style(False))
+        inactive_btn1.setStyleSheet(self.get_nav_button_style(False))
+        inactive_btn2.setStyleSheet(self.get_nav_button_style(False))
     
     def apply_custom_style(self):
         """Apply custom Catppuccin Mocha colors"""

@@ -63,12 +63,16 @@ class EditorWidget(QWidget):
             QLineEdit, QSpinBox {{
                 background-color: {COLORS['surface']};
                 border: 1px solid {COLORS['border']};
-                border-radius: 4px;
-                padding: 8px;
-                font-size: 14px;
+                border-radius: 8px;
+                padding: 8px 10px;
+                font-size: 13px;
                 color: {COLORS['text']};
-                min-height: 20px;
-                min-width: 100px;
+                height: 28px;
+                margin: 2px;
+            }}
+            QSpinBox::up-button, QSpinBox::down-button {{
+                width: 0px;
+                height: 0px;
             }}
             QLineEdit:focus, QSpinBox:focus {{
                 border: 1px solid {COLORS['accent']};
@@ -76,19 +80,21 @@ class EditorWidget(QWidget):
             QTableWidget {{
                 background-color: {COLORS['surface']};
                 border: 1px solid {COLORS['border']};
-                border-radius: 8px;
                 gridline-color: {COLORS['border']};
                 color: {COLORS['text']};
+                font-size: 13px;
             }}
             QTableWidget::item {{
-                padding: 4px;
+                padding: 0px;
+                margin: 0px;
             }}
             QHeaderView::section {{
                 background-color: {COLORS['overlay']};
                 color: {COLORS['text']};
-                padding: 6px;
+                padding: 10px;
                 border: none;
                 font-weight: bold;
+                font-size: 13px;
             }}
         """)
     
@@ -207,6 +213,20 @@ class EditorWidget(QWidget):
         name_label.setFixedWidth(100)
         self.game_name_input = QLineEdit()
         self.game_name_input.setPlaceholderText("Введіть назву гри...")
+        self.game_name_input.setStyleSheet(f"""
+            QLineEdit {{
+                background-color: {COLORS['surface']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 12px;
+                padding: 10px;
+                font-size: 14px;
+                color: {COLORS['text']};
+                min-height: 32px;
+            }}
+            QLineEdit:focus {{
+                border: 1px solid {COLORS['accent']};
+            }}
+        """)
         name_layout.addWidget(name_label)
         name_layout.addWidget(self.game_name_input)
         info_layout.addLayout(name_layout)
@@ -263,6 +283,8 @@ class EditorWidget(QWidget):
         
         self.sections_table.verticalHeader().setVisible(False)
         self.sections_table.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+
+        self.sections_table.setShowGrid(False)
         layout.addWidget(self.sections_table)
         
         # Add section button
@@ -378,42 +400,36 @@ class EditorWidget(QWidget):
         name_input = QLineEdit()
         name_input.setText(section.get('name', '') if section else '')
         name_input.setPlaceholderText("Назва секції")
-        name_input.setMinimumWidth(200)
         self.sections_table.setCellWidget(row, 0, name_input)
         
         # Total
         total_spin = QSpinBox()
         total_spin.setMaximum(999999999)
         total_spin.setValue(section.get('total', 0) if section else 0)
-        total_spin.setMinimumWidth(100)
         self.sections_table.setCellWidget(row, 1, total_spin)
         
         # Translated
         translated_spin = QSpinBox()
         translated_spin.setMaximum(999999999)
         translated_spin.setValue(section.get('translated', 0) if section else 0)
-        translated_spin.setMinimumWidth(100)
         self.sections_table.setCellWidget(row, 2, translated_spin)
         
         # Translated Label (custom)
         trans_label_input = QLineEdit()
         trans_label_input.setText(section.get('translated_label', '') if section else '')
         trans_label_input.setPlaceholderText("Перекладено")
-        trans_label_input.setMinimumWidth(120)
         self.sections_table.setCellWidget(row, 3, trans_label_input)
         
         # Approved
         approved_spin = QSpinBox()
         approved_spin.setMaximum(999999999)
         approved_spin.setValue(section.get('approved', 0) if section else 0)
-        approved_spin.setMinimumWidth(100)
         self.sections_table.setCellWidget(row, 4, approved_spin)
         
         # Approved Label (custom)
         appr_label_input = QLineEdit()
         appr_label_input.setText(section.get('approved_label', '') if section else '')
         appr_label_input.setPlaceholderText("Затверджено")
-        appr_label_input.setMinimumWidth(120)
         self.sections_table.setCellWidget(row, 5, appr_label_input)
         
         # Exclude checkbox
@@ -428,20 +444,29 @@ class EditorWidget(QWidget):
         
         # Delete button
         delete_btn = QPushButton("🗑️")
-        delete_btn.setFixedSize(30, 30)
+        delete_btn.setMaximumWidth(24)
+        delete_btn.setMaximumHeight(24)
         delete_btn.clicked.connect(lambda: self.delete_section(row))
         delete_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['error']};
                 border: none;
-                border-radius: 4px;
+                border-radius: 3px;
                 color: white;
+                padding: 0px;
+                margin: 0px;
+                font-size: 12px;
             }}
             QPushButton:hover {{
                 background-color: #e74c6c;
             }}
         """)
-        self.sections_table.setCellWidget(row, 7, delete_btn)
+        delete_widget = QWidget()
+        delete_layout = QHBoxLayout(delete_widget)
+        delete_layout.addWidget(delete_btn)
+        delete_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        delete_layout.setContentsMargins(0, 0, 0, 0)
+        self.sections_table.setCellWidget(row, 7, delete_widget)
     
     def add_section(self):
         """Add new empty section"""
