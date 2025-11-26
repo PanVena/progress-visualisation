@@ -99,7 +99,7 @@ class EditorWidget(QWidget):
         layout.setContentsMargins(10, 10, 10, 10)
         
         # Title
-        title = QLabel("📋 Проєкти")
+        title = QLabel("Проєкти")
         title.setStyleSheet(f"""
             font-size: 16px;
             font-weight: bold;
@@ -135,7 +135,7 @@ class EditorWidget(QWidget):
         btn_layout = QVBoxLayout()
         btn_layout.setSpacing(8)
         
-        add_btn = QPushButton("➕ Додати проєкт")
+        add_btn = QPushButton("Додати проєкт")
         add_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['accent']};
@@ -152,7 +152,7 @@ class EditorWidget(QWidget):
         add_btn.clicked.connect(self.add_project)
         btn_layout.addWidget(add_btn)
         
-        delete_btn = QPushButton("🗑️ Видалити проєкт")
+        delete_btn = QPushButton("Видалити проєкт")
         delete_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['error']};
@@ -217,7 +217,7 @@ class EditorWidget(QWidget):
         icon_label.setFixedWidth(100)
         self.icon_path_label = QLabel("Не вибрано")
         self.icon_path_label.setStyleSheet(f"color: {COLORS['subtext']};")
-        icon_btn = QPushButton("📁 Вибрати іконку")
+        icon_btn = QPushButton("Вибрати іконку")
         icon_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['overlay']};
@@ -239,7 +239,7 @@ class EditorWidget(QWidget):
         layout.addWidget(info_card)
         
         # Sections title
-        sections_label = QLabel("📊 Секції")
+        sections_label = QLabel("Секції")
         sections_label.setStyleSheet(f"""
             font-size: 14px;
             font-weight: bold;
@@ -266,7 +266,7 @@ class EditorWidget(QWidget):
         layout.addWidget(self.sections_table)
         
         # Add section button
-        add_section_btn = QPushButton("➕ Додати секцію")
+        add_section_btn = QPushButton("Додати секцію")
         add_section_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['overlay']};
@@ -286,7 +286,7 @@ class EditorWidget(QWidget):
         toolbar_layout = QHBoxLayout()
         toolbar_layout.addStretch()
         
-        save_btn = QPushButton("💾 Зберегти")
+        save_btn = QPushButton("Зберегти")
         save_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['accent']};
@@ -303,7 +303,7 @@ class EditorWidget(QWidget):
         save_btn.clicked.connect(self.save_project)
         toolbar_layout.addWidget(save_btn)
         
-        cancel_btn = QPushButton("❌ Скасувати")
+        cancel_btn = QPushButton("Скасувати")
         cancel_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {COLORS['overlay']};
@@ -332,7 +332,7 @@ class EditorWidget(QWidget):
         data = self.data_manager.load_data()
         
         for project in data:
-            self.project_list.addItem(f"🎮 {project['game']}")
+            self.project_list.addItem(project['game'])
     
     def on_project_selected(self, index: int):
         """Handle project selection"""
@@ -351,7 +351,7 @@ class EditorWidget(QWidget):
         """Load project data into editor"""
         # Set game name
         self.game_name_input.setText(project.get('game', ''))
-        self.editor_title.setText(f"✏️ {project.get('game', 'Проєкт')}")
+        self.editor_title.setText(project.get('game', 'Проєкт'))
         
         # Set icon
         icon_path = project.get('icon', '')
