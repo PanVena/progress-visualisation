@@ -7,7 +7,7 @@
         "name": "Основна гра",
         "total": 62396,
         "translated": 62396,
-        "approved": 11997
+        "approved": 14214
       },
       {
         "name": "Шлях до Геєнни (DLC)",
@@ -23,20 +23,20 @@
       },
       {
         "name": "Александра Дреннан",
-        "translated_label": "Затверджено",
-        "approved_label": "Озвучено",
         "total": 22,
         "translated": 22,
         "approved": 0,
+        "translated_label": "Затверджено",
+        "approved_label": "Озвучено",
         "exclude_from_total": true
       },
       {
         "name": "ЕЛОГІМ",
-        "translated_label": "Затверджено",
-        "approved_label": "Озвучено",
         "total": 85,
         "translated": 0,
         "approved": 0,
+        "translated_label": "Затверджено",
+        "approved_label": "Озвучено",
         "exclude_from_total": true
       }
     ]
@@ -104,13 +104,28 @@
       {
         "name": "Текст",
         "total": 13693,
-        "translated": 10123,
+        "translated": 13693,
         "approved": 0
       },
       {
         "name": "Досягнення",
         "total": 257,
-        "translated": 0,
+        "translated": 257,
+        "approved": 0
+      },
+      {
+        "name": "Шрифт",
+        "total": 16,
+        "translated": 16,
+        "approved": 16,
+        "translated_label": "Намальовано",
+        "approved_label": "-_-",
+        "exclude_from_total": true
+      },
+      {
+        "name": "Транслітерації",
+        "total": 2532,
+        "translated": 522,
         "approved": 0
       }
     ]

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Progress Visualizer - Modern GUI Application
 Combines visualization and editing in a single modern interface
