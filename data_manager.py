@@ -65,8 +65,8 @@ class DataManager:
         if not isinstance(project["sections"], list):
             raise ValidationError("'sections' має бути списком")
         
-        if len(project["sections"]) == 0:
-            raise ValidationError("Проєкт має містити хоча б одну секцію")
+        # if len(project["sections"]) == 0:
+        #     raise ValidationError("Проєкт має містити хоча б одну секцію")
         
         # Check icon file if specified
         if "icon" in project and project["icon"]:
@@ -145,6 +145,20 @@ class DataManager:
     def get_all_projects(self) -> List[Dict]:
         """Get all projects"""
         return self.data
+    
+    def move_project(self, old_index: int, new_index: int) -> None:
+        """Move project from old_index to new_index"""
+        if old_index < 0 or old_index >= len(self.data):
+            raise ValidationError(f"Невірний поточний індекс: {old_index}")
+        
+        if new_index < 0 or new_index >= len(self.data):
+            raise ValidationError(f"Невірний новий індекс: {new_index}")
+            
+        if old_index == new_index:
+            return
+            
+        project = self.data.pop(old_index)
+        self.data.insert(new_index, project)
 
 
 def load_data() -> List[Dict]:

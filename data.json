@@ -7,7 +7,7 @@
         "name": "Основна гра",
         "total": 62396,
         "translated": 62396,
-        "approved": 11997
+        "approved": 14214
       },
       {
         "name": "Шлях до Геєнни (DLC)",
@@ -23,20 +23,20 @@
       },
       {
         "name": "Александра Дреннан",
-        "translated_label": "Затверджено",
-        "approved_label": "Озвучено",
         "total": 22,
         "translated": 22,
         "approved": 0,
+        "translated_label": "Затверджено",
+        "approved_label": "Озвучено",
         "exclude_from_total": true
       },
       {
         "name": "ЕЛОГІМ",
-        "translated_label": "Затверджено",
-        "approved_label": "Озвучено",
         "total": 85,
         "translated": 0,
         "approved": 0,
+        "translated_label": "Затверджено",
+        "approved_label": "Озвучено",
         "exclude_from_total": true
       }
     ]
@@ -72,7 +72,40 @@
     ]
   },
   {
-    "game": "Bayonetta",
+    "game": "Bomber Crew",
+    "icon": "./icons/бомбардино крокоділо.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "total": 13693,
+        "translated": 13693,
+        "approved": 0
+      },
+      {
+        "name": "Транслітерації",
+        "total": 2532,
+        "translated": 522,
+        "approved": 0
+      },
+      {
+        "name": "Шрифт",
+        "total": 16,
+        "translated": 16,
+        "approved": 16,
+        "translated_label": "Намальовано",
+        "approved_label": "-_-",
+        "exclude_from_total": true
+      },
+      {
+        "name": "Досягнення",
+        "total": 257,
+        "translated": 257,
+        "approved": 0
+      }
+    ]
+  },
+  {
+    "game": "Bayonetta - заморожено",
     "icon": "./icons/байо.png",
     "sections": [
       {
@@ -83,10 +116,10 @@
       },
       {
         "name": "Текстури",
-        "approved_label": "Намальовано",
         "total": 315,
         "translated": 0,
         "approved": 0,
+        "approved_label": "Намальовано",
         "exclude_from_total": true
       },
       {
@@ -94,24 +127,6 @@
         "total": 1080,
         "translated": 1080,
         "approved": 1080
-      }
-    ]
-  },
-  {
-    "game": "Bomber Crew",
-    "icon": "./icons/бомбардино крокоділо.png",
-    "sections": [
-      {
-        "name": "Текст",
-        "total": 13693,
-        "translated": 10123,
-        "approved": 0
-      },
-      {
-        "name": "Досягнення",
-        "total": 257,
-        "translated": 0,
-        "approved": 0
       }
     ]
   },

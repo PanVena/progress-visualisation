@@ -177,6 +177,50 @@ class EditorWidget(QWidget):
         
         layout.addLayout(btn_layout)
         
+        # Move buttons
+        move_layout = QHBoxLayout()
+        move_layout.setSpacing(8)
+        
+        move_up_btn = QPushButton("↑")
+        move_up_btn.setToolTip("Перемістити вгору")
+        move_up_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {COLORS['overlay']};
+                color: {COLORS['text']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 6px;
+                padding: 10px;
+                font-weight: bold;
+                font-size: 16px;
+            }}
+            QPushButton:hover {{
+                background-color: {COLORS['hover']};
+            }}
+        """)
+        move_up_btn.clicked.connect(self.move_project_up)
+        move_layout.addWidget(move_up_btn)
+        
+        move_down_btn = QPushButton("↓")
+        move_down_btn.setToolTip("Перемістити вниз")
+        move_down_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {COLORS['overlay']};
+                color: {COLORS['text']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 6px;
+                padding: 10px;
+                font-weight: bold;
+                font-size: 16px;
+            }}
+            QPushButton:hover {{
+                background-color: {COLORS['hover']};
+            }}
+        """)
+        move_down_btn.clicked.connect(self.move_project_down)
+        move_layout.addWidget(move_down_btn)
+        
+        layout.addLayout(move_layout)
+        
         return panel
     
     def create_editor_panel(self) -> QWidget:
@@ -272,14 +316,19 @@ class EditorWidget(QWidget):
         self.sections_table = QTableWidget()
         self.sections_table.setColumnCount(8)
         self.sections_table.setHorizontalHeaderLabels([
-            "Назва", "Всього", "Перекладено", "Мітка 'Перекладено'",
-            "Затверджено", "Мітка 'Затверджено'", "Виключити", "Дії"
+            "Назва", "Всього", "Перекладено", "<—Підпис",
+            "Затверджено", "<—Підпис", "Виключити", "Дії"
         ])
         
         header = self.sections_table.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-        for i in range(1, 8):
-            header.setSectionResizeMode(i, QHeaderView.ResizeMode.ResizeToContents)
+        # Set all columns to interactive by default
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+        # Ensure name column has enough space
+        header.resizeSection(0, 250)
+        # Ensure Translated and Approved columns are readable
+        header.resizeSection(2, 110)
+        header.resizeSection(4, 110)
+
         
         self.sections_table.verticalHeader().setVisible(False)
         self.sections_table.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
@@ -302,7 +351,50 @@ class EditorWidget(QWidget):
             }}
         """)
         add_section_btn.clicked.connect(self.add_section)
-        layout.addWidget(add_section_btn)
+        
+        # Section buttons row
+        section_btns_layout = QHBoxLayout()
+        section_btns_layout.addWidget(add_section_btn)
+        
+        move_sec_up_btn = QPushButton("↑")
+        move_sec_up_btn.setToolTip("Перемістити секцію вгору")
+        move_sec_up_btn.setFixedWidth(40)
+        move_sec_up_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {COLORS['overlay']};
+                color: {COLORS['text']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 6px;
+                padding: 8px;
+                font-weight: bold;
+            }}
+            QPushButton:hover {{
+                background-color: {COLORS['hover']};
+            }}
+        """)
+        move_sec_up_btn.clicked.connect(self.move_section_up)
+        section_btns_layout.addWidget(move_sec_up_btn)
+        
+        move_sec_down_btn = QPushButton("↓")
+        move_sec_down_btn.setToolTip("Перемістити секцію вниз")
+        move_sec_down_btn.setFixedWidth(40)
+        move_sec_down_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {COLORS['overlay']};
+                color: {COLORS['text']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 6px;
+                padding: 8px;
+                font-weight: bold;
+            }}
+            QPushButton:hover {{
+                background-color: {COLORS['hover']};
+            }}
+        """)
+        move_sec_down_btn.clicked.connect(self.move_section_down)
+        section_btns_layout.addWidget(move_sec_down_btn)
+        
+        layout.addLayout(section_btns_layout)
         
         # Bottom toolbar
         toolbar_layout = QHBoxLayout()
@@ -355,6 +447,10 @@ class EditorWidget(QWidget):
         
         for project in data:
             self.project_list.addItem(project['game'])
+            
+        # Select first project if available and nothing selected
+        if self.project_list.count() > 0 and self.project_list.currentRow() == -1:
+            self.project_list.setCurrentRow(0)
     
     def on_project_selected(self, index: int):
         """Handle project selection"""
@@ -636,3 +732,105 @@ class EditorWidget(QWidget):
             self.game_name_input.clear()
             self.icon_path_label.setText("Не вибрано")
             self.sections_table.setRowCount(0)
+            
+    def move_project_up(self):
+        """Move selected project up"""
+        if self.current_project_index <= 0:
+            return
+            
+        try:
+            new_index = self.current_project_index - 1
+            self.data_manager.move_project(self.current_project_index, new_index)
+            self.data_manager.save_data()
+            self.load_projects()
+            self.project_list.setCurrentRow(new_index)
+            self.data_changed.emit()
+        except ValidationError as e:
+            QMessageBox.warning(self, "Помилка", str(e))
+            
+    def move_project_down(self):
+        """Move selected project down"""
+        total_projects = len(self.data_manager.get_all_projects())
+        if self.current_project_index < 0 or self.current_project_index >= total_projects - 1:
+            return
+            
+        try:
+            new_index = self.current_project_index + 1
+            self.data_manager.move_project(self.current_project_index, new_index)
+            self.data_manager.save_data()
+            self.load_projects()
+            self.project_list.setCurrentRow(new_index)
+            self.data_changed.emit()
+        except ValidationError as e:
+            QMessageBox.warning(self, "Помилка", str(e))
+
+    def get_sections_data(self) -> list:
+        """Helper to get current sections data from table"""
+        sections = []
+        for row in range(self.sections_table.rowCount()):
+            name_input = self.sections_table.cellWidget(row, 0)
+            total_spin = self.sections_table.cellWidget(row, 1)
+            translated_spin = self.sections_table.cellWidget(row, 2)
+            translated_label_input = self.sections_table.cellWidget(row, 3)
+            approved_spin = self.sections_table.cellWidget(row, 4)
+            approved_label_input = self.sections_table.cellWidget(row, 5)
+            exclude_widget = self.sections_table.cellWidget(row, 6)
+            exclude_check = exclude_widget.findChild(QCheckBox)
+            
+            section = {
+                'name': name_input.text().strip(),
+                'total': total_spin.value(),
+                'translated': translated_spin.value(),
+                'approved': approved_spin.value(),
+            }
+            
+            # Add custom labels if provided
+            translated_label = translated_label_input.text().strip()
+            if translated_label:
+                section['translated_label'] = translated_label
+            
+            approved_label = approved_label_input.text().strip()
+            if approved_label:
+                section['approved_label'] = approved_label
+            
+            if exclude_check.isChecked():
+                section['exclude_from_total'] = True
+                
+            sections.append(section)
+        return sections
+
+    def move_section_up(self):
+        """Move selected section up"""
+        current_row = self.sections_table.currentRow()
+        if current_row <= 0:
+            return
+            
+        # Get data, swap, and reload
+        sections = self.get_sections_data()
+        sections[current_row], sections[current_row - 1] = sections[current_row - 1], sections[current_row]
+        
+        # Clear and reload
+        self.sections_table.setRowCount(0)
+        for section in sections:
+            self.add_section_to_table(section)
+            
+        # Restore selection
+        self.sections_table.selectRow(current_row - 1)
+
+    def move_section_down(self):
+        """Move selected section down"""
+        current_row = self.sections_table.currentRow()
+        if current_row < 0 or current_row >= self.sections_table.rowCount() - 1:
+            return
+            
+        # Get data, swap, and reload
+        sections = self.get_sections_data()
+        sections[current_row], sections[current_row + 1] = sections[current_row + 1], sections[current_row]
+        
+        # Clear and reload
+        self.sections_table.setRowCount(0)
+        for section in sections:
+            self.add_section_to_table(section)
+            
+        # Restore selection
+        self.sections_table.selectRow(current_row + 1)
