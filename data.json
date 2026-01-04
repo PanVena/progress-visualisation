@@ -72,32 +72,6 @@
     ]
   },
   {
-    "game": "Bayonetta",
-    "icon": "./icons/байо.png",
-    "sections": [
-      {
-        "name": "Текст",
-        "total": 89400,
-        "translated": 89400,
-        "approved": 2969
-      },
-      {
-        "name": "Текстури",
-        "approved_label": "Намальовано",
-        "total": 315,
-        "translated": 0,
-        "approved": 0,
-        "exclude_from_total": true
-      },
-      {
-        "name": "Досягнення",
-        "total": 1080,
-        "translated": 1080,
-        "approved": 1080
-      }
-    ]
-  },
-  {
     "game": "Bomber Crew",
     "icon": "./icons/бомбардино крокоділо.png",
     "sections": [
@@ -108,9 +82,9 @@
         "approved": 0
       },
       {
-        "name": "Досягнення",
-        "total": 257,
-        "translated": 257,
+        "name": "Транслітерації",
+        "total": 2532,
+        "translated": 522,
         "approved": 0
       },
       {
@@ -123,10 +97,36 @@
         "exclude_from_total": true
       },
       {
-        "name": "Транслітерації",
-        "total": 2532,
-        "translated": 522,
+        "name": "Досягнення",
+        "total": 257,
+        "translated": 257,
         "approved": 0
+      }
+    ]
+  },
+  {
+    "game": "Bayonetta - заморожено",
+    "icon": "./icons/байо.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "total": 89400,
+        "translated": 89400,
+        "approved": 2969
+      },
+      {
+        "name": "Текстури",
+        "total": 315,
+        "translated": 0,
+        "approved": 0,
+        "approved_label": "Намальовано",
+        "exclude_from_total": true
+      },
+      {
+        "name": "Досягнення",
+        "total": 1080,
+        "translated": 1080,
+        "approved": 1080
       }
     ]
   },

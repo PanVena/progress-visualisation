@@ -21,13 +21,17 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Візуалізатор поступу")
-        self.resize(1400, 800)
-        
-        
-        # Create interfaces
         self.visualizer = VisualizerWidget(self)
         self.old_visualizer = OldVisualizerWidget(self)
         self.editor = EditorWidget(self)
+        
+        # Initial window size based on project count
+        # If we have few projects, we don't need a huge window
+        project_count = len(self.editor.data_manager.data)
+        if project_count < 3:
+            self.resize(1400, 500)
+        else:
+            self.resize(1400, 800)
         
         # Connect editor data changes to both visualizers refresh
         self.editor.data_changed.connect(self.visualizer.refresh)
