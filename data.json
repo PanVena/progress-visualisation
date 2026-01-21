@@ -42,7 +42,7 @@
     ]
   },
   {
-    "game": "The Talos Principle:Reawakening",
+    "game": "The Talos Principle: Reawakening",
     "icon": "./icons/Talos RE.png",
     "sections": [
       {
@@ -79,12 +79,12 @@
         "name": "Текст",
         "total": 13693,
         "translated": 13693,
-        "approved": 0
+        "approved": 1967
       },
       {
         "name": "Транслітерації",
         "total": 2532,
-        "translated": 522,
+        "translated": 2532,
         "approved": 0
       },
       {
@@ -105,7 +105,25 @@
     ]
   },
   {
-    "game": "Bayonetta - заморожено",
+    "game": "The Entropy Centre",
+    "icon": "./icons/The_Entropy_Centre.png",
+    "sections": [
+      {
+        "name": "Текст",
+        "total": 17232,
+        "translated": 12004,
+        "approved": 0
+      },
+      {
+        "name": "Досягнення",
+        "total": 166,
+        "translated": 32,
+        "approved": 0
+      }
+    ]
+  },
+  {
+    "game": "Bayonetta - заморожено/релізнуто",
     "icon": "./icons/байо.png",
     "sections": [
       {
@@ -127,24 +145,6 @@
         "total": 1080,
         "translated": 1080,
         "approved": 1080
-      }
-    ]
-  },
-  {
-    "game": "The Entropy Centre - заморожено",
-    "icon": "./icons/The_Entropy_Centre.png",
-    "sections": [
-      {
-        "name": "Текст",
-        "total": 17232,
-        "translated": 11885,
-        "approved": 0
-      },
-      {
-        "name": "Досягнення",
-        "total": 166,
-        "translated": 32,
-        "approved": 0
       }
     ]
   },
