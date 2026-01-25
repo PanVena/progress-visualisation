@@ -1,9 +1,19 @@
 ## Візуалізація поступу перекладу спілки "Ліниві ШІ"
 
-<img src="statystyka_fancy.png" alt="Поступ">
-<img src="statystyka.png" alt="Поступ">
-<img src="statystyka_old.png" alt="Поступ">
-<img src="editor.png" alt="Редактор">
+<p align="center">
+  <b>Головний інтерфейс (Aurora Theme)</b><br>
+  <img src="statystyka_fancy.png" width="100%">
+</p>
+
+<p align="center">
+  <img src="editor_fancy.png" width="49%">
+  <img src="statystyka.png" width="49%">
+</p>
+
+<p align="center">
+  <img src="statystyka_old.png" width="49%">
+  <img src="editor.png" width="49%">
+</p>
 
 # Для особистого використання
 
