@@ -73,6 +73,11 @@ class DataManager:
             if not os.path.exists(project["icon"]):
                 raise ValidationError(f"Файл іконки не знайдено: {project['icon']}")
         
+        # Check unit
+        valid_units = ["слів", "рядків", "файлів"]
+        if "unit" in project and project["unit"] not in valid_units:
+            raise ValidationError(f"Невідома одиниця виміру: {project['unit']}")
+
         # Validate all sections
         for i, section in enumerate(project["sections"]):
             try:

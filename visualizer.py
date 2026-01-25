@@ -450,7 +450,8 @@ class VisualizerWidget(QWidget):
             right_layout.addWidget(table)
             
             # Overall progress bars
-            progress_container = self.create_overall_progress(sections)
+            unit = game.get("unit", "слів")
+            progress_container = self.create_overall_progress(sections, unit)
             right_layout.addWidget(progress_container)
         
         game_layout.addWidget(right_widget)
@@ -539,14 +540,15 @@ class VisualizerWidget(QWidget):
             
             # Trans bar
             t_bar = self.create_aurora_progress_bar(overall_trans_pct, COLORS['gradient_translated'])
-            t_label = QLabel(f"ПЕРЕКЛАДЕНО: {overall_trans_pct:.1f}% ({translated_sum}/{total_sum})")
+            unit = game.get("unit", "слів")
+            t_label = QLabel(f"ПЕРЕКЛАДЕНО: {overall_trans_pct:.1f}% ({translated_sum}/{total_sum} {unit})")
             t_label.setStyleSheet(f"color: {COLORS['accent']}; font-weight: bold; font-size: 12px; border: none;")
             prog_layout.addWidget(t_label)
             prog_layout.addWidget(t_bar)
             
             # Appr bar
             a_bar = self.create_aurora_progress_bar(overall_appr_pct, COLORS['gradient_approved'])
-            a_label = QLabel(f"ЗАТВЕРДЖЕНО: {overall_appr_pct:.1f}% ({approved_sum}/{total_sum})")
+            a_label = QLabel(f"ЗАТВЕРДЖЕНО: {overall_appr_pct:.1f}% ({approved_sum}/{total_sum} {unit})")
             a_label.setStyleSheet(f"color: {COLORS['info']}; font-weight: bold; font-size: 12px; border: none;")
             prog_layout.addWidget(a_label)
             prog_layout.addWidget(a_bar)
@@ -839,7 +841,7 @@ class VisualizerWidget(QWidget):
         
         return table
     
-    def create_overall_progress(self, sections: list) -> QWidget:
+    def create_overall_progress(self, sections: list, unit: str = "слів") -> QWidget:
         """Create overall progress bars"""
         included_sections = [s for s in sections if not s.get("exclude_from_total", False)]
         
@@ -850,8 +852,8 @@ class VisualizerWidget(QWidget):
         overall_translated_percent = round(translated_sum / total_sum * 100, 2) if total_sum > 0 else 0
         overall_approved_percent = round(approved_sum / total_sum * 100, 2) if total_sum > 0 else 0
         
-        words_info_trans = f" ({translated_sum}/{total_sum} слів)" if total_sum > 0 else ""
-        words_info_appr = f" ({approved_sum}/{total_sum} слів)" if total_sum > 0 else ""
+        words_info_trans = f" ({translated_sum}/{total_sum} {unit})" if total_sum > 0 else ""
+        words_info_appr = f" ({approved_sum}/{total_sum} {unit})" if total_sum > 0 else ""
         
         progress_container = QWidget()
         progress_layout = QVBoxLayout(progress_container)

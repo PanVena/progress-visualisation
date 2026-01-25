@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QFileDialog, QTableWidget, QTableWidgetItem,
     QHeaderView, QSpinBox, QCheckBox, QMessageBox, QSplitter,
-    QListWidget, QFrame
+    QListWidget, QFrame, QComboBox
 )
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon, QFont
@@ -362,11 +362,33 @@ class EditorWidget(QWidget):
         self.icon_path_label.setStyleSheet(f"color: {COLORS['subtext']};")
         icon_btn = QPushButton("Вибрати іконку")
         icon_btn.clicked.connect(self.pick_icon)
-        icon_layout.addWidget(icon_label)
         icon_layout.addWidget(self.icon_path_label, 1)
         icon_layout.addWidget(icon_btn)
         info_layout.addLayout(icon_layout)
         
+        # Unit selection
+        unit_layout = QHBoxLayout()
+        unit_label = QLabel("Одиниці виміру:")
+        unit_label.setFixedWidth(100)
+        self.unit_combo = QComboBox()
+        self.unit_combo.addItems(["слів", "рядків", "файлів"])
+        self.unit_combo.setStyleSheet(f"""
+            QComboBox {{
+                background-color: {COLORS['surface']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 6px;
+                padding: 4px 10px;
+                color: {COLORS['text']};
+            }}
+            QComboBox::drop-down {{
+                border: none;
+            }}
+        """)
+        unit_layout.addWidget(unit_label)
+        unit_layout.addWidget(self.unit_combo)
+        unit_layout.addStretch()
+        info_layout.addLayout(unit_layout)
+
         layout.addWidget(info_card)
         
         # Sections title
@@ -488,9 +510,16 @@ class EditorWidget(QWidget):
         if icon_path:
             self.icon_path_label.setText(icon_path)
             self.icon_path_label.setProperty('icon_path', icon_path)
-        else:
             self.icon_path_label.setText("Не вибрано")
             self.icon_path_label.setProperty('icon_path', '')
+        
+        # Set unit
+        unit = project.get('unit', 'слів')
+        index = self.unit_combo.findText(unit)
+        if index >= 0:
+            self.unit_combo.setCurrentIndex(index)
+        else:
+            self.unit_combo.setCurrentIndex(0)
         
         # Load sections
         self.sections_table.setRowCount(0)
@@ -575,6 +604,7 @@ class EditorWidget(QWidget):
         new_project = {
             'game': 'Новий проєкт',
             'icon': '',
+            'unit': 'слів',
             'sections': [
                 {
                     'name': 'Текст',
@@ -634,6 +664,7 @@ class EditorWidget(QWidget):
             project = {
                 'game': self.game_name_input.text().strip(),
                 'icon': self.icon_path_label.property('icon_path') or '',
+                'unit': self.unit_combo.currentText(),
                 'sections': []
             }
             
@@ -728,6 +759,7 @@ class EditorWidget(QWidget):
             self.editor_title.setText("Виберіть проєкт для редагування")
             self.game_name_input.clear()
             self.icon_path_label.setText("Не вибрано")
+            self.unit_combo.setCurrentIndex(0)
             self.sections_table.setRowCount(0)
             
     def move_project_up(self):
