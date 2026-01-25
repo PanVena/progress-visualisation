@@ -14,7 +14,9 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon
 
 from data_manager import DataManager, ValidationError
-from colors import COLORS
+from theme_manager import theme_manager
+
+COLORS = theme_manager.get_theme()
 
 
 class EditorWidget(QWidget):
@@ -28,6 +30,19 @@ class EditorWidget(QWidget):
         self.current_project_index = -1
         self.init_ui()
         self.load_projects()
+        
+        # Connect to theme changes
+        theme_manager.theme_changed.connect(self.on_theme_changed)
+    
+    def on_theme_changed(self, theme_name):
+        """Handle theme changes"""
+        global COLORS
+        COLORS = theme_manager.get_theme()
+        self.apply_theme_styles()
+    
+    def apply_theme_styles(self):
+        """Apply styles for the current theme"""
+        # Main layout styles
     
     def init_ui(self):
         """Initialize the UI"""
@@ -51,7 +66,13 @@ class EditorWidget(QWidget):
         layout.addWidget(splitter)
         self.setLayout(layout)
         
-        # Apply dark theme
+        self.apply_theme_styles()
+
+    def apply_theme_styles(self):
+        """Apply styles based on current theme"""
+        global COLORS
+        COLORS = theme_manager.get_theme()
+        
         self.setStyleSheet(f"""
             QWidget {{
                 background-color: {COLORS['background']};
@@ -97,6 +118,11 @@ class EditorWidget(QWidget):
                 font-size: 13px;
             }}
         """)
+        
+        # We need to re-apply styles to specific elements if they have custom style sheets
+        # If we had references, we'd update them here. 
+        # For simplicity, we can let init_ui handle most of it or refresh the whole widget.
+        # But setStyleSheet on self should propagate down unless overwritten.
     
     def create_project_list_panel(self) -> QWidget:
         """Create left panel with project list"""

@@ -79,7 +79,7 @@
         "name": "Текст",
         "total": 13693,
         "translated": 13693,
-        "approved": 1967
+        "approved": 4268
       },
       {
         "name": "Транслітерації",
@@ -89,11 +89,11 @@
       },
       {
         "name": "Шрифт",
-        "total": 16,
-        "translated": 16,
-        "approved": 16,
+        "total": 19,
+        "translated": 19,
+        "approved": 19,
         "translated_label": "Намальовано",
-        "approved_label": "-_-",
+        "approved_label": "Намальовано",
         "exclude_from_total": true
       },
       {
@@ -111,7 +111,7 @@
       {
         "name": "Текст",
         "total": 17232,
-        "translated": 12004,
+        "translated": 12052,
         "approved": 0
       },
       {

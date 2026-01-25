@@ -12,7 +12,9 @@ from PyQt6.QtGui import QIcon, QPalette, QColor
 from visualizer import VisualizerWidget
 from old_visualizer import OldVisualizerWidget
 from editor import EditorWidget
-from colors import COLORS
+from theme_manager import theme_manager
+
+COLORS = theme_manager.get_theme()
 
 
 class MainWindow(QMainWindow):
@@ -24,6 +26,9 @@ class MainWindow(QMainWindow):
         self.visualizer = VisualizerWidget(self)
         self.old_visualizer = OldVisualizerWidget(self)
         self.editor = EditorWidget(self)
+        
+        # Connect to theme changes
+        theme_manager.theme_changed.connect(self.on_theme_changed)
         
         # Initial window size based on project count
         # If we have few projects, we don't need a huge window
@@ -60,49 +65,67 @@ class MainWindow(QMainWindow):
     
     def create_nav_bar(self) -> QWidget:
         """Create navigation bar"""
-        nav_widget = QWidget()
-        nav_widget.setFixedHeight(50)
-        nav_widget.setStyleSheet(f"""
-            QWidget {{
-                background-color: {COLORS['mantle']};
-                border-bottom: 1px solid {COLORS['border']};
-            }}
-        """)
+        self.nav_widget = QWidget()
+        self.nav_widget.setFixedHeight(50)
+        self.update_nav_bar_style()
         
-        layout = QHBoxLayout(nav_widget)
+        layout = QHBoxLayout(self.nav_widget)
         layout.setContentsMargins(10, 5, 10, 5)
         
         layout.addStretch()
         
-        # Modern view button
-        modern_btn = QPushButton("Сучасніший вигляд")
-        modern_btn.setCheckable(True)
-        modern_btn.setChecked(True)
-        modern_btn.clicked.connect(lambda: self.switch_view(0, modern_btn, old_btn, edit_btn))
-        modern_btn.setStyleSheet(self.get_nav_button_style(True))
-        layout.addWidget(modern_btn)
+        # Aurora Theme button (New Modern)
+        aurora_btn = QPushButton("Плиточки💅")
+        aurora_btn.setCheckable(True)
+        aurora_btn.setChecked(theme_manager.current_theme_name == "aurora")
+        aurora_btn.clicked.connect(lambda: self.switch_to_aurora())
+        layout.addWidget(aurora_btn)
+        
+        # Classic Theme button (Catppuccin)
+        classic_btn = QPushButton("Класична тема")
+        classic_btn.setCheckable(True)
+        classic_btn.setChecked(theme_manager.current_theme_name == "catppuccin")
+        classic_btn.clicked.connect(lambda: self.switch_to_classic())
+        layout.addWidget(classic_btn)
         
         # Old view button
         old_btn = QPushButton("Старий вигляд")
         old_btn.setCheckable(True)
-        old_btn.clicked.connect(lambda: self.switch_view(1, old_btn, modern_btn, edit_btn))
-        old_btn.setStyleSheet(self.get_nav_button_style(False))
+        old_btn.clicked.connect(lambda: self.switch_view(1, old_btn))
         layout.addWidget(old_btn)
         
         # Edit button
         edit_btn = QPushButton("Редагування")
         edit_btn.setCheckable(True)
-        edit_btn.clicked.connect(lambda: self.switch_view(2, edit_btn, modern_btn, old_btn))
-        edit_btn.setStyleSheet(self.get_nav_button_style(False))
+        edit_btn.clicked.connect(lambda: self.switch_view(2, edit_btn))
         layout.addWidget(edit_btn)
         
         layout.addStretch()
         
-        self.modern_btn = modern_btn
-        self.old_btn = old_btn
-        self.edit_btn = edit_btn
+        self.nav_buttons = [aurora_btn, classic_btn, old_btn, edit_btn]
+        self.update_button_styles()
         
-        return nav_widget
+        return self.nav_widget
+    
+    def switch_to_aurora(self):
+        theme_manager.set_theme("aurora")
+        self.switch_view(0, self.nav_buttons[0])
+        
+    def switch_to_classic(self):
+        theme_manager.set_theme("catppuccin")
+        self.switch_view(0, self.nav_buttons[1])
+
+    def update_nav_bar_style(self):
+        self.nav_widget.setStyleSheet(f"""
+            QWidget {{
+                background-color: {COLORS['mantle']};
+                border-bottom: 1px solid {COLORS['border']};
+            }}
+        """)
+
+    def update_button_styles(self):
+        for btn in self.nav_buttons:
+            btn.setStyleSheet(self.get_nav_button_style(btn.isChecked()))
     
     def get_nav_button_style(self, active: bool) -> str:
         """Get navigation button style"""
@@ -136,12 +159,22 @@ class MainWindow(QMainWindow):
                 }}
             """
     
-    def switch_view(self, index: int, active_btn: QPushButton, inactive_btn1: QPushButton, inactive_btn2: QPushButton):
+    def switch_view(self, index: int, active_btn: QPushButton):
         """Switch between views"""
         self.stacked_widget.setCurrentIndex(index)
-        active_btn.setStyleSheet(self.get_nav_button_style(True))
-        inactive_btn1.setStyleSheet(self.get_nav_button_style(False))
-        inactive_btn2.setStyleSheet(self.get_nav_button_style(False))
+        for btn in self.nav_buttons:
+            btn.setChecked(btn == active_btn)
+        self.update_button_styles()
+    
+    def on_theme_changed(self, theme_name):
+        """Handle global theme change"""
+        global COLORS
+        COLORS = theme_manager.get_theme()
+        self.update_nav_bar_style()
+        self.update_button_styles()
+        self.apply_custom_style()
+        # Re-apply global theme styles
+        apply_global_theme(QApplication.instance())
     
     def apply_custom_style(self):
         """Apply custom Catppuccin Mocha colors"""

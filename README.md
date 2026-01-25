@@ -1,6 +1,9 @@
 ## Візуалізація поступу перекладу спілки "Ліниві ШІ"
 
+<img src="statystyka_fancy.png" alt="Поступ">
 <img src="statystyka.png" alt="Поступ">
+<img src="statystyka_old.png" alt="Поступ">
+<img src="editor.png" alt="Редактор">
 
 # Для особистого використання
 
