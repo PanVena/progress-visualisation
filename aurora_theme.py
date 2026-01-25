@@ -3,10 +3,10 @@ Midnight Aurora Theme definition
 """
 
 AURORA_THEME = {
-    'background': '#020205',      # Deep Abyss
-    'surface': '#0b0c1a',         # Midnight Ink
-    'overlay': '#12142b',         # Galaxy Blue
-    'mantle': '#000000',          # Pure Void
+    'background': '#0b0c14',      # Deep Galaxy Navy
+    'surface': '#15172b',         # Midnight Ink (Lighter)
+    'overlay': '#1f223f',         # Galaxy Blue (Lighter)
+    'mantle': '#05060a',          # Not absolute void
     
     # Text colors
     'text': '#fdfdff',            # Crystal white
@@ -38,6 +38,6 @@ AURORA_THEME = {
     # Gradients (Glassy & Deep)
     'gradient_translated': 'qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 #06b6d4, stop:0.3 #2dd4bf, stop:1 #38bdf8)',
     'gradient_approved': 'qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 #8b5cf6, stop:0.4 #a855f7, stop:1 #d946ef)',
-    'gradient_card': 'qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #0b0c1a, stop:0.4 #12142b, stop:1 #0b0c1a)',
-    'gradient_hover': 'qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #1e1b4b, stop:1 #312e81)',
+    'gradient_card': 'qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #15172b, stop:0.4 #1f223f, stop:1 #15172b)',
+    'gradient_hover': 'qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #252a5d, stop:1 #312e81)',
 }

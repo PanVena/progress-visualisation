@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import (
     QListWidget, QFrame
 )
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtGui import QPixmap, QIcon, QFont
 
 from data_manager import DataManager, ValidationError
 from theme_manager import theme_manager
@@ -69,9 +69,13 @@ class EditorWidget(QWidget):
         self.apply_theme_styles()
 
     def apply_theme_styles(self):
-        """Apply styles based on current theme"""
+        """Apply styles based on current theme - Unified Aurora Aesthetic"""
         global COLORS
         COLORS = theme_manager.get_theme()
+        
+        # Primary Gradient for "Fancy" buttons
+        accent_grad = COLORS.get('gradient_translated', COLORS.get('accent', '#06b6d4'))
+        error_grad = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #f43f5e, stop:1 #fb7185)"
         
         self.setStyleSheet(f"""
             QWidget {{
@@ -80,42 +84,191 @@ class EditorWidget(QWidget):
             }}
             QLabel {{
                 color: {COLORS['text']};
+                background: transparent;
+                border: none;
             }}
             QLineEdit, QSpinBox {{
                 background-color: {COLORS['surface']};
                 border: 1px solid {COLORS['border']};
-                border-radius: 8px;
-                padding: 8px 10px;
+                border-radius: 6px;
+                padding: 4px 10px;
                 font-size: 13px;
                 color: {COLORS['text']};
-                height: 28px;
-                margin: 2px;
+                selection-background-color: {COLORS['accent']};
+            }}
+            /* Compact inputs inside the table */
+            QTableWidget QLineEdit, QTableWidget QSpinBox {{
+                font-size: 11px;
+                padding: 2px 6px;
+                border-radius: 4px;
+                background-color: transparent;
+                border: 1px solid transparent;
+            }}
+            QTableWidget QLineEdit:hover, QTableWidget QSpinBox:hover {{
+                background-color: {COLORS['overlay']};
+                border: 1px solid {COLORS['accent']};
+            }}
+            QTableWidget QLineEdit:focus, QTableWidget QSpinBox:focus {{
+                background-color: {COLORS['surface']};
+                border: 1px solid {COLORS['accent']};
             }}
             QSpinBox::up-button, QSpinBox::down-button {{
                 width: 0px;
                 height: 0px;
+                border: none;
             }}
             QLineEdit:focus, QSpinBox:focus {{
                 border: 1px solid {COLORS['accent']};
+                background-color: {COLORS['overlay']};
             }}
-            QTableWidget {{
+            QListWidget {{
                 background-color: {COLORS['surface']};
                 border: 1px solid {COLORS['border']};
-                gridline-color: {COLORS['border']};
-                color: {COLORS['text']};
-                font-size: 13px;
+                border-radius: 12px;
+                outline: none;
+                padding: 5px;
             }}
-            QTableWidget::item {{
-                padding: 0px;
-                margin: 0px;
+            QListWidget::item {{
+                padding: 12px;
+                border-radius: 8px;
+                margin: 2px;
+                color: {COLORS['subtext']};
+            }}
+            QListWidget::item:selected {{
+                background: {accent_grad};
+                color: {COLORS['background']};
+                font-weight: bold;
+            }}
+            QListWidget::item:hover:!selected {{
+                background-color: {COLORS['hover']};
+                color: {COLORS['text']};
+            }}
+            QTableWidget::item:selected {{
+                background-color: {COLORS['overlay']};
+                color: {COLORS['text']};
             }}
             QHeaderView::section {{
                 background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
+                color: {COLORS['accent']};
                 padding: 10px;
                 border: none;
+                border-bottom: 1px solid {COLORS['border']};
                 font-weight: bold;
+                font-size: 10px;
+                text-transform: uppercase;
+            }}
+            /* Checkbox Styling */
+            QCheckBox {{
+                spacing: 5px;
+                color: {COLORS['text']};
+            }}
+            QCheckBox::indicator {{
+                width: 18px;
+                height: 18px;
+                background-color: {COLORS['surface']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 4px;
+            }}
+            QCheckBox::indicator:hover {{
+                border: 1px solid {COLORS['accent']};
+                background-color: {COLORS['overlay']};
+            }}
+            QCheckBox::indicator:checked {{
+                background-color: {COLORS['accent']};
+            }}
+            /* ScrollBar Styling */
+            QScrollBar:vertical {{
+                background: {COLORS['mantle']};
+                width: 12px;
+                margin: 0px;
+                border: none;
+                border-radius: 6px;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {COLORS['overlay']};
+                min-height: 30px;
+                border-radius: 6px;
+                margin: 2px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {COLORS['accent']};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+            }}
+            QScrollBar:horizontal {{
+                background: {COLORS['mantle']};
+                height: 12px;
+                margin: 0px;
+                border: none;
+                border-radius: 6px;
+            }}
+            QScrollBar::handle:horizontal {{
+                background: {COLORS['overlay']};
+                min-width: 30px;
+                border-radius: 6px;
+                margin: 2px;
+            }}
+            QScrollBar::handle:horizontal:hover {{
+                background: {COLORS['accent']};
+            }}
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{
+                width: 0px;
+            }}
+            /* Buttons Styling */
+            QPushButton {{
+                background-color: {COLORS['overlay']};
+                color: {COLORS['text']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 8px;
+                padding: 10px 16px;
+                font-weight: 600;
                 font-size: 13px;
+            }}
+            /* Small table buttons */
+            QTableWidget QPushButton {{
+                padding: 4px 8px;
+                font-size: 11px;
+                border-radius: 4px;
+            }}
+            QPushButton:hover {{
+                background-color: {COLORS['hover']};
+                border: 1px solid {COLORS['accent']};
+            }}
+            QPushButton:pressed {{
+                background-color: {COLORS['pressed']};
+            }}
+            /* Primary/Fancy Buttons */
+            QPushButton#primary_btn {{
+                background: {accent_grad};
+                color: {COLORS['background']};
+                border: none;
+            }}
+            QPushButton#primary_btn:hover {{
+                opacity: 0.9;
+                background-color: {COLORS.get('aurora_teal', COLORS['accent'])};
+            }}
+            /* Danger Buttons */
+            QPushButton#danger_btn {{
+                background-color: transparent;
+                border: 1px solid {COLORS['error']};
+                color: {COLORS['error']};
+            }}
+            QPushButton#danger_btn:hover {{
+                background: {error_grad};
+                color: white;
+                border: none;
+            }}
+            /* Header Styling */
+            QLabel#section_header {{
+                color: {COLORS['text']};
+                padding: 5px 0;
+            }}
+            /* Toolbar items */
+            QFrame#info_card {{
+                background-color: {COLORS['surface']};
+                border-radius: 16px;
+                border: 1px solid {COLORS['border']};
             }}
         """)
         
@@ -132,34 +285,12 @@ class EditorWidget(QWidget):
         
         # Title
         title = QLabel("Проєкти")
-        title.setStyleSheet(f"""
-            font-size: 16px;
-            font-weight: bold;
-            color: {COLORS['text']};
-            padding: 10px;
-        """)
+        title.setObjectName("section_header")
+        title.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
         layout.addWidget(title)
         
         # Project list
         self.project_list = QListWidget()
-        self.project_list.setStyleSheet(f"""
-            QListWidget {{
-                background-color: {COLORS['surface']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 8px;
-            }}
-            QListWidget::item {{
-                padding: 10px;
-                border-radius: 4px;
-            }}
-            QListWidget::item:selected {{
-                background-color: {COLORS['accent']};
-                color: white;
-            }}
-            QListWidget::item:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         self.project_list.currentRowChanged.connect(self.on_project_selected)
         layout.addWidget(self.project_list)
         
@@ -168,36 +299,12 @@ class EditorWidget(QWidget):
         btn_layout.setSpacing(8)
         
         add_btn = QPushButton("Додати проєкт")
-        add_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['accent']};
-                color: white;
-                border: none;
-                border-radius: 6px;
-                padding: 10px;
-                font-weight: bold;
-            }}
-            QPushButton:hover {{
-                background-color: #7aa4f0;
-            }}
-        """)
+        add_btn.setObjectName("primary_btn")
         add_btn.clicked.connect(self.add_project)
         btn_layout.addWidget(add_btn)
         
         delete_btn = QPushButton("Видалити проєкт")
-        delete_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['error']};
-                color: white;
-                border: none;
-                border-radius: 6px;
-                padding: 10px;
-                font-weight: bold;
-            }}
-            QPushButton:hover {{
-                background-color: #e74c6c;
-            }}
-        """)
+        delete_btn.setObjectName("danger_btn")
         delete_btn.clicked.connect(self.delete_project)
         btn_layout.addWidget(delete_btn)
         
@@ -209,39 +316,11 @@ class EditorWidget(QWidget):
         
         move_up_btn = QPushButton("↑")
         move_up_btn.setToolTip("Перемістити вгору")
-        move_up_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 6px;
-                padding: 10px;
-                font-weight: bold;
-                font-size: 16px;
-            }}
-            QPushButton:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         move_up_btn.clicked.connect(self.move_project_up)
         move_layout.addWidget(move_up_btn)
         
         move_down_btn = QPushButton("↓")
         move_down_btn.setToolTip("Перемістити вниз")
-        move_down_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 6px;
-                padding: 10px;
-                font-weight: bold;
-                font-size: 16px;
-            }}
-            QPushButton:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         move_down_btn.clicked.connect(self.move_project_down)
         move_layout.addWidget(move_down_btn)
         
@@ -257,24 +336,12 @@ class EditorWidget(QWidget):
         
         # Title
         self.editor_title = QLabel("Виберіть проєкт для редагування")
-        self.editor_title.setStyleSheet(f"""
-            font-size: 16px;
-            font-weight: bold;
-            color: {COLORS['text']};
-            padding: 10px;
-        """)
+        self.editor_title.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
         layout.addWidget(self.editor_title)
         
         # Game info card
         info_card = QFrame()
-        info_card.setStyleSheet(f"""
-            QFrame {{
-                background-color: {COLORS['surface']};
-                border-radius: 12px;
-                border: 1px solid {COLORS['border']};
-                padding: 16px;
-            }}
-        """)
+        info_card.setObjectName("info_card")
         info_layout = QVBoxLayout(info_card)
         
         # Game name
@@ -283,20 +350,6 @@ class EditorWidget(QWidget):
         name_label.setFixedWidth(100)
         self.game_name_input = QLineEdit()
         self.game_name_input.setPlaceholderText("Введіть назву гри...")
-        self.game_name_input.setStyleSheet(f"""
-            QLineEdit {{
-                background-color: {COLORS['surface']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 12px;
-                padding: 10px;
-                font-size: 14px;
-                color: {COLORS['text']};
-                min-height: 32px;
-            }}
-            QLineEdit:focus {{
-                border: 1px solid {COLORS['accent']};
-            }}
-        """)
         name_layout.addWidget(name_label)
         name_layout.addWidget(self.game_name_input)
         info_layout.addLayout(name_layout)
@@ -308,18 +361,6 @@ class EditorWidget(QWidget):
         self.icon_path_label = QLabel("Не вибрано")
         self.icon_path_label.setStyleSheet(f"color: {COLORS['subtext']};")
         icon_btn = QPushButton("Вибрати іконку")
-        icon_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 6px;
-                padding: 6px 12px;
-            }}
-            QPushButton:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         icon_btn.clicked.connect(self.pick_icon)
         icon_layout.addWidget(icon_label)
         icon_layout.addWidget(self.icon_path_label, 1)
@@ -330,12 +371,7 @@ class EditorWidget(QWidget):
         
         # Sections title
         sections_label = QLabel("Секції")
-        sections_label.setStyleSheet(f"""
-            font-size: 14px;
-            font-weight: bold;
-            color: {COLORS['text']};
-            padding: 10px 0;
-        """)
+        sections_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
         layout.addWidget(sections_label)
         
         # Sections table
@@ -343,7 +379,7 @@ class EditorWidget(QWidget):
         self.sections_table.setColumnCount(8)
         self.sections_table.setHorizontalHeaderLabels([
             "Назва", "Всього", "Перекладено", "<—Підпис",
-            "Затверджено", "<—Підпис", "Виключити", "Дії"
+            "Затверджено", "<—Підпис", "Виключити", "Видалення"
         ])
         
         header = self.sections_table.horizontalHeader()
@@ -364,18 +400,6 @@ class EditorWidget(QWidget):
         
         # Add section button
         add_section_btn = QPushButton("Додати секцію")
-        add_section_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 6px;
-                padding: 8px 16px;
-            }}
-            QPushButton:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         add_section_btn.clicked.connect(self.add_section)
         
         # Section buttons row
@@ -385,38 +409,12 @@ class EditorWidget(QWidget):
         move_sec_up_btn = QPushButton("↑")
         move_sec_up_btn.setToolTip("Перемістити секцію вгору")
         move_sec_up_btn.setFixedWidth(40)
-        move_sec_up_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 6px;
-                padding: 8px;
-                font-weight: bold;
-            }}
-            QPushButton:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         move_sec_up_btn.clicked.connect(self.move_section_up)
         section_btns_layout.addWidget(move_sec_up_btn)
         
         move_sec_down_btn = QPushButton("↓")
         move_sec_down_btn.setToolTip("Перемістити секцію вниз")
         move_sec_down_btn.setFixedWidth(40)
-        move_sec_down_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['overlay']};
-                color: {COLORS['text']};
-                border: 1px solid {COLORS['border']};
-                border-radius: 6px;
-                padding: 8px;
-                font-weight: bold;
-            }}
-            QPushButton:hover {{
-                background-color: {COLORS['hover']};
-            }}
-        """)
         move_sec_down_btn.clicked.connect(self.move_section_down)
         section_btns_layout.addWidget(move_sec_down_btn)
         
@@ -427,19 +425,7 @@ class EditorWidget(QWidget):
         toolbar_layout.addStretch()
         
         save_btn = QPushButton("Зберегти")
-        save_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['accent']};
-                color: white;
-                border: none;
-                border-radius: 6px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }}
-            QPushButton:hover {{
-                background-color: #7aa4f0;
-            }}
-        """)
+        save_btn.setObjectName("primary_btn")
         save_btn.clicked.connect(self.save_project)
         toolbar_layout.addWidget(save_btn)
         
@@ -565,24 +551,9 @@ class EditorWidget(QWidget):
         self.sections_table.setCellWidget(row, 6, exclude_widget)
         
         # Delete button
-        delete_btn = QPushButton("🗑️")
-        delete_btn.setMaximumWidth(24)
-        delete_btn.setMaximumHeight(24)
+        delete_btn = QPushButton("Видалити")
+        delete_btn.setObjectName("danger_btn")
         delete_btn.clicked.connect(lambda: self.delete_section(row))
-        delete_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {COLORS['error']};
-                border: none;
-                border-radius: 3px;
-                color: white;
-                padding: 0px;
-                margin: 0px;
-                font-size: 12px;
-            }}
-            QPushButton:hover {{
-                background-color: #e74c6c;
-            }}
-        """)
         delete_widget = QWidget()
         delete_layout = QHBoxLayout(delete_widget)
         delete_layout.addWidget(delete_btn)
