@@ -6,12 +6,12 @@
 </p>
 
 <p align="center">
-  <img src="editor_fancy.png" width="49%">
   <img src="statystyka.png" width="49%">
+  <img src="statystyka_old.png" width="49%">
 </p>
 
 <p align="center">
-  <img src="statystyka_old.png" width="49%">
+  <img src="editor_fancy.png" width="49%">
   <img src="editor.png" width="49%">
 </p>
 
