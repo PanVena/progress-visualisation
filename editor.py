@@ -510,8 +510,7 @@ class EditorWidget(QWidget):
         if icon_path:
             self.icon_path_label.setText(icon_path)
             self.icon_path_label.setProperty('icon_path', icon_path)
-            self.icon_path_label.setText("Не вибрано")
-            self.icon_path_label.setProperty('icon_path', '')
+
         
         # Set unit
         unit = project.get('unit', 'слів')

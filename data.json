@@ -1,5 +1,57 @@
 [
   {
+    "game": "Bomber Crew",
+    "icon": "./icons/бомбардино крокоділо.png",
+    "unit": "слів",
+    "sections": [
+      {
+        "name": "Текст",
+        "total": 13693,
+        "translated": 13693,
+        "approved": 13693
+      },
+      {
+        "name": "Транслітерації",
+        "total": 2657,
+        "translated": 2657,
+        "approved": 103
+      },
+      {
+        "name": "Досягнення",
+        "total": 257,
+        "translated": 257,
+        "approved": 257
+      },
+      {
+        "name": "Шрифт",
+        "total": 19,
+        "translated": 19,
+        "approved": 19,
+        "translated_label": "Намальовано",
+        "approved_label": "Намальовано",
+        "exclude_from_total": true
+      },
+      {
+        "name": "Туторіал",
+        "total": 23,
+        "translated": 23,
+        "approved": 23,
+        "translated_label": "Намальовано",
+        "approved_label": "Намальовано",
+        "exclude_from_total": true
+      },
+      {
+        "name": "Текстури з лого",
+        "total": 15,
+        "translated": 9,
+        "approved": 9,
+        "translated_label": "Намальовано",
+        "approved_label": "Намальовано",
+        "exclude_from_total": true
+      }
+    ]
+  },
+  {
     "game": "The Talos Principle",
     "icon": "./icons/TheTalosPrinciple.png",
     "sections": [
@@ -72,46 +124,14 @@
     ]
   },
   {
-    "game": "Bomber Crew",
-    "icon": "./icons/бомбардино крокоділо.png",
-    "sections": [
-      {
-        "name": "Текст",
-        "total": 13693,
-        "translated": 13693,
-        "approved": 4268
-      },
-      {
-        "name": "Транслітерації",
-        "total": 2532,
-        "translated": 2532,
-        "approved": 0
-      },
-      {
-        "name": "Шрифт",
-        "total": 19,
-        "translated": 19,
-        "approved": 19,
-        "translated_label": "Намальовано",
-        "approved_label": "Намальовано",
-        "exclude_from_total": true
-      },
-      {
-        "name": "Досягнення",
-        "total": 257,
-        "translated": 257,
-        "approved": 0
-      }
-    ]
-  },
-  {
     "game": "The Entropy Centre",
     "icon": "./icons/The_Entropy_Centre.png",
+    "unit": "слів",
     "sections": [
       {
         "name": "Текст",
         "total": 17232,
-        "translated": 12052,
+        "translated": 12095,
         "approved": 0
       },
       {
