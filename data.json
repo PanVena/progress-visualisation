@@ -2,6 +2,7 @@
   {
     "game": "The Talos Principle",
     "icon": "./icons/TheTalosPrinciple.png",
+    "unit": "слів",
     "sections": [
       {
         "name": "Основна гра",
@@ -13,6 +14,12 @@
         "name": "Шлях до Геєнни (DLC)",
         "total": 47318,
         "translated": 47318,
+        "approved": 0
+      },
+      {
+        "name": "Елогім/Сем",
+        "total": 3365,
+        "translated": 0,
         "approved": 0
       },
       {
@@ -32,8 +39,8 @@
       },
       {
         "name": "ЕЛОГІМ",
-        "total": 85,
-        "translated": 0,
+        "total": 99,
+        "translated": 35,
         "approved": 0,
         "translated_label": "Затверджено",
         "approved_label": "Озвучено",
