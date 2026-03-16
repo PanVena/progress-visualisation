@@ -214,6 +214,24 @@
       color: var(--text-primary);
     }
 
+    .card-total-words {
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      padding: 0 24px 4px;
+    }
+
+    .card-total-words .translated-count {
+      color: var(--accent-translated);
+      font-weight: 600;
+    }
+
+    .card-total-words .approved-count {
+      color: var(--accent-approved);
+      font-weight: 600;
+    }
+
     /* ===== Progress Rings Container ===== */
     .rings-container {
       display: flex;
@@ -551,50 +569,131 @@
 
 // ========== Data & Rendering ==========
 const EMBEDDED_DATA = [
-  {
-    "game": "The Talos Principle",
-    "icon": "./icons/TheTalosPrinciple.png",
-    "unit": "слів",
-    "sections": [
-      { "name": "Основна гра", "total": 62396, "translated": 62396, "approved": 14214 },
-      { "name": "Шлях до Геєнни (DLC)", "total": 47318, "translated": 47318, "approved": 0 },
-      { "name": "Елогім/Сем", "total": 3365, "translated": 1501, "approved": 0 },
-      { "name": "Досягнення", "total": 336, "translated": 336, "approved": 0 },
-      { "name": "Александра Дреннан", "total": 22, "translated": 22, "approved": 0, "translated_label": "Затверджено", "approved_label": "Озвучено", "exclude_from_total": true },
-      { "name": "ЕЛОГІМ", "total": 99, "translated": 99, "approved": 0, "translated_label": "Затверджено", "approved_label": "Озвучено", "exclude_from_total": true }
-    ]
-  },
-  {
-    "game": "The Talos Principle: Reawakening",
-    "icon": "./icons/Talos RE.png",
-    "unit": "слів",
-    "sections": [
-      { "name": "Оригінальна гра", "total": 109714, "translated": 109714, "approved": 0 },
-      { "name": "Коментарі розробників", "total": 32944, "translated": 32944, "approved": 0 },
-      { "name": "Інтерфейс+In The Beninging", "total": 16860, "translated": 40, "approved": 0 },
-      { "name": "Досягнення", "total": 441, "translated": 441, "approved": 0 }
-    ]
-  },
-  {
-    "game": "The Entropy Centre",
-    "icon": "./icons/The_Entropy_Centre.png",
-    "unit": "слів",
-    "sections": [
-      { "name": "Текст", "total": 17232, "translated": 12095, "approved": 0 },
-      { "name": "Досягнення", "total": 166, "translated": 32, "approved": 0 }
-    ]
-  },
-  {
-    "game": "The Talos Principle 2 - заморожено",
-    "icon": "./icons/Talos2.png",
-    "unit": "слів",
-    "sections": [
-      { "name": "Основна гра", "total": 158585, "translated": 5679, "approved": 0 },
-      { "name": "Шлях до Елісія (DLC)", "total": 25082, "translated": 0, "approved": 0 },
-      { "name": "Досягнення", "total": 802, "translated": 0, "approved": 0 }
-    ]
-  }
-];
+    {
+      "game": "The Talos Principle",
+      "icon": "./icons/TheTalosPrinciple.png",
+      "unit": "слів",
+      "sections": [
+        {
+          "name": "Основна гра",
+          "total": 62396,
+          "translated": 62396,
+          "approved": 14214
+        },
+        {
+          "name": "Шлях до Геєнни (DLC)",
+          "total": 47318,
+          "translated": 47318,
+          "approved": 0
+        },
+        {
+          "name": "Елогім/Сем",
+          "total": 3365,
+          "translated": 1501,
+          "approved": 0
+        },
+        {
+          "name": "Досягнення",
+          "total": 336,
+          "translated": 336,
+          "approved": 0
+        },
+        {
+          "name": "Александра Дреннан",
+          "total": 22,
+          "translated": 22,
+          "approved": 0,
+          "translated_label": "Затверджено",
+          "approved_label": "Озвучено",
+          "exclude_from_total": true
+        },
+        {
+          "name": "ЕЛОГІМ",
+          "total": 99,
+          "translated": 99,
+          "approved": 0,
+          "translated_label": "Затверджено",
+          "approved_label": "Озвучено",
+          "exclude_from_total": true
+        }
+      ]
+    },
+    {
+      "game": "The Talos Principle: Reawakening",
+      "icon": "./icons/Talos RE.png",
+      "unit": "слів",
+      "sections": [
+        {
+          "name": "Оригінальна гра",
+          "total": 109714,
+          "translated": 109714,
+          "approved": 0
+        },
+        {
+          "name": "Коментарі розробників",
+          "total": 32944,
+          "translated": 32944,
+          "approved": 0
+        },
+        {
+          "name": "Інтерфейс+In The Beninging",
+          "total": 16860,
+          "translated": 40,
+          "approved": 0
+        },
+        {
+          "name": "Досягнення",
+          "total": 441,
+          "translated": 441,
+          "approved": 0
+        }
+      ]
+    },
+    {
+      "game": "The Entropy Centre",
+      "icon": "./icons/The_Entropy_Centre.png",
+      "unit": "слів",
+      "sections": [
+        {
+          "name": "Текст",
+          "total": 17232,
+          "translated": 12095,
+          "approved": 0
+        },
+        {
+          "name": "Досягнення",
+          "total": 166,
+          "translated": 32,
+          "approved": 0
+        }
+      ]
+    },
+    {
+      "game": "The Talos Principle 2 - заморожено",
+      "icon": "./icons/Talos2.png",
+      "unit": "слів",
+      "sections": [
+        {
+          "name": "Основна гра",
+          "total": 158585,
+          "translated": 5679,
+          "approved": 0
+        },
+        {
+          "name": "Шлях до Елісія (DLC)",
+          "total": 25082,
+          "translated": 0,
+          "approved": 0
+        },
+        {
+          "name": "Досягнення",
+          "total": 802,
+          "translated": 0,
+          "approved": 0
+        }
+      ]
+    }
+  ];
 
 function createRingSVG(percent, type, size = 100) {
   const r = (size / 2) - 6;
@@ -691,6 +790,10 @@ function renderCard(game, index) {
           </div>
           <span class="ring-label">Затверджено</span>
         </div>
+      </div>
+      <div class="card-total-words">
+        <span class="translated-count">${translated.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${unit}<br>
+        <span class="approved-count">${approved.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${unit}
       </div>
       <div class="expand-hint">
         <svg class="expand-chevron" viewBox="0 0 24 24">
