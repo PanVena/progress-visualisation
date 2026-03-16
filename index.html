@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поступ перекладу — Ліниві ШІ</title>
+  <meta name="description" content="Інтерактивна візуалізація поступу перекладу ігор спілкою Ліниві ШІ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #05060f;
+      --bg-surface: #0c0e1a;
+      --bg-card: #111327;
+      --bg-card-hover: #171a35;
+      --border: #1e2345;
+      --border-glow: #2d3570;
+      --text-primary: #e8eaf6;
+      --text-secondary: #8b8fb0;
+      --text-dim: #5a5e80;
+      --accent-translated: #6c63ff;
+      --accent-translated-glow: rgba(108, 99, 255, 0.3);
+      --accent-approved: #00e5a0;
+      --accent-approved-glow: rgba(0, 229, 160, 0.3);
+      --accent-ring-bg: #1a1d35;
+      --gradient-hero: linear-gradient(135deg, #6c63ff 0%, #e040fb 50%, #ff6090 100%);
+      --card-radius: 20px;
+      --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', 'Segoe UI', sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== Particle Canvas Background ===== */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== Main Container ===== */
+    .app-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: var(--gradient-hero);
+      border-radius: 2px;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .header .date-badge {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-top: 12px;
+    }
+
+    /* ===== Total Stats Bar ===== */
+    .total-stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+
+    .total-stat {
+      text-align: center;
+    }
+
+    .total-stat .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .total-stat .stat-value.translated {
+      color: var(--accent-translated);
+    }
+
+    .total-stat .stat-value.approved {
+      color: var(--accent-approved);
+    }
+
+    .total-stat .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ===== Games Grid ===== */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    /* ===== Game Card ===== */
+    .game-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      transition: all var(--transition-smooth);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--card-radius);
+      opacity: 0;
+      transition: opacity var(--transition-smooth);
+      background: radial-gradient(ellipse at 50% 0%, rgba(108, 99, 255, 0.08), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .game-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(108, 99, 255, 0.1);
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
+    }
+
+    .game-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card Header */
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 24px 0;
+    }
+
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      object-fit: contain;
+      padding: 6px;
+      border: 1px solid var(--border-glow);
+      background: #1a1e38;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-primary);
+    }
+
+    /* ===== Progress Rings Container ===== */
+    .rings-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      padding: 28px 24px 8px;
+    }
+
+    .ring-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ring-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+
+    .ring-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--accent-ring-bg);
+      stroke-width: 6;
+    }
+
+    .ring-progress {
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .ring-progress.translated {
+      stroke: var(--accent-translated);
+      filter: drop-shadow(0 0 6px var(--accent-translated-glow));
+    }
+
+    .ring-progress.approved {
+      stroke: var(--accent-approved);
+      filter: drop-shadow(0 0 6px var(--accent-approved-glow));
+    }
+
+    .ring-center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .ring-center-text.translated { color: var(--accent-translated); }
+    .ring-center-text.approved { color: var(--accent-approved); }
+
+    .ring-center-text .unit {
+      display: block;
+      font-size: 0.55rem;
+      font-weight: 400;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .ring-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+    }
+
+    /* ===== Sections Expanding Panel ===== */
+    .sections-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .game-card.expanded .sections-panel {
+      max-height: 1000px;
+    }
+
+    .sections-inner {
+      padding: 0 24px 24px;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    .section-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+    }
+
+    .section-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      flex-shrink: 0;
+      min-width: 130px;
+    }
+
+    .section-bars {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .section-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--accent-ring-bg);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .section-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      min-width: 0;
+    }
+
+    .section-bar-fill.translated {
+      background: linear-gradient(90deg, #6c63ff, #8b7dff);
+    }
+
+    .section-bar-fill.approved {
+      background: linear-gradient(90deg, #00e5a0, #40ffca);
+    }
+
+    .section-pct {
+      font-size: 0.7rem;
+      font-weight: 600;
+      min-width: 42px;
+      text-align: right;
+    }
+
+    .section-pct.translated { color: var(--accent-translated); }
+    .section-pct.approved { color: var(--accent-approved); }
+
+    .section-counts {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-align: right;
+      min-width: 90px;
+      flex-shrink: 0;
+    }
+
+    /* ===== Expand Toggle ===== */
+    .expand-hint {
+      display: flex;
+      justify-content: center;
+      padding: 12px 0 20px;
+    }
+
+    .expand-chevron {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--text-dim);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform var(--transition-smooth), stroke var(--transition-smooth);
+    }
+
+    .game-card:hover .expand-chevron {
+      stroke: var(--accent-translated);
+    }
+
+    .game-card.expanded .expand-chevron {
+      transform: rotate(180deg);
+      stroke: var(--accent-translated);
+    }
+
+
+
+    /* ===== Credit ===== */
+    .credit {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .credit a {
+      color: var(--accent-translated);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .credit a:hover {
+      color: var(--accent-approved);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 720px) {
+      .header h1 { font-size: 1.6rem; }
+      .games-grid { grid-template-columns: 1fr; }
+      .total-stats-bar { gap: 20px; }
+      .total-stat .stat-value { font-size: 1.4rem; }
+      .rings-container { gap: 20px; }
+      .ring-wrapper { width: 80px; height: 80px; }
+      .ring-center-text { font-size: 0.9rem; }
+      .section-row { flex-wrap: wrap; }
+      .section-name { min-width: 100%; margin-bottom: 4px; }
+      .section-counts { min-width: 100%; text-align: left; margin-top: 4px; }
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .game-card {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<div class="app-container">
+  <header class="header">
+    <h1>Поступ перекладу</h1>
+    <div class="date-badge" id="date-badge"></div>
+  </header>
+
+  <div class="total-stats-bar" id="total-stats-bar"></div>
+
+  <div class="games-grid" id="games-grid"></div>
+
+  <footer class="credit">
+    <a href="https://github.com/PanVena/progress-visualisation" target="_blank" rel="noopener">GitHub</a> · <a href="https://t.me/linyvi_sh_ji" target="_blank" rel="noopener">Спілка «Ліниві ШІ»</a>
+  </footer>
+</div>
+
+
+<script>
+// ========== Particles Background ==========
+(function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 80;
+  const CONNECTION_DIST = 140;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.r = Math.random() * 1.5 + 0.5;
+      this.alpha = Math.random() * 0.4 + 0.1;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(108, 99, 255, ${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECTION_DIST) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.08;
+          ctx.strokeStyle = `rgba(108, 99, 255, ${alpha})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ========== Data & Rendering ==========
+const EMBEDDED_DATA = [
+  {
+    "game": "The Talos Principle",
+    "icon": "./icons/TheTalosPrinciple.png",
+    "unit": "слів",
+    "sections": [
+      { "name": "Основна гра", "total": 62396, "translated": 62396, "approved": 14214 },
+      { "name": "Шлях до Геєнни (DLC)", "total": 47318, "translated": 47318, "approved": 0 },
+      { "name": "Елогім/Сем", "total": 3365, "translated": 1501, "approved": 0 },
+      { "name": "Досягнення", "total": 336, "translated": 336, "approved": 0 },
+      { "name": "Александра Дреннан", "total": 22, "translated": 22, "approved": 0, "translated_label": "Затверджено", "approved_label": "Озвучено", "exclude_from_total": true },
+      { "name": "ЕЛОГІМ", "total": 99, "translated": 99, "approved": 0, "translated_label": "Затверджено", "approved_label": "Озвучено", "exclude_from_total": true }
+    ]
+  },
+  {
+    "game": "The Talos Principle: Reawakening",
+    "icon": "./icons/Talos RE.png",
+    "unit": "слів",
+    "sections": [
+      { "name": "Оригінальна гра", "total": 109714, "translated": 109714, "approved": 0 },
+      { "name": "Коментарі розробників", "total": 32944, "translated": 32944, "approved": 0 },
+      { "name": "Інтерфейс+In The Beninging", "total": 16860, "translated": 40, "approved": 0 },
+      { "name": "Досягнення", "total": 441, "translated": 441, "approved": 0 }
+    ]
+  },
+  {
+    "game": "The Entropy Centre",
+    "icon": "./icons/The_Entropy_Centre.png",
+    "unit": "слів",
+    "sections": [
+      { "name": "Текст", "total": 17232, "translated": 12095, "approved": 0 },
+      { "name": "Досягнення", "total": 166, "translated": 32, "approved": 0 }
+    ]
+  },
+  {
+    "game": "The Talos Principle 2 - заморожено",
+    "icon": "./icons/Talos2.png",
+    "unit": "слів",
+    "sections": [
+      { "name": "Основна гра", "total": 158585, "translated": 5679, "approved": 0 },
+      { "name": "Шлях до Елісія (DLC)", "total": 25082, "translated": 0, "approved": 0 },
+      { "name": "Досягнення", "total": 802, "translated": 0, "approved": 0 }
+    ]
+  }
+];
+
+function createRingSVG(percent, type, size = 100) {
+  const r = (size / 2) - 6;
+  const circumference = 2 * Math.PI * r;
+  const offset = circumference * (1 - percent / 100);
+  return `
+    <svg class="ring-svg" viewBox="0 0 ${size} ${size}">
+      <circle class="ring-bg" cx="${size/2}" cy="${size/2}" r="${r}" />
+      <circle class="ring-progress ${type}" cx="${size/2}" cy="${size/2}" r="${r}"
+        stroke-dasharray="${circumference}"
+        stroke-dashoffset="${circumference}"
+        data-target-offset="${offset}" />
+    </svg>
+  `;
+}
+
+function calcOverall(sections) {
+  const included = sections.filter(s => !s.exclude_from_total);
+  const total = included.reduce((a, s) => a + s.total, 0);
+  const translated = included.reduce((a, s) => a + s.translated, 0);
+  const approved = included.reduce((a, s) => a + s.approved, 0);
+  return { total, translated, approved };
+}
+
+function renderCard(game, index) {
+  const sections = game.sections || [];
+  const { total, translated, approved } = calcOverall(sections);
+  const transPct = total > 0 ? (translated / total * 100) : 0;
+  const apprPct = total > 0 ? (approved / total * 100) : 0;
+  const unit = game.unit || 'слів';
+
+  const iconSrc = game.icon || '';
+
+  // Sections HTML
+  let sectionsHTML = '';
+  for (const sec of sections) {
+    const t = sec.total;
+    const tr = sec.translated;
+    const ap = sec.approved;
+    const tPct = t > 0 ? (tr / t * 100) : 0;
+    const aPct = t > 0 ? (ap / t * 100) : 0;
+    const tLabel = sec.translated_label || 'Перекладено';
+    const aLabel = sec.approved_label || 'Затверджено';
+    
+    sectionsHTML += `
+      <div class="section-row">
+        <span class="section-name">${sec.name}</span>
+        <div class="section-bars">
+          <div class="section-bar-row" title="${tLabel}: ${tPct.toFixed(1)}%">
+            <div class="section-bar-track">
+              <div class="section-bar-fill translated" style="width: 0%;" data-target-width="${tPct}"></div>
+            </div>
+            <span class="section-pct translated">${tPct.toFixed(1)}%</span>
+          </div>
+          <div class="section-bar-row" title="${aLabel}: ${aPct.toFixed(1)}%">
+            <div class="section-bar-track">
+              <div class="section-bar-fill approved" style="width: 0%;" data-target-width="${aPct}"></div>
+            </div>
+            <span class="section-pct approved">${aPct.toFixed(1)}%</span>
+          </div>
+        </div>
+        <div class="section-counts">${tr.toLocaleString('uk')} / ${t.toLocaleString('uk')}<br>${ap.toLocaleString('uk')} / ${t.toLocaleString('uk')}</div>
+      </div>
+    `;
+  }
+
+  const card = document.createElement('div');
+  card.className = 'game-card';
+  card.style.animationDelay = `${index * 0.1}s`;
+  card.innerHTML = `
+    <div class="game-card-inner">
+      <div class="card-header">
+        <img class="card-icon" src="${iconSrc}" alt="" onerror="this.style.display='none'">
+        <span class="card-title">${game.game}</span>
+      </div>
+      <div class="rings-container">
+        <div class="ring-group">
+          <div class="ring-wrapper">
+            ${createRingSVG(transPct, 'translated')}
+            <div class="ring-center-text translated">
+              ${transPct.toFixed(1)}%
+              <span class="unit">перекл.</span>
+            </div>
+          </div>
+          <span class="ring-label">Перекладено</span>
+        </div>
+        <div class="ring-group">
+          <div class="ring-wrapper">
+            ${createRingSVG(apprPct, 'approved')}
+            <div class="ring-center-text approved">
+              ${apprPct.toFixed(1)}%
+              <span class="unit">затвердж.</span>
+            </div>
+          </div>
+          <span class="ring-label">Затверджено</span>
+        </div>
+      </div>
+      <div class="expand-hint">
+        <svg class="expand-chevron" viewBox="0 0 24 24">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+      <div class="sections-panel">
+        <div class="sections-inner">
+          <div class="section-divider"></div>
+          ${sectionsHTML}
+        </div>
+      </div>
+    </div>
+  `;
+
+  card.addEventListener('click', () => {
+    card.classList.toggle('expanded');
+    // Animate section bars on expand
+    if (card.classList.contains('expanded')) {
+      requestAnimationFrame(() => animateBars(card));
+    }
+  });
+
+  return card;
+}
+
+function animateRings(container) {
+  const circles = container.querySelectorAll('.ring-progress');
+  circles.forEach(circle => {
+    const target = circle.getAttribute('data-target-offset');
+    // Trigger after a frame so transition plays
+    requestAnimationFrame(() => {
+      circle.style.strokeDashoffset = target;
+    });
+  });
+}
+
+function animateBars(container) {
+  const fills = container.querySelectorAll('.section-bar-fill');
+  fills.forEach(fill => {
+    const target = fill.getAttribute('data-target-width');
+    fill.style.width = `${Math.max(parseFloat(target), 0)}%`;
+  });
+}
+
+async function init() {
+  // Date
+  document.getElementById('date-badge').textContent = 'Станом на 16.03.2026';
+
+  // Load data (embedded, works offline / from file://)
+  const data = EMBEDDED_DATA;
+
+  // Total stats
+  let grandTotal = 0, grandTranslated = 0, grandApproved = 0;
+  for (const game of data) {
+    const { total, translated, approved } = calcOverall(game.sections || []);
+    grandTotal += total;
+    grandTranslated += translated;
+    grandApproved += approved;
+  }
+
+  const grandTransPct = grandTotal > 0 ? (grandTranslated / grandTotal * 100) : 0;
+  const grandApprPct = grandTotal > 0 ? (grandApproved / grandTotal * 100) : 0;
+
+  document.getElementById('total-stats-bar').innerHTML = `
+    <div class="total-stat">
+      <div class="stat-value translated">${grandTransPct.toFixed(1)}%</div>
+      <div class="stat-label">Перекладено загалом</div>
+    </div>
+    <div class="total-stat">
+      <div class="stat-value approved">${grandApprPct.toFixed(1)}%</div>
+      <div class="stat-label">Затверджено загалом</div>
+    </div>
+    <div class="total-stat">
+      <div class="stat-value" style="color:var(--text-primary)">${data.length}</div>
+      <div class="stat-label">Проєктів</div>
+    </div>
+    <div class="total-stat">
+      <div class="stat-value" style="color:var(--text-primary)">${grandTotal.toLocaleString('uk')}</div>
+      <div class="stat-label">Слів загалом</div>
+    </div>
+  `;
+
+  // Render cards
+  const grid = document.getElementById('games-grid');
+  data.forEach((game, i) => {
+    const card = renderCard(game, i);
+    grid.appendChild(card);
+  });
+
+  // Animate rings after cards are in DOM
+  requestAnimationFrame(() => {
+    setTimeout(() => animateRings(document), 200);
+  });
+}
+
+init();
+
+
+</script>
+</body>
+</html>

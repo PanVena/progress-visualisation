@@ -19,7 +19,7 @@
       {
         "name": "Елогім/Сем",
         "total": 3365,
-        "translated": 0,
+        "translated": 1501,
         "approved": 0
       },
       {
@@ -40,7 +40,7 @@
       {
         "name": "ЕЛОГІМ",
         "total": 99,
-        "translated": 35,
+        "translated": 99,
         "approved": 0,
         "translated_label": "Затверджено",
         "approved_label": "Озвучено",
@@ -51,6 +51,7 @@
   {
     "game": "The Talos Principle: Reawakening",
     "icon": "./icons/Talos RE.png",
+    "unit": "слів",
     "sections": [
       {
         "name": "Оригінальна гра",
@@ -62,12 +63,12 @@
         "name": "Коментарі розробників",
         "total": 32944,
         "translated": 32944,
-        "approved": 2115
+        "approved": 0
       },
       {
         "name": "Інтерфейс+In The Beninging",
-        "total": 17231,
-        "translated": 0,
+        "total": 16860,
+        "translated": 40,
         "approved": 0
       },
       {
@@ -98,50 +99,19 @@
     ]
   },
   {
-    "game": "Bayonetta - заморожено/релізнуто",
-    "icon": "./icons/байо.png",
-    "sections": [
-      {
-        "name": "Текст",
-        "total": 89400,
-        "translated": 89400,
-        "approved": 2969
-      },
-      {
-        "name": "Текстури",
-        "total": 315,
-        "translated": 0,
-        "approved": 0,
-        "approved_label": "Намальовано",
-        "exclude_from_total": true
-      },
-      {
-        "name": "Досягнення",
-        "total": 1080,
-        "translated": 1080,
-        "approved": 1080
-      }
-    ]
-  },
-  {
     "game": "The Talos Principle 2 - заморожено",
     "icon": "./icons/Talos2.png",
+    "unit": "слів",
     "sections": [
       {
-        "name": "Перша половина",
-        "total": 68286,
-        "translated": 5680,
-        "approved": 0
-      },
-      {
-        "name": "Друга половина",
-        "total": 59635,
-        "translated": 0,
+        "name": "Основна гра",
+        "total": 158585,
+        "translated": 5679,
         "approved": 0
       },
       {
         "name": "Шлях до Елісія (DLC)",
-        "total": 22801,
+        "total": 25082,
         "translated": 0,
         "approved": 0
       },
