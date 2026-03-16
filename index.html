@@ -109,6 +109,22 @@
       margin-top: 12px;
     }
 
+    .header-links {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .header-links a {
+      color: var(--accent-translated);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .header-links a:hover {
+      color: var(--accent-approved);
+    }
+
     /* ===== Total Stats Bar ===== */
     .total-stats-bar {
       display: flex;
@@ -487,7 +503,10 @@
 
 <div class="app-container">
   <header class="header">
-    <h1>Поступ перекладу</h1>
+    <h1>Поступ перекладу спілки «Ліниві ШІ»</h1>
+    <div class="header-links">
+      <a href="https://github.com/PanVena/progress-visualisation" target="_blank" rel="noopener">GitHub</a> · <a href="https://t.me/linyvi_sh_ji" target="_blank" rel="noopener">Телеграм</a> · <a href="https://discord.com/invite/zCcrTzb3y9" target="_blank" rel="noopener">Дискорд</a>
+    </div>
     <div class="date-badge" id="date-badge"></div>
   </header>
 
@@ -495,9 +514,7 @@
 
   <div class="games-grid" id="games-grid"></div>
 
-  <footer class="credit">
-    <a href="https://github.com/PanVena/progress-visualisation" target="_blank" rel="noopener">GitHub</a> · <a href="https://t.me/linyvi_sh_ji" target="_blank" rel="noopener">Спілка «Ліниві ШІ»</a>
-  </footer>
+  <footer class="credit"></footer>
 </div>
 
 
@@ -566,6 +583,27 @@
   }
   animate();
 })();
+
+// ========== Pluralization ==========
+function pluralize(n, one, few, many) {
+  const abs = Math.abs(n) % 100;
+  const lastDigit = abs % 10;
+  if (abs > 10 && abs < 20) return many;
+  if (lastDigit > 1 && lastDigit < 5) return few;
+  if (lastDigit === 1) return one;
+  return many;
+}
+
+const UNIT_FORMS = {
+  'слів':   ['слово', 'слова', 'слів'],
+  'рядків': ['рядок', 'рядки', 'рядків'],
+  'файлів': ['файл', 'файли', 'файлів'],
+};
+
+function pluralizeUnit(n, unit) {
+  const forms = UNIT_FORMS[unit];
+  return forms ? pluralize(n, ...forms) : unit;
+}
 
 // ========== Data & Rendering ==========
 const EMBEDDED_DATA = [
@@ -723,7 +761,6 @@ function renderCard(game, index) {
   const { total, translated, approved } = calcOverall(sections);
   const transPct = total > 0 ? (translated / total * 100) : 0;
   const apprPct = total > 0 ? (approved / total * 100) : 0;
-  const unit = game.unit || 'слів';
 
   const iconSrc = game.icon || '';
 
@@ -792,8 +829,8 @@ function renderCard(game, index) {
         </div>
       </div>
       <div class="card-total-words">
-        <span class="translated-count">${translated.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${unit}<br>
-        <span class="approved-count">${approved.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${unit}
+        <span class="translated-count">${translated.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${pluralizeUnit(total, game.unit || 'слів')}<br>
+        <span class="approved-count">${approved.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${pluralizeUnit(total, game.unit || 'слів')}
       </div>
       <div class="expand-hint">
         <svg class="expand-chevron" viewBox="0 0 24 24">
@@ -869,11 +906,11 @@ async function init() {
     </div>
     <div class="total-stat">
       <div class="stat-value" style="color:var(--text-primary)">${data.length}</div>
-      <div class="stat-label">Проєктів</div>
+      <div class="stat-label">${pluralize(data.length, 'проєкт', 'проєкти', 'проєктів')}</div>
     </div>
     <div class="total-stat">
       <div class="stat-value" style="color:var(--text-primary)">${grandTotal.toLocaleString('uk')}</div>
-      <div class="stat-label">Слів загалом</div>
+      <div class="stat-label">${pluralizeUnit(grandTotal, 'слів')} загалом</div>
     </div>
   `;
 
