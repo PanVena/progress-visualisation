@@ -1,5 +1,6 @@
 from PyQt6.QtCore import QObject, pyqtSignal
 from aurora_theme import AURORA_THEME
+from mechanical_theme import MECHANICAL_THEME
 from colors import COLORS as CATPPUCCIN_THEME
 
 class ThemeManager(QObject):
@@ -11,10 +12,11 @@ class ThemeManager(QObject):
             cls._instance = super(ThemeManager, cls).__new__(cls)
             # We need to initialize QObject properly
             QObject.__init__(cls._instance)
-            cls._instance.current_theme_name = "aurora"
+            cls._instance.current_theme_name = "mechanical"
             cls._instance.themes = {
                 "catppuccin": CATPPUCCIN_THEME,
-                "aurora": AURORA_THEME
+                "aurora": AURORA_THEME,
+                "mechanical": MECHANICAL_THEME
             }
         return cls._instance
     

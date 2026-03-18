@@ -77,12 +77,12 @@ class MainWindow(QMainWindow):
         
         layout.addStretch()
         
-        # Aurora Theme button (New Modern)
-        aurora_btn = QPushButton("Плиточки💅")
-        aurora_btn.setCheckable(True)
-        aurora_btn.setChecked(theme_manager.current_theme_name == "aurora")
-        aurora_btn.clicked.connect(lambda: self.switch_to_aurora())
-        layout.addWidget(aurora_btn)
+        # Mechanical Theme button (New Modern)
+        mechanical_btn = QPushButton("Механічна💅")
+        mechanical_btn.setCheckable(True)
+        mechanical_btn.setChecked(theme_manager.current_theme_name == "mechanical")
+        mechanical_btn.clicked.connect(self.switch_to_mechanical)
+        layout.addWidget(mechanical_btn)
         
         # Classic Theme button (Catppuccin)
         classic_btn = QPushButton("Класична тема")
@@ -105,13 +105,13 @@ class MainWindow(QMainWindow):
         
         layout.addStretch()
         
-        self.nav_buttons = [aurora_btn, classic_btn, old_btn, edit_btn]
+        self.nav_buttons = [mechanical_btn, classic_btn, old_btn, edit_btn]
         self.update_button_styles()
         
         return self.nav_widget
     
-    def switch_to_aurora(self):
-        theme_manager.set_theme("aurora")
+    def switch_to_mechanical(self):
+        theme_manager.set_theme("mechanical")
         self.switch_view(0, self.nav_buttons[0])
         
     def switch_to_classic(self):

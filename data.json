@@ -3,11 +3,13 @@
     "game": "The Talos Principle",
     "icon": "./icons/TheTalosPrinciple.png",
     "unit": "слів",
+    "frozen": false,
+    "description": "The Talos Principle — це головоломка від першої особи у традиції філософської наукової фантастики. Гру створила студія Croteam, а сценарій написали Том Джуберт (FTL, The Swapper) та Йонас Кирацес (The Sea Will Claim Everything).",
     "sections": [
       {
         "name": "Основна гра",
-        "total": 62396,
-        "translated": 62396,
+        "total": 62385,
+        "translated": 62385,
         "approved": 14214
       },
       {
@@ -52,11 +54,19 @@
     "game": "The Talos Principle: Reawakening",
     "icon": "./icons/Talos RE.png",
     "unit": "слів",
+    "frozen": false,
+    "description": "Пориньте в атмосферу вигадливих пазлів, філософських інтриг і захопливих краєвидів у The Talos Principle: Reawakened — грою-головоломкою від першої особи, що сподобається як новим гравцям, так і шанувальникам оригінальної гри.",
     "sections": [
       {
-        "name": "Оригінальна гра",
-        "total": 109714,
-        "translated": 109714,
+        "name": "Основна гра",
+        "total": 50524,
+        "translated": 50524,
+        "approved": 0
+      },
+      {
+        "name": "Шлях до Геєнни (DLC",
+        "total": 44861,
+        "translated": 44861,
         "approved": 0
       },
       {
@@ -66,8 +76,14 @@
         "approved": 0
       },
       {
-        "name": "Інтерфейс+In The Beninging",
-        "total": 16860,
+        "name": "Інтерфейс + In The Beninging",
+        "total": 11185,
+        "translated": 0,
+        "approved": 0
+      },
+      {
+        "name": "Інтерфейс + рядки з 2 Талоса",
+        "total": 5635,
         "translated": 40,
         "approved": 0
       },
@@ -83,6 +99,8 @@
     "game": "The Entropy Centre",
     "icon": "./icons/The_Entropy_Centre.png",
     "unit": "слів",
+    "frozen": true,
+    "description": "Думайте інакше. Покажіть, що неможливе можливо. Гра-пригода від першої особи, де вам доведеться поламати голову над неймовірними і заплутаними загадками, контролюючи об'єкти у часі.",
     "sections": [
       {
         "name": "Текст",
@@ -99,9 +117,11 @@
     ]
   },
   {
-    "game": "The Talos Principle 2 - заморожено",
+    "game": "The Talos Principle 2",
     "icon": "./icons/Talos2.png",
     "unit": "слів",
+    "frozen": true,
+    "description": "The Talos Principle 2 ― це захоплююча головоломка від першої особи, в якій значно розширилися філософські теми першої гри, а середовища з дедалі складнішими завданнями стали ще більш приголомшливими.",
     "sections": [
       {
         "name": "Основна гра",

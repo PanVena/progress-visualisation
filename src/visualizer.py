@@ -136,11 +136,12 @@ class FlowLayout(QLayout):
         return y - spacing - rect.y()
 
 
-class AuroraCard(QFrame):
-    """Custom frame for Aurora theme with a subtle background logo"""
-    def __init__(self, icon_path=None, parent=None):
+class MechanicalCard(QFrame):
+    """Custom frame for Mechanical theme with industrial look and frozen support"""
+    def __init__(self, icon_path=None, is_frozen=False, parent=None):
         super().__init__(parent)
         self.icon_path = icon_path
+        self.is_frozen = is_frozen
         self.bg_pixmap = None
         if icon_path and os.path.exists(icon_path):
             self.bg_pixmap = QPixmap(icon_path)
@@ -150,38 +151,40 @@ class AuroraCard(QFrame):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         
         rect = self.rect()
-        # Adjusted stops to match theme spirit
-        c1 = QColor(COLORS.get('surface', '#0b0c1a'))
-        c2 = QColor(COLORS.get('overlay', '#12142b'))
         
-        gradient = QLinearGradient(0, 0, rect.width(), rect.height())
-        gradient.setColorAt(0, c1)
-        gradient.setColorAt(0.4, c2)
-        gradient.setColorAt(1, c1)
+        # Determine background
+        if self.is_frozen:
+            c1 = QColor(COLORS.get('frozen_surface', '#0c4a6e'))
+            c1.setAlpha(80) 
+            painter.setBrush(QBrush(c1))
+        else:
+            c1 = QColor(COLORS.get('surface', '#0b0c1a'))
+            c2 = QColor(COLORS.get('overlay', '#12142b'))
+            gradient = QLinearGradient(0, 0, rect.width(), rect.height())
+            gradient.setColorAt(0, c1)
+            gradient.setColorAt(1, c2)
+            painter.setBrush(QBrush(gradient))
         
         # Background
-        painter.setBrush(QBrush(gradient))
         painter.setPen(Qt.PenStyle.NoPen)
-        painter.drawRoundedRect(rect, 16, 16)
+        painter.drawRoundedRect(rect, 12, 12) # Slightly sharper
         
         # Transparent Logo
         if self.bg_pixmap and not self.bg_pixmap.isNull():
-            painter.setOpacity(0.08) # Subtle "fancy" opacity
+            opacity = 0.05 if not self.is_frozen else 0.03
+            painter.setOpacity(opacity)
             
-            # Scale to fit within the tile (Contain)
             scaled_pix = self.bg_pixmap.scaled(
                 rect.width(), rect.height(), 
                 Qt.AspectRatioMode.KeepAspectRatio, 
                 Qt.TransformationMode.SmoothTransformation
             )
             
-            # Center horizontally, position at bottom with 10px margin
             px = (rect.width() - scaled_pix.width()) // 2
             py = rect.height() - scaled_pix.height() - 10
             
-            # Clip to rounded rect using QPainterPath
             path = QPainterPath()
-            path.addRoundedRect(rect.toRectF(), 16, 16)
+            path.addRoundedRect(rect.toRectF(), 12, 12)
             painter.setClipPath(path)
             
             painter.drawPixmap(px, py, scaled_pix)
@@ -190,8 +193,9 @@ class AuroraCard(QFrame):
         # Border
         painter.setOpacity(1.0)
         painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.setPen(QColor(COLORS.get('border', '#1e293b')))
-        painter.drawRoundedRect(rect.adjusted(0, 0, -1, -1), 16, 16)
+        border_color = COLORS.get('frozen_accent', '#7dd3fc') if self.is_frozen else COLORS.get('border', '#1e293b')
+        painter.setPen(QColor(border_color))
+        painter.drawRoundedRect(rect.adjusted(0, 0, -1, -1), 12, 12)
 
 
 class VisualizerWidget(QWidget):
@@ -333,7 +337,7 @@ class VisualizerWidget(QWidget):
         projects_container = QWidget()
         projects_container.setStyleSheet("background: transparent;")
         
-        if theme_manager.current_theme_name == "aurora":
+        if theme_manager.current_theme_name == "mechanical":
             self.main_layout = FlowLayout(projects_container, margin=0, hSpacing=20, vSpacing=20)
         else:
             self.main_layout = QVBoxLayout(projects_container)
@@ -366,21 +370,21 @@ class VisualizerWidget(QWidget):
         # Load data
         data = self.data_manager.load_data()
         
-        # Determine if we need a Hero tile (Odd count + Aurora)
+        # Determine if we need a Hero tile (Odd count + Mechanical)
         is_odd = len(data) % 2 != 0
-        use_hero = is_odd and theme_manager.current_theme_name == "aurora"
+        use_hero = is_odd and theme_manager.current_theme_name == "mechanical"
         
         # Add projects logic
         for i, game in enumerate(data):
             if i == 0 and use_hero:
                 # Special case: Hero card takes full width by being placed in root_layout
-                game_frame = self.create_aurora_game_frame(game, is_hero=True)
+                game_frame = self.create_mechanical_game_frame(game, is_hero=True)
                 # Insert after date label (index 0)
                 root_layout.insertWidget(1, game_frame)
                 continue
                 
-            if theme_manager.current_theme_name == "aurora":
-                game_frame = self.create_aurora_game_frame(game)
+            if theme_manager.current_theme_name == "mechanical":
+                game_frame = self.create_mechanical_game_frame(game)
             else:
                 game_frame = self.create_classic_game_frame(game)
             
@@ -457,30 +461,28 @@ class VisualizerWidget(QWidget):
         game_layout.addWidget(right_widget)
         return game_frame
     
-    def create_aurora_game_frame(self, game: dict, is_hero: bool = False) -> QFrame:
-        """Create a frame for a single game (Aurora Nebula Card Layout)"""
+    def create_mechanical_game_frame(self, game: dict, is_hero: bool = False) -> QFrame:
+        """Create a frame for a single game (Mechanical/Industrial Card Layout)"""
+        is_frozen = game.get("frozen", False)
+        
         # Use our custom card with background logo support
-        game_frame = AuroraCard(icon_path=game.get("icon"))
+        game_frame = MechanicalCard(icon_path=game.get("icon"), is_frozen=is_frozen)
         game_frame.setFrameStyle(QFrame.Shape.NoFrame)
         
         if is_hero:
-            # Hero takes full width available in root layout
-            game_frame.setMinimumHeight(350)
+            game_frame.setMinimumHeight(400)
             game_frame.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         else:
-            # Pairs are squares/regular tiles
-            game_frame.setMinimumSize(400, 400)
+            game_frame.setMinimumSize(420, 420)
             game_frame.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         
         main_layout = QVBoxLayout(game_frame)
-        main_layout.setContentsMargins(20, 20, 20, 20)
-        main_layout.setSpacing(15)
+        main_layout.setContentsMargins(24, 24, 24, 24)
+        main_layout.setSpacing(18)
         
         # --- Header Section ---
         header_container = QWidget()
-        # Set a fixed height for the header to ensure alignment across all cards
-        # 140px accommodates icon (120px) + margins comfortably
-        header_container.setFixedHeight(140)
+        header_container.setFixedHeight(150)
         header_container.setStyleSheet("background: transparent; border: none;")
         
         header_layout = QHBoxLayout(header_container)
@@ -489,36 +491,54 @@ class VisualizerWidget(QWidget):
         
         # Icon
         icon_label = QLabel()
-        icon_label.setFixedSize(120, 120)
+        icon_label.setFixedSize(130, 130)
         if game.get("icon") and os.path.exists(game["icon"]):
             pixmap = QPixmap(game["icon"])
-            scaled_pixmap = pixmap.scaled(120, 120, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            scaled_pixmap = pixmap.scaled(130, 130, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            
+            # If frozen, desaturate icon
+            if is_frozen:
+                tmp_painter = QPainter(scaled_pixmap)
+                tmp_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
+                tmp_painter.fillRect(scaled_pixmap.rect(), QColor(125, 211, 252, 100)) # Blue wash
+                tmp_painter.end()
+                
             icon_label.setPixmap(scaled_pixmap)
+            
         icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # Fancy radial glow for the icon container
-        icon_bg = f"qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.6, fx:0.5, fy:0.5, stop:0 {COLORS.get('overlay', '#12142b')}, stop:1 {COLORS.get('mantle', '#000000')})"
+        border_color = COLORS.get('frozen_accent', '#7dd3fc') if is_frozen else COLORS['border']
         icon_label.setStyleSheet(f"""
-            background-color: {icon_bg};
-            border-radius: 16px;
-            border: 1px solid {COLORS['border']};
+            background-color: {COLORS['mantle']};
+            border-radius: 12px;
+            border: 1px solid {border_color};
         """)
         header_layout.addWidget(icon_label)
         
         # Title and Overall Stats
         title_stats_layout = QVBoxLayout()
-        # Align title/stats to center vertically within the header
         title_stats_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
         
-        # Title
+        # Title Row (Name + Frozen Badge)
+        title_row = QHBoxLayout()
         title_label = QLabel(game['game'])
-        title_label.setStyleSheet(f"""
-            background-color: transparent;
-            color: {COLORS['text']};
-            font-weight: bold;
-            font-size: 24px;
-            border: none;
-        """)
-        title_stats_layout.addWidget(title_label)
+        title_label.setStyleSheet(f"color: {COLORS['text']}; font-weight: bold; font-size: 24px; border: none;")
+        title_row.addWidget(title_label)
+        
+        if is_frozen:
+            frozen_badge = QLabel("❄ ЗАМОРОЖЕНО")
+            frozen_badge.setStyleSheet(f"""
+                color: {COLORS['frozen_accent']}; 
+                background-color: rgba(12, 74, 110, 0.8);
+                border: 1px solid {COLORS['frozen_accent']};
+                border-radius: 4px;
+                font-weight: 800;
+                font-size: 10px;
+                padding: 4px 8px;
+            """)
+            title_row.addWidget(frozen_badge)
+            title_row.addStretch()
+            
+        title_stats_layout.addLayout(title_row)
         
         # Overall Progress
         sections = game.get("sections", [])
@@ -531,175 +551,130 @@ class VisualizerWidget(QWidget):
             overall_trans_pct = round(translated_sum / total_sum * 100, 2) if total_sum > 0 else 0
             overall_appr_pct = round(approved_sum / total_sum * 100, 2) if total_sum > 0 else 0
             
-            # Custom Progress Widget (Simulated with layout)
             progress_widget = QWidget()
             progress_widget.setStyleSheet("background: transparent; border: none;")
             prog_layout = QVBoxLayout(progress_widget)
             prog_layout.setContentsMargins(0, 5, 0, 0)
             prog_layout.setSpacing(8)
             
-            # Trans bar
-            t_bar = self.create_aurora_progress_bar(overall_trans_pct, COLORS['gradient_translated'])
             unit = game.get("unit", "слів")
+            t_bar = self.create_mechanical_progress_bar(overall_trans_pct, COLORS['gradient_translated'])
             t_label = QLabel(f"ПЕРЕКЛАДЕНО: {overall_trans_pct:.1f}% ({translated_sum}/{total_sum} {unit})")
-            t_label.setStyleSheet(f"color: {COLORS['accent']}; font-weight: bold; font-size: 12px; border: none;")
+            t_label.setStyleSheet(f"color: {COLORS['accent']}; font-weight: bold; font-size: 11px; border: none;")
             prog_layout.addWidget(t_label)
             prog_layout.addWidget(t_bar)
             
-            # Appr bar
-            a_bar = self.create_aurora_progress_bar(overall_appr_pct, COLORS['gradient_approved'])
+            a_bar = self.create_mechanical_progress_bar(overall_appr_pct, COLORS['gradient_approved'])
             a_label = QLabel(f"ЗАТВЕРДЖЕНО: {overall_appr_pct:.1f}% ({approved_sum}/{total_sum} {unit})")
-            a_label.setStyleSheet(f"color: {COLORS['info']}; font-weight: bold; font-size: 12px; border: none;")
+            a_label.setStyleSheet(f"color: {COLORS['success']}; font-weight: bold; font-size: 11px; border: none;")
             prog_layout.addWidget(a_label)
             prog_layout.addWidget(a_bar)
             
             title_stats_layout.addWidget(progress_widget)
             
-        header_layout.addLayout(title_stats_layout)
-        
-        # Add header container to main layout
-        # Ensure it doesn't stretch vertically
+        header_layout.addLayout(title_stats_layout, 1)
         main_layout.addWidget(header_container, 0, Qt.AlignmentFlag.AlignTop)
         
-        # Separator using QFrame line
         line = QFrame()
         line.setFrameShape(QFrame.Shape.HLine)
-        line.setFrameShadow(QFrame.Shadow.Sunken)
-        line.setStyleSheet(f"background-color: {COLORS['border']}; border: none; max-height: 1px;")
+        line.setStyleSheet(f"background-color: {COLORS['border']}; max-height: 1px; border: none;")
         main_layout.addWidget(line)
         
-        # --- Sections Grid ---
-        # Instead of a table, we use a Flow Layout or just a VBox of styled rows
-        # This layout needs to be able to expand
         sections_widget = QWidget()
-        sections_widget.setStyleSheet("background: transparent;")
-        # Allow sections widget to expand
         sections_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        
         sections_layout = QVBoxLayout(sections_widget)
         sections_layout.setContentsMargins(0, 0, 0, 0)
-        sections_layout.setSpacing(10)
-        # Align contents to top so they don't spread out weirdly if we don't want them to
-        # But user said "sections stretch". This usually implies the *area* stretches.
-        # If we align top, the bottom will be empty space.
+        sections_layout.setSpacing(12)
         sections_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         
         for section in sections:
-            sec_widget = self.create_aurora_section_row(section)
+            sec_widget = self.create_mechanical_section_row(section, is_frozen)
             sections_layout.addWidget(sec_widget)
             
         main_layout.addWidget(sections_widget)
-        # Add a stretch at the end to ensure empty space is at the bottom if any
-        # Although Expanding policy on sections_widget should handle it if layout respects it
-        # main_layout.addStretch() # Only if we want to force everything up
-        
         return game_frame
 
-    def create_aurora_progress_bar(self, value, chunk_color):
-        """Helper to create a slim, modern progress bar with rounded corners even for low values"""
+    def create_mechanical_progress_bar(self, value, chunk_color):
+        """Standard industrial progress bar"""
         bar = QProgressBar()
-        # Use 0-1000 for higher precision in rendering
         bar.setRange(0, 1000)
-        
-        # Calculate visual value (ensure > 0 results in a visible dot/circle)
-        # For an 8px high bar, we want at least ~12px width for a nice rounded pill.
-        # 40/1000 = 4%. On a 300px bar, that's 12px.
         visual_value = int(value * 10)
-        if value > 0:
-            visual_value = max(visual_value, 40)
-            
+        if value > 0: visual_value = max(visual_value, 20)
         bar.setValue(visual_value)
         bar.setTextVisible(False)
-        bar.setFixedHeight(8)
+        bar.setFixedHeight(6)
         bar.setStyleSheet(f"""
             QProgressBar {{
                 border: none;
                 background-color: {COLORS['mantle']};
-                border-radius: 4px;
+                border-radius: 0px; 
             }}
             QProgressBar::chunk {{
                 background: {chunk_color};
-                border-radius: 4px;
-                min-width: 8px;
+                border-radius: 0px;
             }}
         """)
         return bar
 
-    def create_aurora_section_row(self, section):
-        """Create a stylish row for a section with subtle glow borders"""
+    def create_mechanical_section_row(self, section, is_frozen=False):
+        """Clean industrial row for sections"""
         widget = QFrame()
+        border_clr = COLORS.get('frozen_accent', '#7dd3fc') if is_frozen else COLORS['border']
         widget.setStyleSheet(f"""
             QFrame {{
-                background-color: {COLORS['overlay']};
-                border-radius: 10px;
-                border: 1px solid {COLORS['border']};
-            }}
-            QFrame:hover {{
-                border: 1px solid {COLORS['accent']};
+                background-color: rgba(31, 41, 55, 0.4);
+                border-radius: 6px;
+                border: 1px solid {border_clr};
             }}
         """)
         layout = QHBoxLayout(widget)
         layout.setContentsMargins(15, 10, 15, 10)
         
-        # Name
         name_label = QLabel(section['name'])
-        name_label.setFixedWidth(200)
-        name_label.setStyleSheet(f"color: {COLORS['text']}; font-weight: bold; font-size: 14px; border: none; background: transparent;")
+        name_label.setFixedWidth(180)
+        name_label.setStyleSheet("color: white; font-weight: bold; font-size: 13px; border: none; background: transparent;")
         layout.addWidget(name_label)
         
-        # Stats Container
         stats_layout = QVBoxLayout()
-        stats_layout.setSpacing(4)
+        stats_layout.setSpacing(5)
         
-        total = section['total']
-        trans = section['translated']
-        appr = section['approved']
-        
+        total, trans, appr = section['total'], section['translated'], section['approved']
         trans_pct = trans / total * 100 if total > 0 else 0
         appr_pct = appr / total * 100 if total > 0 else 0
         
-        # Get labels
-        t_label_full = section.get("translated_label", "Перекладено")
-        t_char = t_label_full[0].upper() if t_label_full else "T"
-        
-        a_label_full = section.get("approved_label", "Затверджено")
-        a_char = a_label_full[0].upper() if a_label_full else "Z"
-        
-        # Translated Row
+        # Trans
         t_row = QHBoxLayout()
-        t_lbl = QLabel(f"{t_char}: {trans_pct:.1f}%")
-        t_lbl.setFixedWidth(60)
-        t_lbl.setStyleSheet(f"color: {COLORS['subtext']}; font-size: 11px; border: none; background: transparent;")
-        t_bar = self.create_aurora_progress_bar(trans_pct, COLORS['gradient_translated'])
+        t_lbl = QLabel(f"{trans_pct:.1f}%")
+        t_lbl.setFixedWidth(45)
+        t_lbl.setStyleSheet(f"color: {COLORS['accent']}; font-size: 10px; border: none;")
+        t_bar = self.create_mechanical_progress_bar(trans_pct, COLORS['gradient_translated'])
         t_row.addWidget(t_lbl)
         t_row.addWidget(t_bar)
         stats_layout.addLayout(t_row)
         
-        # Approved Row
+        # Appr
         a_row = QHBoxLayout()
-        a_lbl = QLabel(f"{a_char}: {appr_pct:.1f}%")
-        a_lbl.setFixedWidth(60)
-        a_lbl.setStyleSheet(f"color: {COLORS['subtext_dim']}; font-size: 11px; border: none; background: transparent;")
-        a_bar = self.create_aurora_progress_bar(appr_pct, COLORS['gradient_approved'])
+        a_lbl = QLabel(f"{appr_pct:.1f}%")
+        a_lbl.setFixedWidth(45)
+        a_lbl.setStyleSheet(f"color: {COLORS['success']}; font-size: 10px; border: none;")
+        a_bar = self.create_mechanical_progress_bar(appr_pct, COLORS['gradient_approved'])
         a_row.addWidget(a_lbl)
         a_row.addWidget(a_bar)
         stats_layout.addLayout(a_row)
         
         layout.addLayout(stats_layout)
         
-        # Counts (Right aligned)
         counts_layout = QVBoxLayout()
         c_trans = QLabel(f"{trans}/{total}")
         c_trans.setAlignment(Qt.AlignmentFlag.AlignRight)
-        c_trans.setStyleSheet(f"color: {COLORS['text']}; font-weight: bold; border: none; background: transparent;")
+        c_trans.setStyleSheet("color: white; font-weight: bold; font-size: 11px; border: none;")
         
         c_appr = QLabel(f"{appr}/{total}")
         c_appr.setAlignment(Qt.AlignmentFlag.AlignRight)
-        c_appr.setStyleSheet(f"color: {COLORS['subtext_dim']}; border: none; background: transparent;")
+        c_appr.setStyleSheet(f"color: {COLORS['subtext']}; font-size: 10px; border: none;")
         
         counts_layout.addWidget(c_trans)
         counts_layout.addWidget(c_appr)
-        
         layout.addLayout(counts_layout)
         
         return widget

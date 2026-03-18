@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QFileDialog, QTableWidget, QTableWidgetItem,
     QHeaderView, QSpinBox, QCheckBox, QMessageBox, QSplitter,
-    QListWidget, QFrame, QComboBox
+    QListWidget, QFrame, QComboBox, QTextEdit
 )
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon, QFont
@@ -388,8 +388,11 @@ class EditorWidget(QWidget):
         unit_layout.addWidget(unit_label)
         unit_layout.addWidget(self.unit_combo)
         unit_layout.addStretch()
-        info_layout.addLayout(unit_layout)
-
+        # Frozen toggle
+        self.frozen_check = QCheckBox("Заморозити проєкт")
+        self.frozen_check.setToolTip("Накласти ефект морозу на картку проєкту")
+        info_layout.addWidget(self.frozen_check)
+        
         layout.addWidget(info_card)
         
         # Sections title
@@ -442,6 +445,29 @@ class EditorWidget(QWidget):
         section_btns_layout.addWidget(move_sec_down_btn)
         
         layout.addLayout(section_btns_layout)
+        
+        # Project Description
+        desc_label = QLabel("Опис проєкту")
+        desc_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        layout.addWidget(desc_label)
+        
+        self.desc_editor = QTextEdit()
+        self.desc_editor.setPlaceholderText("Введіть опис проєкту тут...")
+        self.desc_editor.setMinimumHeight(120)
+        self.desc_editor.setStyleSheet(f"""
+            QTextEdit {{
+                background-color: {COLORS['mantle']};
+                border: 1px solid {COLORS['border']};
+                border-radius: 8px;
+                padding: 10px;
+                color: {COLORS['text']};
+                font-size: 13px;
+            }}
+            QTextEdit:focus {{
+                border: 1px solid {COLORS['accent']};
+            }}
+        """)
+        layout.addWidget(self.desc_editor)
         
         # Bottom toolbar
         toolbar_layout = QHBoxLayout()
@@ -520,6 +546,12 @@ class EditorWidget(QWidget):
             self.unit_combo.setCurrentIndex(index)
         else:
             self.unit_combo.setCurrentIndex(0)
+            
+        # Set frozen state
+        self.frozen_check.setChecked(project.get('frozen', False))
+        
+        # Load description
+        self.desc_editor.setPlainText(project.get('description', ''))
         
         # Load sections
         self.sections_table.setRowCount(0)
@@ -665,6 +697,8 @@ class EditorWidget(QWidget):
                 'game': self.game_name_input.text().strip(),
                 'icon': self.icon_path_label.property('icon_path') or '',
                 'unit': self.unit_combo.currentText(),
+                'frozen': self.frozen_check.isChecked(),
+                'description': self.desc_editor.toPlainText().strip(),
                 'sections': []
             }
             
