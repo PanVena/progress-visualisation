@@ -11,6 +11,7 @@ python -m nuitka ^
     --windows-console-mode=disable ^
     --include-data-file=data.json=data.json ^
     --include-data-dir=icons=icons ^
+    --include-data-dir=src=src ^
     main.py
 echo.
 echo Build completed! Check the dist/main.dist folder for the executable and all dependencies.

@@ -5,9 +5,12 @@ Combines visualization and editing in a single modern interface
 """
 
 import sys
+import os
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPalette, QColor
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src'))
 
 from visualizer import VisualizerWidget
 from old_visualizer import OldVisualizerWidget

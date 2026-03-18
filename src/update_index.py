@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-DIR = Path(__file__).parent
+DIR = Path(__file__).parent.parent
 DATA_JSON = DIR / "data.json"
 INDEX_HTML = DIR / "index.html"
 
@@ -15,7 +15,7 @@ INDEX_HTML = DIR / "index.html"
 def main():
     if not DATA_JSON.exists():
         print(f"❌ Не знайдено {DATA_JSON}")
-        sys.exit(1)
+        return False
 
     with open(DATA_JSON, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -36,7 +36,7 @@ def main():
 
     if count == 0:
         print("❌ Не знайдено EMBEDDED_DATA в index.html")
-        sys.exit(1)
+        return False
 
     # --- Оновити дату ---
     today = datetime.now().strftime("%d.%m.%Y")
@@ -50,6 +50,7 @@ def main():
         f.write(new_html)
 
     print(f"✅ index.html оновлено з data.json (дата: {today})")
+    return True
 
 
 if __name__ == "__main__":

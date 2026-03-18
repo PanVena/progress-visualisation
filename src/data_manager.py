@@ -7,8 +7,8 @@ import json
 import os
 from typing import List, Dict, Optional, Tuple
 
-
-DATA_FILE = "data.json"
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_FILE = os.path.join(ROOT_DIR, "data.json")
 
 
 class ValidationError(Exception):

@@ -2,17 +2,17 @@
 
 <p align="center">
   <b>Головний інтерфейс (Aurora Theme)</b><br>
-  <img src="statystyka_fancy.png" width="100%">
+  <img src="assets/screenshots/statystyka_fancy.png" width="100%">
 </p>
 
 <p align="center">
-  <img src="statystyka.png" width="49%">
-  <img src="statystyka_old.png" width="49%">
+  <img src="assets/screenshots/statystyka.png" width="49%">
+  <img src="assets/screenshots/statystyka_old.png" width="49%">
 </p>
 
 <p align="center">
-  <img src="editor_fancy.png" width="49%">
-  <img src="editor.png" width="49%">
+  <img src="assets/screenshots/editor_fancy.png" width="49%">
+  <img src="assets/screenshots/editor.png" width="49%">
 </p>
 
 # Для особистого використання

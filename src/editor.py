@@ -4,6 +4,7 @@ Uses native PyQt6 with custom styling
 """
 
 import os
+import sys
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QFileDialog, QTableWidget, QTableWidgetItem,
@@ -709,6 +710,13 @@ class EditorWidget(QWidget):
             self.data_manager.save_data()
             self.load_projects()
             self.data_changed.emit()
+            
+            # Run index updater
+            try:
+                import update_index
+                update_index.main()
+            except Exception as updater_e:
+                print(f"Помилка під час оновлення index.html: {updater_e}")
             
             # Show success message
             msg = QMessageBox()
