@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Поступ перекладу — Ліниві ШІ</title>
+  <title>Поступ перекладу спілки «Ліниві ШІ»</title>
   <meta name="description" content="Інтерактивна візуалізація поступу перекладу ігор спілкою Ліниві ШІ">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -435,7 +435,7 @@
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--text-primary);
-      flex: 0 0 260px;
+      flex: 0 0 160px;
     }
 
     .section-bars {
@@ -777,6 +777,85 @@
       stroke-linejoin: round;
     }
 
+    .header-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(17, 19, 39, 0.6);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+      z-index: 1;
+    }
+
+    .header-pill:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--accent-translated);
+      box-shadow: 0 8px 24px rgba(0, 240, 255, 0.2);
+      color: var(--accent-translated);
+    }
+
+    .header-pill svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      z-index: 2;
+    }
+
+    .header-pill span {
+      z-index: 2;
+    }
+
+    .header-pill.mono {
+      background: linear-gradient(135deg, #ffde00, #ffc400);
+      color: #000;
+      border-color: transparent;
+      box-shadow: 0 6px 15px rgba(255, 222, 0, 0.3);
+      padding: 14px 32px;
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+
+    .header-pill.mono:hover {
+      background: linear-gradient(135deg, #fff100, #ffd200);
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(255, 222, 0, 0.5);
+      color: #000;
+      transform: translateY(-5px) scale(1.06);
+    }
+
+    .header-pill.mono svg {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
     /* ===== Frozen / Frost Effect ===== */
     .game-card.frozen {
       border-color: #7dd3fc !important;
@@ -855,9 +934,36 @@
     <header class="header">
       <h1>Поступ перекладу спілки «Ліниві ШІ»</h1>
       <div class="header-links">
-        <a href="https://github.com/PanVena/progress-visualisation" target="_blank" rel="noopener">GitHub</a> · <a
-          href="https://t.me/linyvi_sh_ji" target="_blank" rel="noopener">Телеграм</a> · <a
-          href="https://discord.com/invite/zCcrTzb3y9" target="_blank" rel="noopener">Дискорд</a>
+        <a href="https://github.com/PanVena/progress-visualisation" class="header-pill" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.362.81 1.096.81 2.22v3.293c0 .319.192.694.805.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://t.me/linyvi_sh_ji" class="header-pill" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.891 7.007l-2.01 9.482c-.152.684-.558.854-1.131.533l-3.064-2.257-1.478 1.422c-.163.163-.3.3-.615.3l.219-3.111 5.662-5.116c.246-.219-.054-.341-.381-.122l-7.001 4.408-3.016-.944c-.655-.205-.667-.655.137-.968l11.777-4.54c.545-.198 1.022.128.891.803z" />
+          </svg>
+          <span>Телеграм</span>
+        </a>
+        <a href="https://discord.com/invite/zCcrTzb3y9" class="header-pill" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19.27 4.51a19.4 19.4 0 0 0-4.76-1.47.06.06 0 0 0-.06.03c-.2.37-.43.86-.59 1.23a17.9 17.9 0 0 0-5.3 0c-.17-.37-.4-.86-.6-1.23a.06.06 0 0 0-.06-.03 19.3 19.3 0 0 0-4.76 1.47.06.06 0 0 0-.03.03C.6 8.94-.2 13.28.08 17.58a.06.06 0 0 0 .02.04 19.67 19.67 0 0 0 5.92 2.98.07.07 0 0 0 .07-.02c.45-.62.85-1.28 1.18-1.97a.06.06 0 0 0-.03-.09 12.87 12.87 0 0 1-1.84-.87.06.06 0 0 1-.01-.1c.12-.09.25-.19.37-.29a.06.06 0 0 0 .06-.01 13.75 13.75 0 0 0 11.4 0 .06.06 0 0 0 .06.01c.12.1.25.2.37.29a.06.06 0 0 1-.01.1 12.87 12.87 0 0 1-1.84.87.06.06 0 0 0-.03.09c.33.69.73 1.35 1.18 1.97a.07.07 0 0 0 .07.03 19.67 19.67 0 0 0 5.92-2.98.06.06 0 0 0 .02-.04c.4-5 .67-9.33-2.52-13.04a.06.06 0 0 0-.03-.03zM8.19 14.12c-1.15 0-2.1-1.06-2.1-2.35s.92-2.35 2.1-2.35 2.1 1.06 2.1 2.35-.92 2.35-2.1 2.35zm7.62 0c-1.15 0-2.1-1.06-2.1-2.35s.92-2.35 2.1-2.35 2.1 1.06 2.1 2.35-.92 2.35-2.1 2.35z" />
+          </svg>
+          <span>Дискорд</span>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://send.monobank.ua/jar/4A987JvX4w" class="header-pill mono" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          <span>Підтримати спілку</span>
+        </a>
       </div>
       <div class="date-badge" id="date-badge"></div>
     </header>
@@ -960,151 +1066,151 @@
 
     // ========== Data & Rendering ==========
     const EMBEDDED_DATA = [
-    {
-      "game": "The Talos Principle",
-      "icon": "./icons/TheTalosPrinciple.png",
-      "unit": "слів",
-      "frozen": false,
-      "description": "The Talos Principle — це головоломка від першої особи у традиції філософської наукової фантастики. Гру створила студія Croteam, а сценарій написали Том Джуберт (FTL, The Swapper) та Йонас Кирацес (The Sea Will Claim Everything).",
-      "sections": [
-        {
-          "name": "Основна гра",
-          "total": 62385,
-          "translated": 62385,
-          "approved": 14214
-        },
-        {
-          "name": "Шлях до Геєнни (DLC)",
-          "total": 47318,
-          "translated": 47318,
-          "approved": 0
-        },
-        {
-          "name": "Елогім/Сем",
-          "total": 3365,
-          "translated": 2251,
-          "approved": 0
-        },
-        {
-          "name": "Досягнення",
-          "total": 336,
-          "translated": 336,
-          "approved": 0
-        },
-        {
-          "name": "Александра Дреннан",
-          "total": 22,
-          "translated": 22,
-          "approved": 0,
-          "translated_label": "Затверджено",
-          "approved_label": "Озвучено",
-          "exclude_from_total": true
-        },
-        {
-          "name": "ЕЛОГІМ",
-          "total": 99,
-          "translated": 99,
-          "approved": 0,
-          "translated_label": "Затверджено",
-          "approved_label": "Озвучено",
-          "exclude_from_total": true
-        }
-      ]
-    },
-    {
-      "game": "The Talos Principle: Reawakening",
-      "icon": "./icons/Talos RE.png",
-      "unit": "слів",
-      "frozen": false,
-      "description": "Пориньте в атмосферу вигадливих пазлів, філософських інтриг і захопливих краєвидів у The Talos Principle: Reawakened — грою-головоломкою від першої особи, що сподобається як новим гравцям, так і шанувальникам оригінальної гри.",
-      "sections": [
-        {
-          "name": "Основна гра",
-          "total": 50524,
-          "translated": 50524,
-          "approved": 0
-        },
-        {
-          "name": "Шлях до Геєнни (DLC",
-          "total": 44861,
-          "translated": 44861,
-          "approved": 0
-        },
-        {
-          "name": "Коментарі розробників",
-          "total": 32944,
-          "translated": 32944,
-          "approved": 0
-        },
-        {
-          "name": "Інтерфейс + In The Beninging",
-          "total": 11185,
-          "translated": 0,
-          "approved": 0
-        },
-        {
-          "name": "Інтерфейс + рядки з 2 Талоса",
-          "total": 5635,
-          "translated": 40,
-          "approved": 0
-        },
-        {
-          "name": "Досягнення",
-          "total": 441,
-          "translated": 441,
-          "approved": 0
-        }
-      ]
-    },
-    {
-      "game": "The Entropy Centre",
-      "icon": "./icons/The_Entropy_Centre.png",
-      "unit": "слів",
-      "frozen": true,
-      "description": "Думайте інакше. Покажіть, що неможливе можливо. Гра-пригода від першої особи, де вам доведеться поламати голову над неймовірними і заплутаними загадками, контролюючи об'єкти у часі.",
-      "sections": [
-        {
-          "name": "Текст",
-          "total": 17232,
-          "translated": 12095,
-          "approved": 0
-        },
-        {
-          "name": "Досягнення",
-          "total": 166,
-          "translated": 32,
-          "approved": 0
-        }
-      ]
-    },
-    {
-      "game": "The Talos Principle 2",
-      "icon": "./icons/Talos2.png",
-      "unit": "слів",
-      "frozen": true,
-      "description": "The Talos Principle 2 ― це захоплююча головоломка від першої особи, в якій значно розширилися філософські теми першої гри, а середовища з дедалі складнішими завданнями стали ще більш приголомшливими.",
-      "sections": [
-        {
-          "name": "Основна гра",
-          "total": 158585,
-          "translated": 5679,
-          "approved": 0
-        },
-        {
-          "name": "Шлях до Елісія (DLC)",
-          "total": 25082,
-          "translated": 0,
-          "approved": 0
-        },
-        {
-          "name": "Досягнення",
-          "total": 802,
-          "translated": 0,
-          "approved": 0
-        }
-      ]
-    }
-  ];
+      {
+        "game": "The Talos Principle",
+        "icon": "./icons/TheTalosPrinciple.png",
+        "unit": "слів",
+        "frozen": false,
+        "description": "The Talos Principle — це головоломка від першої особи у традиції філософської наукової фантастики. Гру створила студія Croteam, а сценарій написали Том Джуберт (FTL, The Swapper) та Йонас Кирацес (The Sea Will Claim Everything).",
+        "sections": [
+          {
+            "name": "Основна гра",
+            "total": 62385,
+            "translated": 62385,
+            "approved": 14214
+          },
+          {
+            "name": "Шлях до Геєнни (DLC)",
+            "total": 47318,
+            "translated": 47318,
+            "approved": 0
+          },
+          {
+            "name": "Елогім/Сем",
+            "total": 3365,
+            "translated": 2251,
+            "approved": 0
+          },
+          {
+            "name": "Досягнення",
+            "total": 336,
+            "translated": 336,
+            "approved": 0
+          },
+          {
+            "name": "Александра Дреннан",
+            "total": 22,
+            "translated": 22,
+            "approved": 0,
+            "translated_label": "Затверджено",
+            "approved_label": "Озвучено",
+            "exclude_from_total": true
+          },
+          {
+            "name": "ЕЛОГІМ",
+            "total": 99,
+            "translated": 99,
+            "approved": 0,
+            "translated_label": "Затверджено",
+            "approved_label": "Озвучено",
+            "exclude_from_total": true
+          }
+        ]
+      },
+      {
+        "game": "The Talos Principle: Reawakening",
+        "icon": "./icons/Talos RE.png",
+        "unit": "слів",
+        "frozen": false,
+        "description": "Пориньте в атмосферу вигадливих пазлів, філософських інтриг і захопливих краєвидів у The Talos Principle: Reawakened — грою-головоломкою від першої особи, що сподобається як новим гравцям, так і шанувальникам оригінальної гри.",
+        "sections": [
+          {
+            "name": "Основна гра",
+            "total": 50524,
+            "translated": 50524,
+            "approved": 0
+          },
+          {
+            "name": "Шлях до Геєнни (DLC",
+            "total": 44861,
+            "translated": 44861,
+            "approved": 0
+          },
+          {
+            "name": "Коментарі розробників",
+            "total": 32944,
+            "translated": 32944,
+            "approved": 0
+          },
+          {
+            "name": "Інтерфейс + In The Beninging",
+            "total": 11185,
+            "translated": 0,
+            "approved": 0
+          },
+          {
+            "name": "Інтерфейс + рядки з 2 Талоса",
+            "total": 5635,
+            "translated": 40,
+            "approved": 0
+          },
+          {
+            "name": "Досягнення",
+            "total": 441,
+            "translated": 441,
+            "approved": 0
+          }
+        ]
+      },
+      {
+        "game": "The Entropy Centre",
+        "icon": "./icons/The_Entropy_Centre.png",
+        "unit": "слів",
+        "frozen": true,
+        "description": "Думайте інакше. Покажіть, що неможливе можливо. Гра-пригода від першої особи, де вам доведеться поламати голову над неймовірними і заплутаними загадками, контролюючи об'єкти у часі.",
+        "sections": [
+          {
+            "name": "Текст",
+            "total": 17232,
+            "translated": 12095,
+            "approved": 0
+          },
+          {
+            "name": "Досягнення",
+            "total": 166,
+            "translated": 32,
+            "approved": 0
+          }
+        ]
+      },
+      {
+        "game": "The Talos Principle 2",
+        "icon": "./icons/Talos2.png",
+        "unit": "слів",
+        "frozen": true,
+        "description": "The Talos Principle 2 ― це захоплююча головоломка від першої особи, в якій значно розширилися філософські теми першої гри, а середовища з дедалі складнішими завданнями стали ще більш приголомшливими.",
+        "sections": [
+          {
+            "name": "Основна гра",
+            "total": 158585,
+            "translated": 5679,
+            "approved": 0
+          },
+          {
+            "name": "Шлях до Елісія (DLC)",
+            "total": 25082,
+            "translated": 0,
+            "approved": 0
+          },
+          {
+            "name": "Досягнення",
+            "total": 802,
+            "translated": 0,
+            "approved": 0
+          }
+        ]
+      }
+    ];
 
     function createRingSVG(percent, type, size = 100) {
       const r = (size / 2) - 6;
@@ -1293,7 +1399,7 @@
             if (!isTurningOff) {
               card.classList.add('expanded');
               requestAnimationFrame(() => animateBars(card));
-              
+
               // Focus on the card: scroll it into view smoothly
               setTimeout(() => {
                 card.scrollIntoView({ behavior: 'smooth', block: 'start' });
