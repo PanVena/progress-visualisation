@@ -75,8 +75,18 @@ class ReleasedEditorWidget(QWidget):
         self.add_btn.clicked.connect(self.add_new_project)
         self.del_btn = QPushButton("Вилучити")
         self.del_btn.clicked.connect(self.delete_project)
+        
+        self.up_btn = QPushButton("↑")
+        self.up_btn.setFixedWidth(40)
+        self.up_btn.clicked.connect(self.move_project_up)
+        self.down_btn = QPushButton("↓")
+        self.down_btn.setFixedWidth(40)
+        self.down_btn.clicked.connect(self.move_project_down)
+        
         btn_layout.addWidget(self.add_btn)
         btn_layout.addWidget(self.del_btn)
+        btn_layout.addWidget(self.up_btn)
+        btn_layout.addWidget(self.down_btn)
         layout.addLayout(btn_layout)
         
         return panel
@@ -113,6 +123,29 @@ class ReleasedEditorWidget(QWidget):
         icon_row.addWidget(self.icon_preview)
         icon_row.addLayout(icon_info)
         self.form_layout.addLayout(icon_row)
+
+        # Header Section
+        self.form_layout.addWidget(QLabel("ГЕДЕР ПРОЄКТУ (Wide Banner)"))
+        header_row = QVBoxLayout()
+        self.header_preview = QLabel("🖼️")
+        self.header_preview.setFixedSize(400, 100)
+        self.header_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.header_preview.setStyleSheet(f"border: 1px solid {COLORS['border']}; border-radius: 8px; background: {COLORS['overlay']};")
+        
+        header_ctrls = QHBoxLayout()
+        self.header_path_display = QLineEdit()
+        self.header_path_display.setPlaceholderText("Шлях до гедера не вибрано")
+        self.header_path_display.setReadOnly(True)
+        
+        self.pick_header_btn = QPushButton("Вибрати гедер")
+        self.pick_header_btn.clicked.connect(self.pick_header)
+        
+        header_ctrls.addWidget(self.header_path_display)
+        header_ctrls.addWidget(self.pick_header_btn)
+        
+        header_row.addWidget(self.header_preview)
+        header_row.addLayout(header_ctrls)
+        self.form_layout.addLayout(header_row)
         
         # Status
         self.status_input = QLineEdit()
@@ -144,8 +177,18 @@ class ReleasedEditorWidget(QWidget):
         add_link.clicked.connect(self.add_link_row)
         del_link = QPushButton("- Посилання")
         del_link.clicked.connect(self.del_link_row)
+        
+        self.link_up_btn = QPushButton("↑")
+        self.link_up_btn.setFixedWidth(40)
+        self.link_up_btn.clicked.connect(self.move_link_up)
+        self.link_down_btn = QPushButton("↓")
+        self.link_down_btn.setFixedWidth(40)
+        self.link_down_btn.clicked.connect(self.move_link_down)
+        
         link_btns.addWidget(add_link)
         link_btns.addWidget(del_link)
+        link_btns.addWidget(self.link_up_btn)
+        link_btns.addWidget(self.link_down_btn)
         link_btns.addStretch()
         self.form_layout.addLayout(link_btns)
         
@@ -204,10 +247,34 @@ class ReleasedEditorWidget(QWidget):
         self.icon_preview.setPixmap(QPixmap())
         self.icon_preview.setText("📷")
 
+    def pick_header(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+            self, "Вибрати гедер", "./icons/headers", "Images (*.png *.jpg *.jpeg *.bmp *.webp)"
+        )
+        if file_path:
+            cwd = os.getcwd()
+            if file_path.startswith(cwd):
+                file_path = "." + file_path[len(cwd):]
+            
+            self.header_path_display.setText(file_path)
+            self.update_header_preview(file_path)
+
+    def update_header_preview(self, path):
+        if path and os.path.exists(path):
+            pixmap = QPixmap(path)
+            if not pixmap.isNull():
+                self.header_preview.setPixmap(pixmap.scaled(400, 100, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+                self.header_preview.setText("")
+                return
+        self.header_preview.setPixmap(QPixmap())
+        self.header_preview.setText("🖼️")
+
     def load_released_projects(self):
         all_data = self.data_manager.load_data()
         self.released_projects = [p for p in all_data if p.get('is_released')]
-        
+        self.refresh_project_list()
+
+    def refresh_project_list(self):
         self.project_list.clear()
         for p in self.released_projects:
             self.project_list.addItem(p.get('game', 'Без назви'))
@@ -228,6 +295,10 @@ class ReleasedEditorWidget(QWidget):
         self.icon_path_display.setText(icon_path)
         self.update_icon_preview(icon_path)
         
+        header_path = project.get('header', '')
+        self.header_path_display.setText(header_path)
+        self.update_header_preview(header_path)
+        
         links = project.get('links', [])
         self.links_table.setRowCount(len(links))
         for i, link in enumerate(links):
@@ -241,6 +312,8 @@ class ReleasedEditorWidget(QWidget):
         self.coauthors_input.clear()
         self.icon_path_display.clear()
         self.update_icon_preview("")
+        self.header_path_display.clear()
+        self.update_header_preview("")
         self.links_table.setRowCount(0)
         self.current_project_index = -1
 
@@ -251,6 +324,41 @@ class ReleasedEditorWidget(QWidget):
         row = self.links_table.currentRow()
         if row >= 0:
             self.links_table.removeRow(row)
+
+    def move_link_up(self):
+        row = self.links_table.currentRow()
+        if row > 0:
+            self.swap_link_rows(row, row - 1)
+            self.links_table.setCurrentCell(row - 1, self.links_table.currentColumn())
+
+    def move_link_down(self):
+        row = self.links_table.currentRow()
+        if row >= 0 and row < self.links_table.rowCount() - 1:
+            self.swap_link_rows(row, row + 1)
+            self.links_table.setCurrentCell(row + 1, self.links_table.currentColumn())
+
+    def swap_link_rows(self, row1, row2):
+        for col in range(self.links_table.columnCount()):
+            item1 = self.links_table.takeItem(row1, col)
+            item2 = self.links_table.takeItem(row2, col)
+            self.links_table.setItem(row1, col, item2)
+            self.links_table.setItem(row2, col, item1)
+
+    def move_project_up(self):
+        idx = self.project_list.currentRow()
+        if idx > 0:
+            self.released_projects[idx], self.released_projects[idx-1] = \
+                self.released_projects[idx-1], self.released_projects[idx]
+            self.refresh_project_list()
+            self.project_list.setCurrentRow(idx - 1)
+
+    def move_project_down(self):
+        idx = self.project_list.currentRow()
+        if idx >= 0 and idx < len(self.released_projects) - 1:
+            self.released_projects[idx], self.released_projects[idx+1] = \
+                self.released_projects[idx+1], self.released_projects[idx]
+            self.refresh_project_list()
+            self.project_list.setCurrentRow(idx + 1)
 
     def add_new_project(self):
         new_p = {"game": "Новий проєкт", "is_released": True, "status": "Релізнуте", "links": [], "icon": ""}
@@ -264,21 +372,28 @@ class ReleasedEditorWidget(QWidget):
             res = QMessageBox.question(self, "Вилучення", f"Вилучити проєкт '{self.released_projects[idx].get('game')}'?")
             if res == QMessageBox.StandardButton.Yes:
                 self.released_projects.pop(idx)
-                # Merge back
-                all_data = self.data_manager.load_data()
-                active_only = [p for p in all_data if not p.get('is_released')]
-                final_data = active_only + self.released_projects
-                self.data_manager.save_data(final_data)
-                
-                # Run index updater
-                try:
-                    import update_index
-                    update_index.main()
-                except Exception as updater_e:
-                    print(f"Помилка під час оновлення index.html: {updater_e}")
-                    
-                self.load_released_projects()
-                self.clear_form()
+                if self.save_all_data():
+                    self.load_released_projects()
+                    self.clear_form()
+
+    def save_all_data(self):
+        """Save all data including current order of released projects"""
+        all_data = self.data_manager.load_data()
+        active_only = [p for p in all_data if not p.get('is_released')]
+        final_data = active_only + self.released_projects
+        
+        try:
+            self.data_manager.save_data(final_data)
+            # Run index updater
+            try:
+                import update_index
+                update_index.main()
+            except Exception as updater_e:
+                print(f"Помилка під час оновлення index.html: {updater_e}")
+            return True
+        except Exception as e:
+            QMessageBox.critical(self, "Помилка", f"Не вдалося зберегти: {e}")
+            return False
 
     def save_current(self):
         idx = self.current_project_index
@@ -290,6 +405,7 @@ class ReleasedEditorWidget(QWidget):
         proj["description"] = self.description_input.toPlainText()
         proj["coauthors"] = self.coauthors_input.text()
         proj["icon"] = self.icon_path_display.text()
+        proj["header"] = self.header_path_display.text()
         
         links = []
         for i in range(self.links_table.rowCount()):
@@ -301,23 +417,8 @@ class ReleasedEditorWidget(QWidget):
                 links.append({"label": label, "url": url})
         proj["links"] = links
         
-        all_data = self.data_manager.load_data()
-        active_only = [p for p in all_data if not p.get('is_released')]
-        final_data = active_only + self.released_projects
-        
-        try:
-            self.data_manager.save_data(final_data)
+        if self.save_all_data():
             self.load_released_projects()
             self.project_list.setCurrentRow(idx)
             self.data_changed.emit()
-            
-            # Run index updater
-            try:
-                import update_index
-                update_index.main()
-            except Exception as updater_e:
-                print(f"Помилка під час оновлення index.html: {updater_e}")
-                
             QMessageBox.information(self, "Збережено", "Дані оновлено успішно!")
-        except Exception as e:
-            QMessageBox.critical(self, "Помилка", f"Не вдалося зберегти: {e}")

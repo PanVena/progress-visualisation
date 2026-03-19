@@ -3,7 +3,6 @@
 
 import json
 import re
-import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -24,19 +23,31 @@ def main():
         html = f.read()
 
     # --- Оновити EMBEDDED_DATA ---
-    # Використовуємо маркери /* DATA_START */ та /* DATA_END */ для надійності
-    embedded_json = json.dumps(data, ensure_ascii=False, indent=2)
-    # Додати відступ для блоку даних
-    lines = embedded_json.split("\n")
-    indented = lines[0] + "\n" + "\n".join("      " + l for l in lines[1:])
+    start_marker = "/* DATA_START */"
+    end_marker = "/* DATA_END */"
     
-    replacement = f"/* DATA_START */\n    const EMBEDDED_DATA = {indented};\n    /* DATA_END */"
-    pattern = r"/\* DATA_START \*/.*?/\* DATA_END \*/"
-    new_html, count = re.subn(pattern, replacement, html, flags=re.DOTALL)
+    start_idx = html.find(start_marker)
+    end_idx = html.find(end_marker)
 
-    if count == 0:
-        # Спробувати старий паттерн, якщо маркери ще не додані (на всяк випадок)
+    if start_idx != -1 and end_idx != -1:
+        embedded_json = json.dumps(data, ensure_ascii=False, indent=2)
+        # Додати відступ для блоку даних
+        lines = embedded_json.split("\n")
+        indented = lines[0] + "\n" + "\n".join("      " + l for l in lines[1:])
+        
+        replacement = f"const EMBEDDED_DATA = {indented};\n    "
+        
+        new_html = (
+            html[:start_idx + len(start_marker)] + 
+            "\n    " + replacement + 
+            html[end_idx:]
+        )
+    else:
+        # Спробувати старий паттерн, якщо маркери ще не додані
         pattern_old = r"const EMBEDDED_DATA = \[.*?\];"
+        embedded_json = json.dumps(data, ensure_ascii=False, indent=2)
+        lines = embedded_json.split("\n")
+        indented = lines[0] + "\n" + "\n".join("      " + l for l in lines[1:])
         replacement_old = f"const EMBEDDED_DATA = {indented};"
         new_html, count = re.subn(pattern_old, replacement_old, html, flags=re.DOTALL)
         

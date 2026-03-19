@@ -1,7 +1,9 @@
 [
   {
     "game": "The Talos Principle",
-    "icon": "./icons/TheTalosPrinciple.png",
+    "icon": "./icons/logos/TheTalosPrinciple.png",
+    "header": "./icons/headers/The Talos Principle.png",
+    "steam_link": "https://store.steampowered.com/app/257510/The_Talos_Principle/",
     "unit": "слів",
     "frozen": false,
     "description": "The Talos Principle — це головоломка від першої особи у традиції філософської наукової фантастики. Гру створила студія Croteam, а сценарій написали Том Джуберт (FTL, The Swapper) та Йонас Кирацес (The Sea Will Claim Everything).",
@@ -52,7 +54,9 @@
   },
   {
     "game": "The Talos Principle: Reawakening",
-    "icon": "./icons/Talos RE.png",
+    "icon": "./icons/logos/Talos RE.png",
+    "header": "./icons/headers/The Talos Principle: Reawakening.png",
+    "steam_link": "https://store.steampowered.com/app/2806640/The_Talos_Principle_Reawakened/",
     "unit": "слів",
     "frozen": false,
     "description": "Пориньте в атмосферу вигадливих пазлів, філософських інтриг і захопливих краєвидів у The Talos Principle: Reawakened — грою-головоломкою від першої особи, що сподобається як новим гравцям, так і шанувальникам оригінальної гри.",
@@ -97,7 +101,9 @@
   },
   {
     "game": "The Entropy Centre",
-    "icon": "./icons/The_Entropy_Centre.png",
+    "icon": "./icons/logos/The_Entropy_Centre.png",
+    "header": "./icons/headers/The Entropy Centre.png",
+    "steam_link": "https://store.steampowered.com/app/1730590/The_Entropy_Centre/",
     "unit": "слів",
     "frozen": true,
     "description": "Думайте інакше. Покажіть, що неможливе можливо. Гра-пригода від першої особи, де вам доведеться поламати голову над неймовірними і заплутаними загадками, контролюючи об'єкти у часі.",
@@ -118,7 +124,9 @@
   },
   {
     "game": "The Talos Principle 2",
-    "icon": "./icons/Talos2.png",
+    "icon": "./icons/logos/Talos2.png",
+    "header": "./icons/headers/The Talos Principle 2.png",
+    "steam_link": "https://store.steampowered.com/app/835960/The_Talos_Principle_2/",
     "unit": "слів",
     "frozen": true,
     "description": "The Talos Principle 2 ― це захоплююча головоломка від першої особи, в якій значно розширилися філософські теми першої гри, а середовища з дедалі складнішими завданнями стали ще більш приголомшливими.",
@@ -147,8 +155,13 @@
     "game": "Herdling",
     "is_released": true,
     "status": "Релізнуте",
-    "icon": "./icons/Herdling.png",
+    "icon": "./icons/logos/Herdling.png",
+    "header": "./icons/headers/Herdling.jpg",
     "links": [
+      {
+        "label": "Steam",
+        "url": "https://store.steampowered.com/app/3047750/Herdling/"
+      },
       {
         "label": "LBK Launcher",
         "url": "https://lbklauncher.com/open/herdling/linyvi-shi"
@@ -173,8 +186,13 @@
     "game": "REPOSE",
     "is_released": true,
     "status": "Релізнуте",
-    "icon": "./icons/REPOSE.png",
+    "icon": "./icons/logos/REPOSE.png",
+    "header": "./icons/headers/REPOSE.jpg",
     "links": [
+      {
+        "label": "Steam",
+        "url": "https://store.steampowered.com/app/3002510/REPOSE/"
+      },
       {
         "label": "LBK Launcher",
         "url": "https://lbklauncher.com/open/repose/linyvi-shi"
@@ -199,8 +217,13 @@
     "game": "Bomber Crew",
     "is_released": true,
     "status": "Релізнуте",
-    "icon": "./icons/бомбардино крокоділо.png",
+    "icon": "./icons/logos/бомбардино крокоділо.png",
+    "header": "./icons/headers/Bomber Crew.png",
     "links": [
+      {
+        "label": "Steam",
+        "url": "https://store.steampowered.com/app/537800/Bomber_Crew/"
+      },
       {
         "label": "LBK Launcher",
         "url": "https://lbklauncher.com/open/bomber_crew/linyvi-shi"
@@ -225,8 +248,13 @@
     "game": "Bayonetta",
     "is_released": true,
     "status": "Релізнуте",
-    "icon": "./icons/байо.png",
+    "icon": "./icons/logos/байо.png",
+    "header": "./icons/headers/Bayonetta.jpg",
     "links": [
+      {
+        "label": "Steam",
+        "url": "https://store.steampowered.com/app/460790/Bayonetta/"
+      },
       {
         "label": "LBK Launcher",
         "url": "https://lbklauncher.com/open/bayonetta/linyvi-shi-ukrainizatsiia-vidom"
@@ -239,7 +267,8 @@
     "game": "Can I get an Iced Coffee with Breastmilk!?",
     "is_released": true,
     "status": "ОФІЦІЙНИЙ ПЕРЕКЛАД",
-    "icon": "./icons/MilkCoffee.png",
+    "icon": "./icons/logos/MilkCoffee.png",
+    "header": "./icons/headers/Can I get an Iced Coffee with Breastmilk.jpg",
     "icon_type": "steam",
     "links": [
       {

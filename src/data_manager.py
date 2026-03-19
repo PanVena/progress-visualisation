@@ -76,6 +76,11 @@ class DataManager:
             if not os.path.exists(project["icon"]):
                 raise ValidationError(f"Файл іконки не знайдено: {project['icon']}")
         
+        # Check header file if specified
+        if "header" in project and project["header"]:
+            if not os.path.exists(project["header"]):
+                raise ValidationError(f"Файл гедера не знайдено: {project['header']}")
+        
         # Check unit
         valid_units = ["слів", "рядків", "файлів"]
         if "unit" in project and project["unit"] not in valid_units:

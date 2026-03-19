@@ -367,6 +367,28 @@ class EditorWidget(QWidget):
         icon_layout.addWidget(icon_btn)
         info_layout.addLayout(icon_layout)
         
+        # Header picker
+        header_layout = QHBoxLayout()
+        header_label = QLabel("Гедер:")
+        header_label.setFixedWidth(100)
+        self.header_path_label = QLabel("Не вибрано")
+        self.header_path_label.setStyleSheet(f"color: {COLORS['subtext']};")
+        header_btn = QPushButton("Вибрати гедер")
+        header_btn.clicked.connect(self.pick_header)
+        header_layout.addWidget(self.header_path_label, 1)
+        header_layout.addWidget(header_btn)
+        info_layout.addLayout(header_layout)
+        
+        # Steam link
+        steam_layout = QHBoxLayout()
+        steam_label = QLabel("Steam Link:")
+        steam_label.setFixedWidth(100)
+        self.steam_link_input = QLineEdit()
+        self.steam_link_input.setPlaceholderText("https://store.steampowered.com/app/...")
+        steam_layout.addWidget(steam_label)
+        steam_layout.addWidget(self.steam_link_input)
+        info_layout.addLayout(steam_layout)
+        
         # Unit selection
         unit_layout = QHBoxLayout()
         unit_label = QLabel("Одиниці виміру:")
@@ -539,6 +561,18 @@ class EditorWidget(QWidget):
         if icon_path:
             self.icon_path_label.setText(icon_path)
             self.icon_path_label.setProperty('icon_path', icon_path)
+        else:
+            self.icon_path_label.setText("Не вибрано")
+            self.icon_path_label.setProperty('icon_path', "")
+
+        # Set header
+        header_path = project.get('header', '')
+        if header_path:
+            self.header_path_label.setText(header_path)
+            self.header_path_label.setProperty('header_path', header_path)
+        else:
+            self.header_path_label.setText("Не вибрано")
+            self.header_path_label.setProperty('header_path', "")
 
         
         # Set unit
@@ -554,6 +588,9 @@ class EditorWidget(QWidget):
         
         # Load description
         self.desc_editor.setPlainText(project.get('description', ''))
+        
+        # Set Steam Link
+        self.steam_link_input.setText(project.get('steam_link', ''))
         
         # Load sections
         self.sections_table.setRowCount(0)
@@ -741,9 +778,11 @@ class EditorWidget(QWidget):
             project.update({
                 'game': self.game_name_input.text().strip(),
                 'icon': self.icon_path_label.property('icon_path') or '',
+                'header': self.header_path_label.property('header_path') or '',
                 'unit': self.unit_combo.currentText(),
                 'frozen': self.frozen_check.isChecked(),
                 'description': self.desc_editor.toPlainText().strip(),
+                'steam_link': self.steam_link_input.text().strip(),
                 'sections': self.get_sections_data()
             })
             
@@ -797,6 +836,27 @@ class EditorWidget(QWidget):
             "./icons",
             "Images (*.png *.jpg *.jpeg *.bmp)"
         )
+        if file_path:
+            cwd = os.getcwd()
+            if file_path.startswith(cwd):
+                file_path = "." + file_path[len(cwd):]
+            self.icon_path_label.setText(file_path)
+            self.icon_path_label.setProperty('icon_path', file_path)
+
+    def pick_header(self):
+        """Open file dialog to pick header"""
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Вибрати гедер",
+            "./icons/headers",
+            "Images (*.png *.jpg *.jpeg *.bmp *.webp)"
+        )
+        if file_path:
+            cwd = os.getcwd()
+            if file_path.startswith(cwd):
+                file_path = "." + file_path[len(cwd):]
+            self.header_path_label.setText(file_path)
+            self.header_path_label.setProperty('header_path', file_path)
         
         if file_path:
             self.icon_path_label.setText(file_path)
