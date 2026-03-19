@@ -504,9 +504,11 @@ class EditorWidget(QWidget):
     def load_projects(self):
         """Load projects into the list"""
         self.project_list.clear()
-        data = self.data_manager.load_data()
+        all_data = self.data_manager.load_data()
+        # Filter for active only
+        self.active_projects = [p for p in all_data if not p.get('is_released')]
         
-        for project in data:
+        for project in self.active_projects:
             self.project_list.addItem(project['game'])
             
         # Select first project if available and nothing selected
@@ -515,12 +517,12 @@ class EditorWidget(QWidget):
     
     def on_project_selected(self, index: int):
         """Handle project selection"""
-        if index < 0:
+        if index < 0 or index >= len(self.active_projects):
             self.set_editor_enabled(False)
             return
         
         self.current_project_index = index
-        project = self.data_manager.get_project(index)
+        project = self.active_projects[index]
         
         if project:
             self.load_project_to_editor(project)
@@ -734,15 +736,21 @@ class EditorWidget(QWidget):
                 
                 project['sections'].append(section)
             
-            # Update or add project
-            if self.current_project_index >= 0:
-                self.data_manager.update_project(self.current_project_index, project)
-            else:
-                self.data_manager.add_project(project)
+            project = self.active_projects[self.current_project_index]
             
-            # Save to file
+            project.update({
+                'game': self.game_name_input.text().strip(),
+                'icon': self.icon_path_label.property('icon_path') or '',
+                'unit': self.unit_combo.currentText(),
+                'frozen': self.frozen_check.isChecked(),
+                'description': self.desc_editor.toPlainText().strip(),
+                'sections': self.get_sections_data()
+            })
+            
+            # Save the whole data
             self.data_manager.save_data()
             self.load_projects()
+            self.project_list.setCurrentRow(self.current_project_index)
             self.data_changed.emit()
             
             # Run index updater
@@ -777,7 +785,7 @@ class EditorWidget(QWidget):
     def cancel_edit(self):
         """Cancel editing and reload"""
         if self.current_project_index >= 0:
-            project = self.data_manager.get_project(self.current_project_index)
+            project = self.active_projects[self.current_project_index]
             if project:
                 self.load_project_to_editor(project)
     

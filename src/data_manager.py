@@ -59,6 +59,9 @@ class DataManager:
         if not project["game"].strip():
             raise ValidationError("Назва гри не може бути порожньою")
         
+        if "is_released" in project and project["is_released"]:
+            return  # Skip sections validation for released projects
+            
         if "sections" not in project:
             raise ValidationError("Відсутнє поле 'sections'")
         

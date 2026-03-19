@@ -111,6 +111,8 @@ class OldVisualizerWidget(QWidget):
         
         # Add projects
         for game in data:
+            if game.get('is_released'):
+                continue
             game_frame = self.create_game_frame(game)
             self.main_layout.addWidget(game_frame)
     

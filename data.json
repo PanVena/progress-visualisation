@@ -142,5 +142,112 @@
         "approved": 0
       }
     ]
+  },
+  {
+    "game": "Herdling",
+    "is_released": true,
+    "status": "Релізнуте",
+    "icon": "./icons/Herdling.png",
+    "links": [
+      {
+        "label": "LBK Launcher",
+        "url": "https://lbklauncher.com/open/herdling/linyvi-shi"
+      },
+      {
+        "label": "Steam-посібник",
+        "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3553602862"
+      },
+      {
+        "label": "GDrive",
+        "url": "https://drive.google.com/drive/u/1/folders/1edmiAJEp1DeuxUVfspP4mUgBYbUJvgZX"
+      },
+      {
+        "label": "КУЛІ",
+        "url": "https://kuli.com.ua/herdling"
+      }
+    ],
+    "description": "Поведіть гурт загадкових тварин у захопливу подорож у гори… й навіть далі.",
+    "coauthors": "Вена"
+  },
+  {
+    "game": "REPOSE",
+    "is_released": true,
+    "status": "Релізнуте",
+    "icon": "./icons/REPOSE.png",
+    "links": [
+      {
+        "label": "LBK Launcher",
+        "url": "https://lbklauncher.com/open/repose/linyvi-shi"
+      },
+      {
+        "label": "Steam-посібник",
+        "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3546315890"
+      },
+      {
+        "label": "GDrive",
+        "url": "https://drive.google.com/drive/u/1/folders/14hI_u0lISo0FHRjLJemrCGgjl18A2oU8"
+      },
+      {
+        "label": "КУЛІ",
+        "url": "https://kuli.com.ua/repose"
+      }
+    ],
+    "description": "У цьому місці кожен крок, кожен постріл, кожна помилка коштують дорогоцінної енергії. Ця загадка, зображена повністю в чорно-білих тонах, може бути розгадана. Загадку можна вирішити. Не питай, хто намагався її вирішити раніше. Виконай роботу. Знайди кисень і поспи. Заглибся далі. І не питай про Арона.",
+    "coauthors": "Вена"
+  },
+  {
+    "game": "Bomber Crew",
+    "is_released": true,
+    "status": "Релізнуте",
+    "icon": "./icons/бомбардино крокоділо.png",
+    "links": [
+      {
+        "label": "LBK Launcher",
+        "url": "https://lbklauncher.com/open/bomber_crew/linyvi-shi"
+      },
+      {
+        "label": "Steam-посібник",
+        "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3661153898"
+      },
+      {
+        "label": "GDrive",
+        "url": "https://drive.google.com/drive/u/1/folders/1NWM_ZTRu64bERciUxWX-fj9L7Q8gn4kI"
+      },
+      {
+        "label": "КУЛІ",
+        "url": "https://kuli.com.ua/bomber-crew"
+      }
+    ],
+    "description": "До злету готові! Бомбардирський екіпаж — це стратегічна симуляційна гра, де правильний вибір екіпажу та утримання вашого бомбардувальника в ідеальному стані — це різниця між виконанням місії та втратою всього! Доповнення ПС США ВЖЕ ДОСТУПНЕ! КЕРУЙТЕ ЛЕГЕНДАРНИМ АМЕРИКАНСЬКИМ БОМБАРДУВАЛЬНИКОМ!",
+    "coauthors": "Вена, reympeg, Mister_ERIO"
+  },
+  {
+    "game": "Bayonetta",
+    "is_released": true,
+    "status": "Релізнуте",
+    "icon": "./icons/байо.png",
+    "links": [
+      {
+        "label": "LBK Launcher",
+        "url": "https://lbklauncher.com/open/bayonetta/linyvi-shi-ukrainizatsiia-vidom"
+      }
+    ],
+    "description": "Колись існували два клани, що зберігали баланс між Темрявою і Світлом в світі: «Умбра» — послідовники Темряви, відьми, і їхні колеги, «Люмен» — послідовники Світла, мудреці. Клани поважали один одного, але одного разу від мудреця і відьми народилася дитина, що було заборонено. Мудрець був вигнаний, а відьму кинули до в'язниці. Однак, їхня дочка Цереза залишилася в клані Умбра, хоч і стала там аутсайдером. Єдина подруга Церези Жанна згодом мусила очолити клан Умбра і довести свою вірність в поєдинку з Церезою.",
+    "coauthors": "Дарк Валерійович, Михайло, Марь, Вена, Мисливець за смертю, Life In Code, Рубан Ростислав"
+  },
+  {
+    "game": "Can I get an Iced Coffee with Breastmilk!?",
+    "is_released": true,
+    "status": "ОФІЦІЙНИЙ ПЕРЕКЛАД",
+    "icon": "./icons/MilkCoffee.png",
+    "icon_type": "steam",
+    "links": [
+      {
+        "label": "Steam",
+        "url": "https://store.steampowered.com/app/4158970/Can_I_get_an_Iced_Coffee_with_Breastmilk/"
+      }
+    ],
+    "description": "Відвідайте вашу улюблену дівчину-кроличку — Мафін, та скуштуйте свою добову норму кави в комплекті з процедурою: «Неймовірне грудне молоко» в цьому еротичному оповіданні від першої особи. Змусьте циці розбухати, а молоко — литися рікою!",
+    "coauthors": "Вена, Тьомич"
   }
 ]

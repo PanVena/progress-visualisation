@@ -370,12 +370,15 @@ class VisualizerWidget(QWidget):
         # Load data
         data = self.data_manager.load_data()
         
+        # Filter out released projects for visualization
+        active_projects = [p for p in data if not p.get('is_released')]
+        
         # Determine if we need a Hero tile (Odd count + Mechanical)
-        is_odd = len(data) % 2 != 0
+        is_odd = len(active_projects) % 2 != 0
         use_hero = is_odd and theme_manager.current_theme_name == "mechanical"
         
         # Add projects logic
-        for i, game in enumerate(data):
+        for i, game in enumerate(active_projects):
             if i == 0 and use_hero:
                 # Special case: Hero card takes full width by being placed in root_layout
                 game_frame = self.create_mechanical_game_frame(game, is_hero=True)

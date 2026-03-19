@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src
 from visualizer import VisualizerWidget
 from old_visualizer import OldVisualizerWidget
 from editor import EditorWidget
+from released_editor import ReleasedEditorWidget
 from theme_manager import theme_manager
 
 COLORS = theme_manager.get_theme()
@@ -27,11 +28,16 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Візуалізатор поступу")
         self.visualizer = VisualizerWidget(self)
-        self.old_visualizer = OldVisualizerWidget(self)
-        self.editor = EditorWidget(self)
+        self.old_visualizer = OldVisualizerWidget()
+        self.editor = EditorWidget()
+        self.released_editor = ReleasedEditorWidget()
         
         # Connect to theme changes
         theme_manager.theme_changed.connect(self.on_theme_changed)
+        
+        # Connect editor to visualizers
+        self.editor.data_changed.connect(self.on_data_changed)
+        self.released_editor.data_changed.connect(self.on_data_changed)
         
         # Initial window size based on project count
         # If we have few projects, we don't need a huge window
@@ -40,10 +46,6 @@ class MainWindow(QMainWindow):
             self.resize(1400, 500)
         else:
             self.resize(1400, 800)
-        
-        # Connect editor data changes to both visualizers refresh
-        self.editor.data_changed.connect(self.visualizer.refresh)
-        self.editor.data_changed.connect(self.old_visualizer.refresh)
         
         # Create main widget and layout
         main_widget = QWidget()
@@ -61,11 +63,17 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.visualizer)
         self.stacked_widget.addWidget(self.old_visualizer)
         self.stacked_widget.addWidget(self.editor)
+        self.stacked_widget.addWidget(self.released_editor)
         layout.addWidget(self.stacked_widget)
         
         # Apply custom styling
         self.apply_custom_style()
     
+    def on_data_changed(self):
+        """Handle data changes from editors and refresh visualizers."""
+        self.visualizer.refresh()
+        self.old_visualizer.refresh()
+
     def create_nav_bar(self) -> QWidget:
         """Create navigation bar"""
         self.nav_widget = QWidget()
@@ -92,20 +100,26 @@ class MainWindow(QMainWindow):
         layout.addWidget(classic_btn)
         
         # Old view button
-        old_btn = QPushButton("Старий вигляд")
-        old_btn.setCheckable(True)
-        old_btn.clicked.connect(lambda: self.switch_view(1, old_btn))
-        layout.addWidget(old_btn)
+        self.old_btn = QPushButton("Старий вигляд")
+        self.old_btn.setCheckable(True)
+        self.old_btn.clicked.connect(lambda: self.switch_view(1, self.old_btn))
+        layout.addWidget(self.old_btn)
         
         # Edit button
-        edit_btn = QPushButton("Редагування")
-        edit_btn.setCheckable(True)
-        edit_btn.clicked.connect(lambda: self.switch_view(2, edit_btn))
-        layout.addWidget(edit_btn)
+        self.edit_btn = QPushButton("Редагувати")
+        self.edit_btn.setCheckable(True)
+        self.edit_btn.clicked.connect(lambda: self.switch_view(2, self.edit_btn))
+        layout.addWidget(self.edit_btn)
+
+        # Released Projects button
+        self.released_btn = QPushButton("Релізи 📦")
+        self.released_btn.setCheckable(True)
+        self.released_btn.clicked.connect(lambda: self.switch_view(3, self.released_btn))
+        layout.addWidget(self.released_btn)
         
         layout.addStretch()
         
-        self.nav_buttons = [mechanical_btn, classic_btn, old_btn, edit_btn]
+        self.nav_buttons = [mechanical_btn, classic_btn, self.old_btn, self.edit_btn, self.released_btn]
         self.update_button_styles()
         
         return self.nav_widget
@@ -164,10 +178,21 @@ class MainWindow(QMainWindow):
     
     def switch_view(self, index: int, active_btn: QPushButton):
         """Switch between views"""
-        self.stacked_widget.setCurrentIndex(index)
         for btn in self.nav_buttons:
             btn.setChecked(btn == active_btn)
         self.update_button_styles()
+        
+        self.stacked_widget.setCurrentIndex(index)
+        
+        # Special case: ensuring editors/visualizers reload data
+        if index == 2:
+            self.editor.load_projects()
+        elif index == 3:
+            self.released_editor.load_released_projects()
+        elif index == 0:
+            self.visualizer.refresh()
+        elif index == 1:
+            self.old_visualizer.refresh()
     
     def on_theme_changed(self, theme_name):
         """Handle global theme change"""

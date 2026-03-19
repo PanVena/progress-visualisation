@@ -123,6 +123,7 @@
       text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
     }
 
+
     .header .date-badge {
       display: inline-block;
       font-size: 0.9rem;
@@ -247,7 +248,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 24px 24px 0;
+      padding: 24px;
       transition: all 0.8s var(--transition-smooth);
     }
 
@@ -261,8 +262,8 @@
     }
 
     .card-icon {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 16px;
       object-fit: contain;
       padding: 6px;
@@ -273,7 +274,7 @@
     }
 
     .card-title {
-      font-size: 1.15rem;
+      font-size: 1.3rem;
       font-weight: 700;
       line-height: 1.3;
       color: var(--text-primary);
@@ -635,7 +636,7 @@
 
     .games-grid.has-active .game-card.active {
       grid-column: 2;
-      grid-row: 1 / span 100;
+      grid-row: 1 / span 10;
     }
 
     /* Non-active cards in sidebar become mini */
@@ -834,6 +835,147 @@
       z-index: 2;
     }
 
+    /* ===== Released Projects Section ===== */
+    .released-section {
+      margin-top: 60px;
+      margin-bottom: 40px;
+      background: rgba(17, 19, 39, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .released-header {
+      padding: 24px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      background: rgba(30, 35, 69, 0.3);
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+
+    .released-header:hover {
+      background: rgba(30, 35, 69, 0.5);
+    }
+
+    .released-header h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .released-header .toggle-icon {
+      width: 28px;
+      height: 28px;
+      transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+      stroke: var(--text-dim);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .released-section.expanded .toggle-icon {
+      transform: rotate(180deg);
+      stroke: var(--accent-translated);
+    }
+
+    .released-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.6s ease;
+      opacity: 0;
+    }
+
+    .released-section.expanded .released-content {
+      max-height: 2000px;
+      padding: 30px;
+      opacity: 1;
+    }
+
+
+    .game-card.released:hover {
+      border-color: var(--accent-approved);
+      box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.1), 0 16px 48px rgba(57, 255, 20, 0.1);
+    }
+
+    .game-card.released::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(57, 255, 20, 0.1), transparent 70%);
+    }
+
+    .released-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(57, 255, 20, 0.1);
+      color: var(--accent-approved);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      align-self: flex-start;
+      letter-spacing: 0.5px;
+    }
+
+    .released-badge.official {
+      background: rgba(255, 222, 0, 0.1);
+      color: #ffde00;
+      border-color: rgba(255, 222, 0, 0.4);
+      box-shadow: 0 0 10px rgba(255, 222, 0, 0.1);
+    }
+
+    .released-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .released-link-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+    }
+
+    .released-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(30, 35, 69, 0.6);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .released-link:hover {
+      background: var(--text-dim);
+      color: var(--text-primary);
+      border-color: var(--text-primary);
+    }
+
+    .released-link svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
     .header-pill.mono {
       background: linear-gradient(135deg, #ffde00, #ffc400);
       color: #000;
@@ -854,6 +996,57 @@
 
     .header-pill.mono svg {
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    .project-coauthors {
+      padding: 0 24px 16px;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-coauthors .label {
+      color: var(--text-dim);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+    }
+
+    .authors-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .author-pill {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--accent-translated);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .author-pill:nth-child(6n+1) { background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.3); color: #a855f7; }
+    .author-pill:nth-child(6n+2) { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+    .author-pill:nth-child(6n+3) { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #f59e0b; }
+    .author-pill:nth-child(6n+4) { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.3); color: #ef4444; }
+    .author-pill:nth-child(6n+5) { background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.3); color: #3b82f6; }
+    .author-pill:nth-child(6n+0) { background: rgba(236, 72, 153, 0.12); border-color: rgba(236, 72, 153, 0.3); color: #ec4899; }
+
+
+
+    .author-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     /* ===== Frozen / Frost Effect ===== */
@@ -972,6 +1165,20 @@
 
     <div class="games-grid" id="games-grid"></div>
 
+    <div class="released-section" id="released-section">
+      <div class="released-header" id="released-toggle">
+        <h2>Наші релізнуті проєкти</h2>
+        <svg class="toggle-icon" viewBox="0 0 24 24">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+      <div class="released-content">
+        <div class="games-grid" id="released-grid">
+          <!-- Релізнуті проєкти будуть додані тут за допомогою JS -->
+        </div>
+      </div>
+    </div>
+
     <footer class="credit"></footer>
   </div>
 
@@ -1065,152 +1272,261 @@
     }
 
     // ========== Data & Rendering ==========
+    /* DATA_START */
     const EMBEDDED_DATA = [
-      {
-        "game": "The Talos Principle",
-        "icon": "./icons/TheTalosPrinciple.png",
-        "unit": "слів",
-        "frozen": false,
-        "description": "The Talos Principle — це головоломка від першої особи у традиції філософської наукової фантастики. Гру створила студія Croteam, а сценарій написали Том Джуберт (FTL, The Swapper) та Йонас Кирацес (The Sea Will Claim Everything).",
-        "sections": [
-          {
-            "name": "Основна гра",
-            "total": 62385,
-            "translated": 62385,
-            "approved": 14214
-          },
-          {
-            "name": "Шлях до Геєнни (DLC)",
-            "total": 47318,
-            "translated": 47318,
-            "approved": 0
-          },
-          {
-            "name": "Елогім/Сем",
-            "total": 3365,
-            "translated": 2251,
-            "approved": 0
-          },
-          {
-            "name": "Досягнення",
-            "total": 336,
-            "translated": 336,
-            "approved": 0
-          },
-          {
-            "name": "Александра Дреннан",
-            "total": 22,
-            "translated": 22,
-            "approved": 0,
-            "translated_label": "Затверджено",
-            "approved_label": "Озвучено",
-            "exclude_from_total": true
-          },
-          {
-            "name": "ЕЛОГІМ",
-            "total": 99,
-            "translated": 99,
-            "approved": 0,
-            "translated_label": "Затверджено",
-            "approved_label": "Озвучено",
-            "exclude_from_total": true
-          }
-        ]
-      },
-      {
-        "game": "The Talos Principle: Reawakening",
-        "icon": "./icons/Talos RE.png",
-        "unit": "слів",
-        "frozen": false,
-        "description": "Пориньте в атмосферу вигадливих пазлів, філософських інтриг і захопливих краєвидів у The Talos Principle: Reawakened — грою-головоломкою від першої особи, що сподобається як новим гравцям, так і шанувальникам оригінальної гри.",
-        "sections": [
-          {
-            "name": "Основна гра",
-            "total": 50524,
-            "translated": 50524,
-            "approved": 0
-          },
-          {
-            "name": "Шлях до Геєнни (DLC",
-            "total": 44861,
-            "translated": 44861,
-            "approved": 0
-          },
-          {
-            "name": "Коментарі розробників",
-            "total": 32944,
-            "translated": 32944,
-            "approved": 0
-          },
-          {
-            "name": "Інтерфейс + In The Beninging",
-            "total": 11185,
-            "translated": 0,
-            "approved": 0
-          },
-          {
-            "name": "Інтерфейс + рядки з 2 Талоса",
-            "total": 5635,
-            "translated": 40,
-            "approved": 0
-          },
-          {
-            "name": "Досягнення",
-            "total": 441,
-            "translated": 441,
-            "approved": 0
-          }
-        ]
-      },
-      {
-        "game": "The Entropy Centre",
-        "icon": "./icons/The_Entropy_Centre.png",
-        "unit": "слів",
-        "frozen": true,
-        "description": "Думайте інакше. Покажіть, що неможливе можливо. Гра-пригода від першої особи, де вам доведеться поламати голову над неймовірними і заплутаними загадками, контролюючи об'єкти у часі.",
-        "sections": [
-          {
-            "name": "Текст",
-            "total": 17232,
-            "translated": 12095,
-            "approved": 0
-          },
-          {
-            "name": "Досягнення",
-            "total": 166,
-            "translated": 32,
-            "approved": 0
-          }
-        ]
-      },
-      {
-        "game": "The Talos Principle 2",
-        "icon": "./icons/Talos2.png",
-        "unit": "слів",
-        "frozen": true,
-        "description": "The Talos Principle 2 ― це захоплююча головоломка від першої особи, в якій значно розширилися філософські теми першої гри, а середовища з дедалі складнішими завданнями стали ще більш приголомшливими.",
-        "sections": [
-          {
-            "name": "Основна гра",
-            "total": 158585,
-            "translated": 5679,
-            "approved": 0
-          },
-          {
-            "name": "Шлях до Елісія (DLC)",
-            "total": 25082,
-            "translated": 0,
-            "approved": 0
-          },
-          {
-            "name": "Досягнення",
-            "total": 802,
-            "translated": 0,
-            "approved": 0
-          }
-        ]
-      }
-    ];
+        {
+          "game": "The Talos Principle",
+          "icon": "./icons/TheTalosPrinciple.png",
+          "unit": "слів",
+          "frozen": false,
+          "description": "The Talos Principle — це головоломка від першої особи у традиції філософської наукової фантастики. Гру створила студія Croteam, а сценарій написали Том Джуберт (FTL, The Swapper) та Йонас Кирацес (The Sea Will Claim Everything).",
+          "sections": [
+            {
+              "name": "Основна гра",
+              "total": 62385,
+              "translated": 62385,
+              "approved": 14214
+            },
+            {
+              "name": "Шлях до Геєнни (DLC)",
+              "total": 47318,
+              "translated": 47318,
+              "approved": 0
+            },
+            {
+              "name": "Елогім/Сем",
+              "total": 3365,
+              "translated": 2251,
+              "approved": 0
+            },
+            {
+              "name": "Досягнення",
+              "total": 336,
+              "translated": 336,
+              "approved": 0
+            },
+            {
+              "name": "Александра Дреннан",
+              "total": 22,
+              "translated": 22,
+              "approved": 0,
+              "translated_label": "Затверджено",
+              "approved_label": "Озвучено",
+              "exclude_from_total": true
+            },
+            {
+              "name": "ЕЛОГІМ",
+              "total": 99,
+              "translated": 99,
+              "approved": 0,
+              "translated_label": "Затверджено",
+              "approved_label": "Озвучено",
+              "exclude_from_total": true
+            }
+          ]
+        },
+        {
+          "game": "The Talos Principle: Reawakening",
+          "icon": "./icons/Talos RE.png",
+          "unit": "слів",
+          "frozen": false,
+          "description": "Пориньте в атмосферу вигадливих пазлів, філософських інтриг і захопливих краєвидів у The Talos Principle: Reawakened — грою-головоломкою від першої особи, що сподобається як новим гравцям, так і шанувальникам оригінальної гри.",
+          "sections": [
+            {
+              "name": "Основна гра",
+              "total": 50524,
+              "translated": 50524,
+              "approved": 0
+            },
+            {
+              "name": "Шлях до Геєнни (DLC",
+              "total": 44861,
+              "translated": 44861,
+              "approved": 0
+            },
+            {
+              "name": "Коментарі розробників",
+              "total": 32944,
+              "translated": 32944,
+              "approved": 0
+            },
+            {
+              "name": "Інтерфейс + In The Beninging",
+              "total": 11185,
+              "translated": 0,
+              "approved": 0
+            },
+            {
+              "name": "Інтерфейс + рядки з 2 Талоса",
+              "total": 5635,
+              "translated": 40,
+              "approved": 0
+            },
+            {
+              "name": "Досягнення",
+              "total": 441,
+              "translated": 441,
+              "approved": 0
+            }
+          ]
+        },
+        {
+          "game": "The Entropy Centre",
+          "icon": "./icons/The_Entropy_Centre.png",
+          "unit": "слів",
+          "frozen": true,
+          "description": "Думайте інакше. Покажіть, що неможливе можливо. Гра-пригода від першої особи, де вам доведеться поламати голову над неймовірними і заплутаними загадками, контролюючи об'єкти у часі.",
+          "sections": [
+            {
+              "name": "Текст",
+              "total": 17232,
+              "translated": 12095,
+              "approved": 0
+            },
+            {
+              "name": "Досягнення",
+              "total": 166,
+              "translated": 32,
+              "approved": 0
+            }
+          ]
+        },
+        {
+          "game": "The Talos Principle 2",
+          "icon": "./icons/Talos2.png",
+          "unit": "слів",
+          "frozen": true,
+          "description": "The Talos Principle 2 ― це захоплююча головоломка від першої особи, в якій значно розширилися філософські теми першої гри, а середовища з дедалі складнішими завданнями стали ще більш приголомшливими.",
+          "sections": [
+            {
+              "name": "Основна гра",
+              "total": 158585,
+              "translated": 5679,
+              "approved": 0
+            },
+            {
+              "name": "Шлях до Елісія (DLC)",
+              "total": 25082,
+              "translated": 0,
+              "approved": 0
+            },
+            {
+              "name": "Досягнення",
+              "total": 802,
+              "translated": 0,
+              "approved": 0
+            }
+          ]
+        },
+        {
+          "game": "Herdling",
+          "is_released": true,
+          "status": "Релізнуте",
+          "icon": "./icons/Herdling.png",
+          "links": [
+            {
+              "label": "LBK Launcher",
+              "url": "https://lbklauncher.com/open/herdling/linyvi-shi"
+            },
+            {
+              "label": "Steam-посібник",
+              "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3553602862"
+            },
+            {
+              "label": "GDrive",
+              "url": "https://drive.google.com/drive/u/1/folders/1edmiAJEp1DeuxUVfspP4mUgBYbUJvgZX"
+            },
+            {
+              "label": "КУЛІ",
+              "url": "https://kuli.com.ua/herdling"
+            }
+          ],
+          "description": "Поведіть гурт загадкових тварин у захопливу подорож у гори… й навіть далі.",
+          "coauthors": "Вена"
+        },
+        {
+          "game": "REPOSE",
+          "is_released": true,
+          "status": "Релізнуте",
+          "icon": "./icons/REPOSE.png",
+          "links": [
+            {
+              "label": "LBK Launcher",
+              "url": "https://lbklauncher.com/open/repose/linyvi-shi"
+            },
+            {
+              "label": "Steam-посібник",
+              "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3546315890"
+            },
+            {
+              "label": "GDrive",
+              "url": "https://drive.google.com/drive/u/1/folders/14hI_u0lISo0FHRjLJemrCGgjl18A2oU8"
+            },
+            {
+              "label": "КУЛІ",
+              "url": "https://kuli.com.ua/repose"
+            }
+          ],
+          "description": "У цьому місці кожен крок, кожен постріл, кожна помилка коштують дорогоцінної енергії. Ця загадка, зображена повністю в чорно-білих тонах, може бути розгадана. Загадку можна вирішити. Не питай, хто намагався її вирішити раніше. Виконай роботу. Знайди кисень і поспи. Заглибся далі. І не питай про Арона.",
+          "coauthors": "Вена"
+        },
+        {
+          "game": "Bomber Crew",
+          "is_released": true,
+          "status": "Релізнуте",
+          "icon": "./icons/бомбардино крокоділо.png",
+          "links": [
+            {
+              "label": "LBK Launcher",
+              "url": "https://lbklauncher.com/open/bomber_crew/linyvi-shi"
+            },
+            {
+              "label": "Steam-посібник",
+              "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3661153898"
+            },
+            {
+              "label": "GDrive",
+              "url": "https://drive.google.com/drive/u/1/folders/1NWM_ZTRu64bERciUxWX-fj9L7Q8gn4kI"
+            },
+            {
+              "label": "КУЛІ",
+              "url": "https://kuli.com.ua/bomber-crew"
+            }
+          ],
+          "description": "До злету готові! Бомбардирський екіпаж — це стратегічна симуляційна гра, де правильний вибір екіпажу та утримання вашого бомбардувальника в ідеальному стані — це різниця між виконанням місії та втратою всього! Доповнення ПС США ВЖЕ ДОСТУПНЕ! КЕРУЙТЕ ЛЕГЕНДАРНИМ АМЕРИКАНСЬКИМ БОМБАРДУВАЛЬНИКОМ!",
+          "coauthors": "Вена, reympeg, Mister_ERIO"
+        },
+        {
+          "game": "Bayonetta",
+          "is_released": true,
+          "status": "Релізнуте",
+          "icon": "./icons/байо.png",
+          "links": [
+            {
+              "label": "LBK Launcher",
+              "url": "https://lbklauncher.com/open/bayonetta/linyvi-shi-ukrainizatsiia-vidom"
+            }
+          ],
+          "description": "Колись існували два клани, що зберігали баланс між Темрявою і Світлом в світі: «Умбра» — послідовники Темряви, відьми, і їхні колеги, «Люмен» — послідовники Світла, мудреці. Клани поважали один одного, але одного разу від мудреця і відьми народилася дитина, що було заборонено. Мудрець був вигнаний, а відьму кинули до в'язниці. Однак, їхня дочка Цереза залишилася в клані Умбра, хоч і стала там аутсайдером. Єдина подруга Церези Жанна згодом мусила очолити клан Умбра і довести свою вірність в поєдинку з Церезою.",
+          "coauthors": "Дарк Валерійович, Михайло, Марь, Вена, Мисливець за смертю, Life In Code, Рубан Ростислав"
+        },
+        {
+          "game": "Can I get an Iced Coffee with Breastmilk!?",
+          "is_released": true,
+          "status": "ОФІЦІЙНИЙ ПЕРЕКЛАД",
+          "icon": "./icons/MilkCoffee.png",
+          "icon_type": "steam",
+          "links": [
+            {
+              "label": "Steam",
+              "url": "https://store.steampowered.com/app/4158970/Can_I_get_an_Iced_Coffee_with_Breastmilk/"
+            }
+          ],
+          "description": "Відвідайте вашу улюблену дівчину-кроличку — Мафін, та скуштуйте свою добову норму кави в комплекті з процедурою: «Неймовірне грудне молоко» в цьому еротичному оповіданні від першої особи. Змусьте циці розбухати, а молоко — литися рікою!",
+          "coauthors": "Вена, Тьомич"
+        }
+      ];
+    /* DATA_END */
 
     function createRingSVG(percent, type, size = 100) {
       const r = (size / 2) - 6;
@@ -1235,188 +1551,10 @@
       return { total, translated, approved };
     }
 
-    function renderCard(game, index) {
-      const isFrozen = game.frozen === true;
-      const sections = game.sections || [];
-      const { total, translated, approved } = calcOverall(sections);
-      const transPct = total > 0 ? (translated / total * 100) : 0;
-      const apprPct = total > 0 ? (approved / total * 100) : 0;
-
-      const iconSrc = game.icon || '';
-
-      // Sections HTML
-      let sectionsHTML = '';
-      for (const sec of sections) {
-        const t = sec.total;
-        const tr = sec.translated;
-        const ap = sec.approved;
-        const tPct = t > 0 ? (tr / t * 100) : 0;
-        const aPct = t > 0 ? (ap / t * 100) : 0;
-        const tLabel = sec.translated_label || 'Перекладено';
-        const aLabel = sec.approved_label || 'Затверджено';
-
-        sectionsHTML += `
-      <div class="section-row">
-        <span class="section-name">${sec.name}</span>
-        <div class="section-bars">
-          <div class="section-bar-row" title="${tLabel}: ${tPct.toFixed(1)}%">
-            <div class="section-label">${tLabel}</div>
-            <div class="section-bar-track">
-              <div class="section-bar-fill translated" style="width: 0%;" data-target-width="${tPct}"></div>
-            </div>
-            <span class="section-pct translated">${tPct.toFixed(1)}%</span>
-          </div>
-          <div class="section-bar-row" title="${aLabel}: ${aPct.toFixed(1)}%">
-            <div class="section-label">${aLabel}</div>
-            <div class="section-bar-track">
-              <div class="section-bar-fill approved" style="width: 0%;" data-target-width="${aPct}"></div>
-            </div>
-            <span class="section-pct approved">${aPct.toFixed(1)}%</span>
-          </div>
-        </div>
-        <div class="section-counts">${tr.toLocaleString('uk')} / ${t.toLocaleString('uk')}<br>${ap.toLocaleString('uk')} / ${t.toLocaleString('uk')}</div>
-      </div>
-    `;
-      }
-
-      const card = document.createElement('div');
-      card.className = 'game-card' + (isFrozen ? ' frozen' : '');
-      card.style.animationDelay = `${index * 0.1}s`;
-      card.innerHTML = `
-    <div class="game-card-inner">
-      <div class="collapse-arrow">
-        <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
-      </div>
-      ${isFrozen ? '<div class="frozen-badge"><span>❄</span> Заморожено</div>' : ''}
-      <div class="card-header">
-        <div class="card-header-left">
-          <img class="card-icon" src="${iconSrc}" alt="" onerror="this.style.display='none'">
-          <div style="flex:1; min-width:0;">
-            <div class="card-title">${game.game}</div>
-            <div class="sidebar-mini-bars">
-              <div class="section-bar-row" title="Перекладено: ${transPct.toFixed(1)}%">
-                <div class="section-bar-track">
-                  <div class="section-bar-fill translated" style="width: 0%;" data-target-width="${transPct}"></div>
-                </div>
-              </div>
-              <div class="section-bar-row" title="Затверджено: ${apprPct.toFixed(1)}%">
-                <div class="section-bar-track">
-                  <div class="section-bar-fill approved" style="width: 0%;" data-target-width="${apprPct}"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="expand-hint" style="padding:0; align-self:center;">
-          <svg class="expand-chevron" viewBox="0 0 24 24" style="width: 32px; height: 32px;">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </div>
-      <div class="game-desc-panel">${game.description || 'Детальний опис для цієї гри поки що відсутній.'}</div>
-      <div class="rings-container">
-        <div class="ring-group">
-          <div class="ring-wrapper">
-            ${createRingSVG(transPct, 'translated')}
-            <div class="ring-center-text translated">
-              ${transPct.toFixed(1)}%
-              <span class="unit">перекл.</span>
-            </div>
-          </div>
-          <span class="ring-label">Перекладено</span>
-        </div>
-        <div class="ring-group">
-          <div class="ring-wrapper">
-            ${createRingSVG(apprPct, 'approved')}
-            <div class="ring-center-text approved">
-              ${apprPct.toFixed(1)}%
-              <span class="unit">затвердж.</span>
-            </div>
-          </div>
-          <span class="ring-label">Затверджено</span>
-        </div>
-      </div>
-      <div class="card-total-words">
-        <span class="translated-count">${translated.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${pluralizeUnit(total, game.unit || 'слів')}<br>
-        <span class="approved-count">${approved.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${pluralizeUnit(total, game.unit || 'слів')}
-      </div>
-      <div class="sections-panel">
-        <div class="sections-inner">
-          <div class="section-divider"></div>
-          ${sectionsHTML}
-        </div>
-      </div>
-    </div>
-  `;
-
-      card.addEventListener('click', () => {
-        const grid = document.getElementById('games-grid');
-        const allCards = Array.from(document.querySelectorAll('.game-card'));
-        const isTurningOff = card.classList.contains('active');
-
-        // Remove any previous transforms cleanly
-        allCards.forEach(c => {
-          c.style.transition = 'none';
-          c.style.transform = '';
-        });
-
-        // 1. First Layer Rect
-        const firstRects = new Map();
-        allCards.forEach(c => firstRects.set(c, c.getBoundingClientRect()));
-
-        // 2. DOM Swaps (Instant Size/Shape Changes)
-        allCards.forEach(c => c.classList.remove('active', 'expanded'));
-        if (isTurningOff) {
-          grid.classList.remove('has-active');
-        } else {
-          card.classList.add('active');
-          grid.classList.add('has-active');
-        }
-
-        // Force layout flush so we can measure the NEW layout!
-        void grid.offsetHeight;
-
-        // 3. Last & Invert calculation
-        allCards.forEach(c => {
-          const first = firstRects.get(c);
-          const last = c.getBoundingClientRect();
-          const deltaX = first.left - last.left;
-          const deltaY = first.top - last.top;
-
-          // Invert
-          c.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-        });
-
-        // 4. Play Slide Animation
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            allCards.forEach(c => {
-              c.style.transition = 'transform 0.8s cubic-bezier(0.68, -0.1, 0.265, 1.2)';
-              c.style.transform = '';
-              setTimeout(() => { c.style.transition = ''; }, 800);
-            });
-
-            if (!isTurningOff) {
-              card.classList.add('expanded');
-              requestAnimationFrame(() => animateBars(card));
-
-              // Focus on the card: scroll it into view smoothly
-              setTimeout(() => {
-                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }, 100);
-            }
-          });
-        });
-      });
-
-      return card;
-    }
-
     function animateRings(container) {
       const circles = container.querySelectorAll('.ring-progress');
       circles.forEach(circle => {
         const target = circle.getAttribute('data-target-offset');
-        // Trigger after a frame so transition plays
         requestAnimationFrame(() => {
           circle.style.strokeDashoffset = target;
         });
@@ -1431,52 +1569,230 @@
       });
     }
 
-    async function init() {
-      // Date
-      document.getElementById('date-badge').textContent = 'Станом на 18.03.2026';
+    function attachCardBehavior(card, gridId) {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.released-link')) return;
 
-      // Load data (embedded, works offline / from file://)
-      const data = EMBEDDED_DATA;
+        const grid = document.getElementById(gridId);
+        const allCards = Array.from(grid.querySelectorAll('.game-card'));
+        const isTurningOff = card.classList.contains('active');
 
-      // Total stats
-      let grandTotal = 0, grandTranslated = 0, grandApproved = 0;
-      for (const game of data) {
-        const { total, translated, approved } = calcOverall(game.sections || []);
-        grandTotal += total;
-        grandTranslated += translated;
-        grandApproved += approved;
+        allCards.forEach(c => {
+          c.style.transition = 'none';
+          c.style.transform = '';
+        });
+
+        const firstRects = new Map();
+        allCards.forEach(c => firstRects.set(c, c.getBoundingClientRect()));
+
+        allCards.forEach(c => c.classList.remove('active', 'expanded'));
+        if (isTurningOff) {
+          grid.classList.remove('has-active');
+        } else {
+          card.classList.add('active');
+          grid.classList.add('has-active');
+        }
+
+        void grid.offsetHeight;
+
+        allCards.forEach(c => {
+          const first = firstRects.get(c);
+          const last = c.getBoundingClientRect();
+          const deltaX = first.left - last.left;
+          const deltaY = first.top - last.top;
+          c.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        });
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            allCards.forEach(c => {
+              c.style.transition = 'transform 0.8s cubic-bezier(0.68, -0.1, 0.265, 1.2)';
+              c.style.transform = '';
+              setTimeout(() => { c.style.transition = ''; }, 800);
+            });
+
+            if (!isTurningOff) {
+              card.classList.add('expanded');
+              if (card.querySelector('.section-bar-fill')) animateBars(card);
+              const rings = card.querySelector('.rings-container');
+              if (rings) animateRings(rings);
+
+              setTimeout(() => {
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100);
+            }
+          });
+        });
+      });
+    }
+
+    function renderProjectCard(project, index, gridId) {
+      const isReleased = project.is_released === true;
+      const isFrozen = project.frozen === true;
+      const sections = project.sections || [];
+      const iconSrc = project.icon || '';
+
+      const card = document.createElement('div');
+      card.className = 'game-card' + (isFrozen ? ' frozen' : '') + (isReleased ? ' released' : '');
+      card.style.animationDelay = `${index * 0.1}s`;
+
+      let detailContent = '';
+      let headerBottom = '';
+
+      if (isReleased) {
+        const isOfficial = project.status === 'ОФІЦІЙНИЙ ПЕРЕКЛАД';
+        const badgeClass = isOfficial ? 'released-badge official' : 'released-badge';
+
+        let linksHTML = '';
+        if (project.links) {
+          project.links.forEach(link => {
+            let labelStr = link.label.toLowerCase();
+            let iconHTML = '';
+            if (labelStr.includes('steam')) iconHTML = `<img src="./icons/branding/Steam.png" class="released-link-icon" alt="Steam">`;
+            else if (labelStr.includes('launcher') || labelStr.includes('lbk')) iconHTML = `<img src="./icons/branding/LBK.png" class="released-link-icon" alt="LBK">`;
+            else if (labelStr.includes('gdrive') || labelStr.includes('google') || labelStr.includes('drive')) iconHTML = `<img src="./icons/branding/GDrive.png" class="released-link-icon" alt="GDrive">`;
+            else if (labelStr.includes('кулі') || labelStr.includes('kuli')) iconHTML = `<img src="./icons/branding/KULI.png" class="released-link-icon" alt="KULI">`;
+            else iconHTML = `<svg viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.43c-.16.09-.33.14-.5.14s-.34-.05-.5-.14l-7.97-4.43c-.32-.17-.53-.5-.53-.88V7.5c0-.38.21-.71.53-.88l7.97-4.43c.16-.09.33-.14.5-.14s.34.05.5.14l7.97 4.43c.32.17.53.5.53.88v9z"/></svg>`;
+
+            linksHTML += `
+            <a href="${link.url}" class="released-link" target="_blank" rel="noopener">
+              ${iconHTML}
+              <span>${link.label}</span>
+            </a>
+          `;
+          });
+        }
+
+        const transPct = 100, apprPct = 100;
+        headerBottom = `<div class="${badgeClass}">${project.status}</div>`;
+
+        let coauthorsHTML = '';
+        if (project.coauthors) {
+          const authors = project.coauthors.split(',').map(a => a.trim()).filter(a => a);
+          const pills = authors.map(a => `<span class="author-pill">${a}</span>`).join('');
+          coauthorsHTML = `
+            <div class="project-coauthors">
+              <span class="label">Автори:</span>
+              <div class="authors-list">${pills}</div>
+            </div>
+          `;
+        }
+
+        detailContent = `
+        ${coauthorsHTML}
+        <div class="sections-panel">
+          <div class="sections-inner">
+            <div class="section-divider"></div>
+            <div class="released-links">
+              ${linksHTML}
+            </div>
+          </div>
+        </div>
+      `;
+      } else {
+        const { total, translated, approved } = calcOverall(sections);
+        const transPct = total > 0 ? (translated / total * 100) : 0;
+        const apprPct = total > 0 ? (approved / total * 100) : 0;
+
+        let sectionsHTML = '';
+        for (const sec of sections) {
+          const t = sec.total, tr = sec.translated, ap = sec.approved;
+          const tPct = t > 0 ? (tr / t * 100) : 0, aPct = t > 0 ? (ap / t * 100) : 0;
+          const tLabel = sec.translated_label || 'Перекладено', aLabel = sec.approved_label || 'Затверджено';
+          sectionsHTML += `
+          <div class="section-row">
+            <span class="section-name">${sec.name}</span>
+            <div class="section-bars">
+              <div class="section-bar-row" title="${tLabel}: ${tPct.toFixed(1)}%"><div class="section-label">${tLabel}</div><div class="section-bar-track"><div class="section-bar-fill translated" style="width: 0%;" data-target-width="${tPct}"></div></div><span class="section-pct translated">${tPct.toFixed(1)}%</span></div>
+              <div class="section-bar-row" title="${aLabel}: ${aPct.toFixed(1)}%"><div class="section-label">${aLabel}</div><div class="section-bar-track"><div class="section-bar-fill approved" style="width: 0%;" data-target-width="${aPct}"></div></div><span class="section-pct approved">${aPct.toFixed(1)}%</span></div>
+            </div>
+            <div class="section-counts">${tr.toLocaleString('uk')} / ${t.toLocaleString('uk')}<br>${ap.toLocaleString('uk')} / ${t.toLocaleString('uk')}</div>
+          </div>
+        `;
+        }
+
+        headerBottom = `
+        <div class="sidebar-mini-bars">
+          <div class="section-bar-row" title="Перекладено: ${transPct.toFixed(1)}%"><div class="section-bar-track"><div class="section-bar-fill translated" style="width: 0%;" data-target-width="${transPct}"></div></div></div>
+          <div class="section-bar-row" title="Затверджено: ${apprPct.toFixed(1)}%"><div class="section-bar-track"><div class="section-bar-fill approved" style="width: 0%;" data-target-width="${apprPct}"></div></div></div>
+        </div>
+      `;
+
+        detailContent = `
+        <div class="rings-container">
+          <div class="ring-group"><div class="ring-wrapper">${createRingSVG(transPct, 'translated')}<div class="ring-center-text translated">${transPct.toFixed(1)}%<span class="unit">перекл.</span></div></div><span class="ring-label">Перекладено</span></div>
+          <div class="ring-group"><div class="ring-wrapper">${createRingSVG(apprPct, 'approved')}<div class="ring-center-text approved">${apprPct.toFixed(1)}%<span class="unit">затвердж.</span></div></div><span class="ring-label">Затверджено</span></div>
+        </div>
+        <div class="card-total-words">
+          <span class="translated-count">${translated.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${pluralizeUnit(total, project.unit || 'слів')}<br>
+          <span class="approved-count">${approved.toLocaleString('uk')}</span> / ${total.toLocaleString('uk')} ${pluralizeUnit(total, project.unit || 'слів')}
+        </div>
+        <div class="sections-panel"><div class="sections-inner"><div class="section-divider"></div>${sectionsHTML}</div></div>
+      `;
       }
+
+      card.innerHTML = `
+      <div class="game-card-inner">
+        <div class="collapse-arrow"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
+        ${isFrozen ? '<div class="frozen-badge">Заморожено</div>' : ''}
+        <div class="card-header">
+          <div class="card-header-left">
+            <img class="card-icon" src="${iconSrc}" alt="" onerror="this.style.display='none'">
+            <div style="flex:1; min-width:0;">
+              <div class="card-title">${project.game}</div>
+              ${headerBottom}
+            </div>
+          </div>
+          <div class="expand-hint" style="padding:0; align-self:center;">
+            <svg class="expand-chevron" viewBox="0 0 24 24" style="width: 32px; height: 32px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+        </div>
+        <div class="game-desc-panel">${project.description || 'Детальний опис для цієї гри поки що відсутній.'}</div>
+        ${detailContent}
+      </div>
+    `;
+
+      attachCardBehavior(card, gridId);
+      return card;
+    }
+
+    async function init() {
+      document.getElementById('date-badge').textContent = 'Станом на 19.03.2026';
+      const data = EMBEDDED_DATA;
+      const activeProjects = data.filter(p => !p.is_released);
+      const releasedProjects = data.filter(p => p.is_released);
+
+
+      let grandTotal = 0, grandTranslated = 0, grandApproved = 0;
+      activeProjects.forEach(game => {
+        const { total, translated, approved } = calcOverall(game.sections || []);
+        grandTotal += total; grandTranslated += translated; grandApproved += approved;
+      });
 
       const grandTransPct = grandTotal > 0 ? (grandTranslated / grandTotal * 100) : 0;
       const grandApprPct = grandTotal > 0 ? (grandApproved / grandTotal * 100) : 0;
 
       document.getElementById('total-stats-bar').innerHTML = `
-    <div class="total-stat">
-      <div class="stat-value translated">${grandTransPct.toFixed(1)}%</div>
-      <div class="stat-label">Перекладено загалом</div>
-    </div>
-    <div class="total-stat">
-      <div class="stat-value approved">${grandApprPct.toFixed(1)}%</div>
-      <div class="stat-label">Затверджено загалом</div>
-    </div>
-    <div class="total-stat">
-      <div class="stat-value" style="color:var(--text-primary)">${data.length}</div>
-      <div class="stat-label">${pluralize(data.length, 'проєкт', 'проєкти', 'проєктів')}</div>
-    </div>
-    <div class="total-stat">
-      <div class="stat-value" style="color:var(--text-primary)">${grandTotal.toLocaleString('uk')}</div>
-      <div class="stat-label">${pluralizeUnit(grandTotal, 'слів')} загалом</div>
-    </div>
-  `;
+        <div class="total-stat"><div class="stat-value translated">${grandTransPct.toFixed(1)}%</div><div class="stat-label">Перекладено загалом</div></div>
+        <div class="total-stat"><div class="stat-value approved">${grandApprPct.toFixed(1)}%</div><div class="stat-label">Затверджено загалом</div></div>
+        <div class="total-stat">
+          <div class="stat-value" style="color:var(--text-primary)">
+            ${activeProjects.length} <span style="font-size: 1.2rem; color: var(--text-dim);">${pluralize(activeProjects.length, 'активний', 'активні', 'активних')}</span> / 
+            ${releasedProjects.length} <span style="font-size: 1.2rem; color: var(--text-dim);">${pluralize(releasedProjects.length, 'реліз', 'релізи', 'релізів')}</span>
+          </div>
+          <div class="stat-label">Всього проєктів</div>
+        </div>
+      `;
 
-      // Render cards
-      const grid = document.getElementById('games-grid');
-      data.forEach((game, i) => {
-        const card = renderCard(game, i);
-        grid.appendChild(card);
-      });
+      const activeGrid = document.getElementById('games-grid');
+      activeProjects.forEach((game, i) => activeGrid.appendChild(renderProjectCard(game, i, 'games-grid')));
 
-      // Animate rings and bars after cards are in DOM
+      const releasedSection = document.getElementById('released-section');
+      const releasedToggle = document.getElementById('released-toggle');
+      const releasedGrid = document.getElementById('released-grid');
+      releasedProjects.forEach((project, i) => releasedGrid.appendChild(renderProjectCard(project, i, 'released-grid')));
+      releasedToggle.addEventListener('click', () => releasedSection.classList.toggle('expanded'));
+
       requestAnimationFrame(() => {
         setTimeout(() => {
           animateRings(document);
