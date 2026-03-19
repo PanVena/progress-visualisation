@@ -2,17 +2,32 @@
 
 Ця програма дозволяє легко керувати даними через зручний редактор та автоматично генерує сучасну веб-сторінку (`index.html`) зі статистикою, яку можна розмістити на GitHub Pages або будь-якому іншому хостингу.
 
+## <h3 align="center"><a href="https://panvena.github.io/progress-visualisation/"><b>Веб-сторінка з поступом</b></a></h3>
+
+##
+
 <p align="center">
-  <b>Головний інтерфейс</b><br>
+<img src="assets/screenshots/web-page.png" width="100%">
+</p>
+
+##
+
+<p align="center">
+  <b>Візуалізація зображенням</b><br>(Поступів і релізів)<br><br>
   <img src="assets/screenshots/statystyka_fancy.png" width="100%">
 </p>
 
 <p align="center">
+  <b>Візуалізація зображенням (старші)</b><br><br>
   <img src="assets/screenshots/statystyka.png" width="49%">
   <img src="assets/screenshots/statystyka_old.png" width="49%">
 </p>
 
+##
+
+
 <p align="center">
+  <b>Вигляд редакторів</b><br><br>
   <img src="assets/screenshots/editor_fancy.png" width="49%">
   <img src="assets/screenshots/editor_released.png" width="49%">
 </p>
