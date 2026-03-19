@@ -12,7 +12,7 @@
 
 <p align="center">
   <img src="assets/screenshots/editor_fancy.png" width="49%">
-  <img src="assets/screenshots/editor.png" width="49%">
+  <img src="assets/screenshots/editor_released.png" width="49%">
 </p>
 
 # Для особистого використання
