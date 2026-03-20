@@ -13,7 +13,7 @@
 ##
 
 <p align="center">
-  <b>Візуалізація зображенням</b><br>(Поступів і релізів)<br><br>
+  <b>Візуалізація зображенням</b><br><br>
   <img src="assets/screenshots/statystyka_fancy.png" width="100%">
 </p>
 
@@ -27,7 +27,7 @@
 
 
 <p align="center">
-  <b>Вигляд редакторів</b><br><br>
+  <b>Вигляд редакторів</b><br>(Поступів і релізів)<br><br>
   <img src="assets/screenshots/editor_fancy.png" width="49%">
   <img src="assets/screenshots/editor_released.png" width="49%">
 </p>
